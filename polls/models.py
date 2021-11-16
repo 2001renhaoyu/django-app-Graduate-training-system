@@ -29,7 +29,7 @@ class Book(models.Model):
     bo_pub = models.CharField(max_length=50)
     bo_time = models.DateField()
     bo_rank = models.IntegerField()
-    bo_evidence = models.CharField(50)
+    bo_evidence = models.CharField(max_length=50)
 
 
 class Course(models.Model):
