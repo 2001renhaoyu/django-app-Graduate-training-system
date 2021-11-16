@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 
 def teacher_test(request):
-    return render(request, "teacher/teacher_index.html", {})
+    return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
 
 
 def teacher_assistant_volunteer_apply(request):
