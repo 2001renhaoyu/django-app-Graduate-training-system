@@ -1,6 +1,10 @@
 from django.shortcuts import render
-
-
 # Create your views here.
-def index(request):
+
+
+def teacher_test(request):
     return render(request, "teacher/teacher_index.html", {})
+
+
+def teacher_assistant_volunteer_apply(request):
+    return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
