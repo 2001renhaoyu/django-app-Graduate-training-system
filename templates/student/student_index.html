@@ -1,13 +1,100 @@
 {% extends "base.html" %}
-{% block title %}学生首页{% endblock %}
+{% block title %}学生{% endblock %}
 {% block rightsideList %}
+    <li >
+        <a href="">
+            <i class="icon-dashboard"></i>
+            <span class="menu-text"> 个人主页 </span>
+        </a>
+    </li>
+
+    <li>
+        <a href="">
+            <i class="icon-dashboard"></i>
+            <span class="menu-text"> 我的项目 </span>
+        </a>
+    </li>
+
+    <li>
+        <a href="">
+            <i class="icon-dashboard"></i>
+            <span class="menu-text"> 考试成绩 </span>
+        </a>
+    </li>
+
+
+    <li >
+        <a href="#" class="dropdown-toggle">
+            <i class="icon-dashboard"></i>
+            <span class="menu-text"> 助教工作 </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+        <ul class="submenu" style="display: none;">
+            <li>
+                <a href="form-elements.html">
+                    <i class="icon-double-angle-right"></i>
+                    志愿申报
+                </a>
+            </li>
+
+            <li>
+                <a href="form-wizard.html">
+                    <i class="icon-double-angle-right"></i>
+                    我的工作
+                </a>
+            </li>
+
+            <li>
+                <a href="form-wizard.html">
+                    <i class="icon-double-angle-right"></i>
+                    导出助教工作评定表
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <li >
+        <a href="#" class="dropdown-toggle">
+            <i class="icon-dashboard"></i>
+            <span class="menu-text"> 学术交流 </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+        <ul class="submenu" style="display: none;">
+            <li>
+                <a href="form-elements.html">
+                    <i class="icon-double-angle-right"></i>
+                    我的学术交流
+                </a>
+            </li>
+
+            <li>
+                <a href="form-wizard.html">
+                    <i class="icon-double-angle-right"></i>
+                    汇报交流情况
+                </a>
+            </li>
+
+            <li>
+                <a href="form-wizard.html">
+                    <i class="icon-double-angle-right"></i>
+                    导出学术交流统计表
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <li >
+        <a href="">
+            <i class="icon-dashboard"></i>
+            <span class="menu-text"> 成果认定 </span>
+        </a>
+    </li>
+
+    <li >
+        <a href="">
+            <i class="icon-dashboard"></i>
+            <span class="menu-text"> 毕业申请 </span>
+        </a>
+    </li>
 
 {% endblock %}
-{% block breadcrumb %}
-		<li>
-		    <i class="icon-home home-icon"></i>
-			<a href="#">首页</a>
-		</li>
-        <li class="active">主页</li>
-{% endblock %}
-{% block content %}{% endblock %}
