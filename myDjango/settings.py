@@ -56,8 +56,7 @@ ROOT_URLCONF = 'myDjango.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,10 +75,24 @@ WSGI_APPLICATION = 'myDjango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'screen',
+        'ENGINE': 'sql_server.pyodbc',
+        'HOST': '127.0.0.1',
+        'PORT': '1433',
+        'USER': 'admin921',
+        'PASSWORD': '921',
+        'OPTIONS': {
+            'driver': 'SQL Server Native Client 10.0',
+        }
     }
 }
 
