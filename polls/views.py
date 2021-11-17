@@ -2,6 +2,10 @@ from django.shortcuts import render
 # Create your views here.
 
 
+def login(request):
+    return render(request, "login.html", {})
+
+
 def teacher_test(request):
     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
 
