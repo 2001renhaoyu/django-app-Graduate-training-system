@@ -13,4 +13,6 @@ urlpatterns = [
     path('student/show_academic_activity', views.show_student_avtivity),
     path('student/student_activity_form', views.student_activity_form),
 
+    # manager
+    path('manager/')
 ]
