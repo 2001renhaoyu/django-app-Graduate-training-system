@@ -21,5 +21,9 @@ urlpatterns = [
 
     # manager
     path('manager', views.manager_index),  # 不能使用的模板页
+    path('manager/manager_own', views.manager_own),
     path('manager/manager_users_add', views.manager_users_add),
+    path('manager/manager_users_delete', views.manager_users_delete),
+    path('manager/manager_users_alter', views.manager_users_alter),
+    path('manager/manager_users_search', views.manager_users_search),
 ]

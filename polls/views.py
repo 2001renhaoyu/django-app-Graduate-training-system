@@ -60,6 +60,17 @@ def student_activity_form(request):
 def manager_index(request):
     return render(request, 'manager/manager_index.html', {})
 
+def manager_own(request):
+    return render(request, 'manager/manager_own.html', {})
 
 def manager_users_add(request):
     return render(request, 'manager/manager_users_add.html', {})
+
+def manager_users_delete(request):
+    return render(request, 'manager/manager_users_delete.html', {})
+
+def manager_users_alter(request):
+    return render(request, 'manager/manager_users_alter.html', {})
+
+def manager_users_search(request):
+    return render(request, 'manager/manager_users_search.html', {})
