@@ -33,20 +33,23 @@ def student_index(request):
 
 
 def student_assistant_volunteer_apply(request):
-    return render(request, 'student/student_assistant_volunteer_apply', {})
+    return render(request, 'student/student_assistant_volunteer_apply.html', {'assistantVolunteer':1})
 
 
 def student_assistant_volunteer_work(request):
-    return render(request, 'student/student_assistant_volunteer_work', {})
+    return render(request, 'student/student_assistant_volunteer_work.html', {})
 
 
 def student_assistant_volunteer_export(request):
-    return render(request, 'student/student_assistant_volunteer_export', {})
+    return render(request, 'student/student_assistant_volunteer_export.html', {})
 
 
 def student_myproject(request):
     ip_list = Identifyproject.objects.filter(ip_stu_id='s001')
     return render(request, 'student/student_myproject.html', {'ip_list': ip_list})
+
+def student_identify_project(request):
+    return render(request, 'student/student_identify_project.html', {})
 
 
 def show_student_activity(request):

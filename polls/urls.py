@@ -18,13 +18,9 @@ urlpatterns = [
     path('student/show_academic_activity', views.show_student_activity),
     path('student/student_activity_form', views.student_activity_form),
     path('student/student_myproject', views.student_myproject),
-    path('student/post_academic_activity_form',views.post_academic_activity_form),
+    path('student/student_identify_project',views.student_identify_project),
 
     # manager
     path('manager', views.manager_index),  # 不能使用的模板页
-    path('manager/manager_own', views.manager_own),
     path('manager/manager_users_add', views.manager_users_add),
-    path('manager/manager_users_delete', views.manager_users_delete),
-    path('manager/manager_users_alter', views.manager_users_alter),
-    path('manager/manager_users_search', views.manager_users_search),
 ]
