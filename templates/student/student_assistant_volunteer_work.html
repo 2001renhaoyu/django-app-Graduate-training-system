@@ -1,0 +1,20 @@
+{% extends "student/student_index.html" %}
+{% block title %}学生助教工作申请{% endblock %}
+{#地址导航#}
+{% block breadcrumb %}
+        <li>
+		    <i class="icon-home home-icon"></i>
+			<a href="#">主页</a>
+		</li>
+        <li class="active">助教工作</li>
+        <li class="active">志愿申报</li>
+{% endblock %}
+{% block content %}
+
+{% if assistantWork %}
+
+{% else %}
+
+{% endif %}
+
+{% endblock %}

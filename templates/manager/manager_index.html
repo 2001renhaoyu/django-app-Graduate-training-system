@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 {% block title %}管理员{% endblock %}
+{% block breadcrumb %}
+        <li>
+		    <i class="icon-home home-icon"></i>
+			<a href="manager_index">主页</a>
+		</li>
+{% endblock %}
 {% block rightsideList %}
     <li >
-        <a href="">
+        <a href="manager_index">
             <i class="icon-dashboard"></i>
             <span class="menu-text"> 个人主页 </span>
         </a>
@@ -24,7 +30,7 @@
                 </a>
                 <ul class="submenu" style="display: none;">
                     <li>
-                        <a href="">
+                        <a href="manager_users_add">
                             <i class="icon-dashboard"></i>
                             <span class="menu-text"> 增加用户 </span>
                         </a>
