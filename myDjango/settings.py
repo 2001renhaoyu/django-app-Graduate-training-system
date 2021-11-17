@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'polls.apps.PollsConfig',
 ]
 
 MIDDLEWARE = [
@@ -75,26 +76,26 @@ WSGI_APPLICATION = 'myDjango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'NAME': 'screen',
-#         'ENGINE': 'sql_server.pyodbc',
-#         'HOST': '127.0.0.1',
-#         'PORT': '1433',
-#         'USER': 'admin921',
-#         'PASSWORD': '921',
-#         'OPTIONS': {
-#             'driver': 'SQL Server Native Client 10.0',
-#         }
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'NAME': 'CourseDesign',
+        'ENGINE': 'sql_server.pyodbc',
+        'HOST': '192.168.1.111',
+        'PORT': '1433',
+        'USER': 'admin921',
+        'PASSWORD': '921',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        }
+    }
+}
 
 
 # Password validation
