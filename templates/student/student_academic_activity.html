@@ -3,7 +3,7 @@
 {% block title %}学生学术交流活动{% endblock %}
 {% block content %}
 
-<h1>ok</h1>
+{% if activity_list %}
 <div class="row">
     <div class="col-xs-12">
         <div class="table-responsive">
@@ -85,5 +85,73 @@
         </div><!-- /.table-responsive -->
     </div><!-- /span -->
 </div>
+
+{% else %}
+<form class="form-horizontal" role="form">
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">活动id</label>
+
+        <div class="col-sm-9">
+            <input name='act_id' type="text" id="form-field-1" placeholder="活动id" class="col-xs-10 col-sm-5">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">活动名称</label>
+
+        <div class="col-sm-9">
+            <input name='act_name' type="text" id="form-field-1" placeholder="活动名称" class="col-xs-10 col-sm-5">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">活动地点</label>
+
+        <div class="col-sm-9">
+            <input name='act_location' type="text" id="form-field-1" placeholder="活动地点" class="col-xs-10 col-sm-5">
+        </div>
+    </div>
+    <label for="id-date-picker-1">选择活动日期</label>
+    <div class="form-group">
+        <div class="col-xs-8 col-sm-11">
+            <div class="input-group">
+                <input name='act_date' class="form-control date-picker" id="id-date-picker-1" type="text"
+                    data-date-format="dd-mm-yyyy">
+                <span class="input-group-addon">
+                    <i class="icon-calendar bigger-110"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">报告中文名称</label>
+
+        <div class="col-sm-9">
+            <input name='act_report_name_zh' type="text" id="form-field-1" placeholder="报告中文名称"
+                class="col-xs-10 col-sm-5">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">报告英文名称</label>
+
+        <div class="col-sm-9">
+            <input name='act_report_name_en' type="text" id="form-field-1" placeholder="报告英文名称"
+                class="col-xs-10 col-sm-5">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <label for="form-field-8">备注</label>
+
+            <textarea name='extra' class="form-control" id="form-field-8" placeholder="备注"></textarea>
+        </div>
+    </div>
+
+
+</form>
+
+{% endif %}
 
 {% endblock %}
