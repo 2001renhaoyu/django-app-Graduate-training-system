@@ -14,5 +14,6 @@ urlpatterns = [
     path('student/student_activity_form', views.student_activity_form),
 
     # manager
-    path('manager/')
+    path('manager/manager_index', views.manager_index),
+    path('manager/manager_users_add', views.manager_users_add()),
 ]
