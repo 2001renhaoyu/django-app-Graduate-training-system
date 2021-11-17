@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'polls',
 ]
 
 MIDDLEWARE = [
@@ -84,14 +85,16 @@ DATABASES = {
 
 # DATABASES = {
 #     'default': {
-#         'NAME': 'screen',
+#         'NAME': 'CourseDesign',
 #         'ENGINE': 'sql_server.pyodbc',
 #         'HOST': '127.0.0.1',
 #         'PORT': '1433',
 #         'USER': 'admin921',
 #         'PASSWORD': '921',
 #         'OPTIONS': {
-#             'driver': 'SQL Server Native Client 10.0',
+#             'driver': 'ODBC Driver 17 for SQL Server',
+
+#             'MARS_Connection': True,
 #         }
 #     }
 # }
