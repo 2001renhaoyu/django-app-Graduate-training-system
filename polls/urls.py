@@ -15,10 +15,12 @@ urlpatterns = [
     path('student/student_assistant_volunteer_apply', views.student_assistant_volunteer_apply),
     path('student/student_assistant_volunteer_work', views.student_assistant_volunteer_work),
     path('student/student_assistant_volunteer_export', views.student_assistant_volunteer_export),
+
     path('student/show_academic_activity', views.show_student_activity),
     path('student/student_activity_form', views.student_activity_form),
     path('student/student_myproject', views.student_myproject),
     path('student/post_academic_activity_form',views.post_academic_activity_form),
+    path('student/export_form',views.export_form),
 
     # manager
     path('manager', views.manager_index),  # 不能使用的模板页
