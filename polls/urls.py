@@ -3,8 +3,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # path('', views.login),
-    path('', views.test),
+    path('', views.login),
+    # path('', views.test),
 
     # teacher
     path('teacher', views.student_index),  # 不能使用的模板页
@@ -17,6 +17,7 @@ urlpatterns = [
     path('student/student_assistant_volunteer_export', views.student_assistant_volunteer_export),
     path('student/show_academic_activity', views.show_student_activity),
     path('student/student_activity_form', views.student_activity_form),
+    path('student/student_myproject', views.student_myproject),
 
     # manager
     path('manager', views.manager_index),  # 不能使用的模板页
