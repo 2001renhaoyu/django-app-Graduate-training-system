@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from polls.models import *
 from polls import academic_activity
+import os
+
 # Create your views here.
 
 
@@ -41,6 +43,32 @@ def show_student_activity(request):
 
 def student_activity_form(request):
     return render(request, 'student/student_academic_activity.html', {'activity_list': None})
+
+
+def post_academic_activity_form(request):
+    myFile = request.FILES.get("evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
+
+    if not myFile:
+        return HttpResponse("no files for upload!")
+    destination = open(os.path.join("files",'s002'+'_' + myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
+    for chunk in myFile.chunks():  # 分块写入文件
+        destination.write(chunk)
+    destination.close()
+    a_activity = Academicactivity(
+        aca_student_id='s002',
+        aca_activity_id=request.POST.get('act_id'),
+        aca_activity_name=request.POST.get('act_name'),
+        aca_activity_location=request.POST.get('act_location'),
+        aca_activity_date=request.POST.get('act_date'),
+        aca_report_name_zh=request.POST.get('act_report_zh'),
+        aca_report_name_en=request.POST.get('act_report_en'),
+        aca_extra=request.POST.get('act_extra'),
+        aca_evidentiary_material=os.path.join("files",'s002'+'_' + myFile.name),
+        aca_audit_situation='审核中'
+    )
+    a_activity.save()
+    return render(request,'student/student_index.html',{'main_content':'提交成功'})
+
 
 
 # manager
