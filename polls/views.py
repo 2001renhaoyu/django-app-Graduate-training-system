@@ -122,3 +122,27 @@ def manager_users_alter(request):
 
 def manager_users_search(request):
     return render(request, 'manager/manager_users_search.html', {})
+
+def manager_courses_add(request):
+    return render(request, 'manager/manager_users_add.html', {})
+
+def manager_courses_delete(request):
+    return render(request, 'manager/manager_users_delete.html', {})
+
+def manager_courses_alter(request):
+    return render(request, 'manager/manager_users_alter.html', {})
+
+def manager_courses_search(request):
+    return render(request, 'manager/manager_users_search.html', {})
+
+def manager_projects_add(request):
+    return render(request, 'manager/manager_users_add.html', {})
+
+def manager_projects_delete(request):
+    return render(request, 'manager/manager_users_delete.html', {})
+
+def manager_projects_alter(request):
+    return render(request, 'manager/manager_users_alter.html', {})
+
+def manager_projects_search(request):
+    return render(request, 'manager/manager_users_search.html', {})
