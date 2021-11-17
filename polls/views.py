@@ -20,7 +20,7 @@ def student_index(request):
     return render(request, 'student/student_index.html', {})
 
 
-def show_student_avtivity(request):
+def show_student_activity(request):
     lists = academic_activity.get_academic_activity_list('s002')
     return render(request, 'student/student_academic_activity.html', {'activity_list': lists})
 
