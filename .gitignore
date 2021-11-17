@@ -1,2 +1,2 @@
-polls/__pycache__
-myDjango/__pycache__
+/polls/__pycache__/*
+/myDjango/__pycache__/*
