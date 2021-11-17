@@ -10,10 +10,10 @@ urlpatterns = [
 
     # student
     path('student', views.student_index),
-    path('student/show_academic_activity', views.show_student_avtivity),
+    path('student/show_academic_activity', views.show_student_activity),
     path('student/student_activity_form', views.student_activity_form),
 
     # manager
     path('manager/manager_index', views.manager_index),
-    path('manager/manager_users_add', views.manager_users_add()),
+    path('manager/manager_users_add', views.manager_users_add),
 ]
