@@ -1,11 +1,16 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-from django.db.models.fields import CharField
-
-# Create your models here.
 
 
-class AcademicActivity(models.Model):
-    aca_activity_id = models.CharField(max_length=30, primary_key=True)
+class Academicactivity(models.Model):
+    aca_activity = models.ForeignKey(
+        'Student', models.DO_NOTHING, primary_key=True)
     aca_activity_name = models.CharField(max_length=30)
     aca_student_id = models.CharField(max_length=30)
     aca_activity_location = models.CharField(max_length=30)
@@ -16,24 +21,51 @@ class AcademicActivity(models.Model):
     aca_audit_situation = models.CharField(max_length=20)
     aca_extra = models.CharField(max_length=100)
 
+    class Meta:
+        managed = False
+        db_table = 'AcademicActivity'
 
-class AcheievementIndex(models.Model):
-    ache_id = models.CharField(max_length=50, primary_key=True)
-    ache_stu_if = models.CharField(max_length=30)
+
+class Acheievementindex(models.Model):
+    ache_id = models.CharField(primary_key=True, max_length=50)
+    ache_stu_id = models.CharField(max_length=30)
     ache_type = models.CharField(max_length=10)
+
+    class Meta:
+        managed = False
+        db_table = 'AcheievementIndex'
+
+
+class Assistantjob(models.Model):
+    ass_stu = models.ForeignKey('Student', models.DO_NOTHING, primary_key=True)
+    ass_course = models.ForeignKey('Courses', models.DO_NOTHING)
+    ass_teacher_evaluate = models.CharField(
+        max_length=100, blank=True, null=True)
+    ass_stu_evaluate = models.CharField(max_length=100, blank=True, null=True)
+    ass_result = models.CharField(max_length=10, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'AssistantJob'
+        unique_together = (('ass_stu', 'ass_course'),)
 
 
 class Book(models.Model):
-    ache_id = models.CharField(max_length=50, primary_key=True)
     bo_name = models.CharField(max_length=50)
     bo_pub = models.CharField(max_length=50)
     bo_time = models.DateField()
     bo_rank = models.IntegerField()
     bo_evidence = models.CharField(max_length=50)
+    ache = models.ForeignKey(
+        Acheievementindex, models.DO_NOTHING, primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Book'
 
 
-class Course(models.Model):
-    course_id = models.CharField(max_length=30, primary_key=True)
+class Courses(models.Model):
+    course_id = models.CharField(primary_key=True, max_length=30)
     course_name = models.CharField(max_length=30)
     course_hours = models.CharField(max_length=50)
     course_scores = models.CharField(max_length=50)
@@ -45,61 +77,167 @@ class Course(models.Model):
     course_assessment_method = models.CharField(max_length=50)
     course_nature = models.CharField(max_length=50)
 
+    class Meta:
+        managed = False
+        db_table = 'Courses'
+
+
+class Identifyproject(models.Model):
+    ip_stu = models.ForeignKey('Student', models.DO_NOTHING, primary_key=True)
+    ip_pro = models.ForeignKey('Project', models.DO_NOTHING)
+    ip_job_content = models.CharField(max_length=100)
+    ip_begintime = models.DateField()
+    ip_endtime = models.DateField()
+    ip_funds = models.DecimalField(max_digits=6, decimal_places=1)
+    ip_status = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'IdentifyProject'
+        unique_together = (('ip_stu', 'ip_pro'),)
+
 
 class Patent(models.Model):
-    ache_id = models.CharField(max_length=50, primary_key=True)
     pa_name = models.CharField(max_length=50)
+    pa_type = models.CharField(max_length=50)
     pa_rank = models.IntegerField()
     pa_time = models.DateField()
     pa_state = models.IntegerField()
     p_evidence = models.CharField(max_length=50)
     p_num = models.CharField(max_length=50)
+    ache = models.ForeignKey(
+        Acheievementindex, models.DO_NOTHING, primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Patent'
 
 
 class Project(models.Model):
-    pro_id = models.CharField(max_length=30, primary_key=True)
+    pro_id = models.CharField(primary_key=True, max_length=30)
     pro_type = models.CharField(max_length=30)
     pro_name = models.CharField(max_length=30)
-    pro_tutor_id = models.CharField(max_length=30)
+    pro_tutor = models.ForeignKey('Teacher', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'Project'
 
 
 class Report(models.Model):
-    ache_id = models.CharField(max_length=50, primary_key=True)
     rep_name = models.CharField(max_length=50)
+    rep_type = models.CharField(max_length=50)
     rep_port = models.CharField(max_length=50)
     rep_time = models.DateField()
     rep_num = models.IntegerField()
     rep_evidence = models.CharField(max_length=100)
+    ache = models.ForeignKey(
+        Acheievementindex, models.DO_NOTHING, primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Report'
 
 
 class Reward(models.Model):
-    ache_id = models.CharField(max_length=50, primary_key=True)
     re_name = models.CharField(max_length=50)
     re_level = models.CharField(max_length=50)
     re_grade = models.CharField(max_length=50)
     re_num = models.IntegerField()
     re_time = models.DateField()
     re_evidence = models.CharField(max_length=50)
+    ache = models.ForeignKey(
+        Acheievementindex, models.DO_NOTHING, primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Reward'
+
+
+class Softwarehardware(models.Model):
+    so_name = models.CharField(max_length=50)
+    so_time = models.DateField()
+    so_rank = models.IntegerField()
+    so_evidence = models.CharField(max_length=50)
+    ache = models.ForeignKey(
+        Acheievementindex, models.DO_NOTHING, primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'SoftwareHardware'
+
+
+class Standard(models.Model):
+    sta_name = models.CharField(max_length=50)
+    sta_level = models.CharField(max_length=50)
+    sta_time = models.DateField()
+    sta_evidence = models.CharField(max_length=50)
+    ache = models.ForeignKey(
+        Acheievementindex, models.DO_NOTHING, primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Standard'
 
 
 class Student(models.Model):
-    stu_id = models.CharField(max_length=30, primary_key=True)
     stu_name = models.CharField(max_length=30)
-    stu_subject = models.CharField(max_length=30)
+    stu_id = models.CharField(primary_key=True, max_length=30)
+    stu_subject = models.CharField(max_length=30, blank=True, null=True)
     stu_sex = models.CharField(max_length=1)
     stu_type = models.CharField(max_length=10)
     stu_tutor_id = models.CharField(max_length=30)
 
+    class Meta:
+        managed = False
+        db_table = 'Student'
+
 
 class Teacher(models.Model):
-    teacher_id = models.CharField(max_length=30, primary_key=True)
+    teacher_id = models.CharField(primary_key=True, max_length=30)
     teacher_name = models.CharField(max_length=30)
     teacher_sex = models.CharField(max_length=1)
-    teacher_funds = models.DecimalField(max_digits=6, decimal_places=1)
+    teacher_funds = models.DecimalField(
+        max_digits=6, decimal_places=1, blank=True, null=True)
     teacher_status = models.IntegerField()
 
+    class Meta:
+        managed = False
+        db_table = 'Teacher'
 
-class User(models.Model):
-    log_id = models.CharField(max_length=30, primary_key=True)
+
+class Thesis(models.Model):
+    the_name = models.CharField(max_length=100)
+    the_book_name = models.CharField(max_length=100)
+    the_state = models.IntegerField()
+    the_time = models.DateField(blank=True, null=True)
+    the_type = models.CharField(max_length=50)
+    the_store = models.IntegerField()
+    the_pub = models.CharField(max_length=50)
+    ache = models.ForeignKey(
+        Acheievementindex, models.DO_NOTHING, primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Thesis'
+
+
+class Users(models.Model):
+    log_id = models.CharField(primary_key=True, max_length=30)
     log_pwd = models.CharField(max_length=30)
     log_type = models.CharField(max_length=30)
+
+    class Meta:
+        managed = False
+        db_table = 'Users'
+
+
+class Volunteerapplication(models.Model):
+    stu = models.ForeignKey(Student, models.DO_NOTHING, primary_key=True)
+    course = models.ForeignKey(Courses, models.DO_NOTHING)
+    priority = models.CharField(max_length=50)
+
+    class Meta:
+        managed = False
+        db_table = 'VolunteerApplication'
+        unique_together = (('stu', 'course'),)
