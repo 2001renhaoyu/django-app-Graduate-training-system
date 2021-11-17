@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from reportlab.pdfgen import canvas
+
 from polls.models import *
 from polls import academic_activity
 import os
@@ -104,9 +106,26 @@ def post_academic_activity_form(request):
         aca_evidentiary_material=os.path.join("files",'s002'+'_' + myFile.name),
         aca_audit_situation='审核中'
     )
-    a_activity.save()
+
     return render(request,'student/student_index.html',{'main_content':'提交成功'})
 
+
+def export_form(request):
+    # Create the HttpResponse object with the appropriate PDF headers.
+    response = HttpResponse()
+    response['Content-Disposition'] = 'attachment; filename=hello.pdf'
+
+    # Create the PDF object, using the response object as its "file."
+    p = canvas.Canvas(response)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    p.drawString(100, 100, "Hello world.")
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+    return response
 
 
 # manager
@@ -126,4 +145,28 @@ def manager_users_alter(request):
     return render(request, 'manager/manager_users_alter.html', {})
 
 def manager_users_search(request):
+    return render(request, 'manager/manager_users_search.html', {})
+
+def manager_courses_add(request):
+    return render(request, 'manager/manager_users_add.html', {})
+
+def manager_courses_delete(request):
+    return render(request, 'manager/manager_users_delete.html', {})
+
+def manager_courses_alter(request):
+    return render(request, 'manager/manager_users_alter.html', {})
+
+def manager_courses_search(request):
+    return render(request, 'manager/manager_users_search.html', {})
+
+def manager_projects_add(request):
+    return render(request, 'manager/manager_users_add.html', {})
+
+def manager_projects_delete(request):
+    return render(request, 'manager/manager_users_delete.html', {})
+
+def manager_projects_alter(request):
+    return render(request, 'manager/manager_users_alter.html', {})
+
+def manager_projects_search(request):
     return render(request, 'manager/manager_users_search.html', {})
