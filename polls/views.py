@@ -8,16 +8,30 @@ def login(request):
     return render(request, "login.html", {})
 
 
-def teacher_test(request):
-    return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
+def test(request):
+    return render(request, "student/student_index.html", {})
 
 
+# teacher
 def teacher_assistant_volunteer_apply(request):
     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
 
 
+# student
 def student_index(request):
     return render(request, 'student/student_index.html', {})
+
+
+def student_assistant_volunteer_apply(request):
+    return render(request, 'student/student_assistant_volunteer_apply.html', {'assistantVolunteer': {3}})
+
+
+def student_assistant_volunteer_work(request):
+    return render(request, 'student/student_assistant_volunteer_work.html', {'assistantWork': {0}})
+
+
+def student_assistant_volunteer_export(request):
+    return render(request, 'student/student_assistant_volunteer_export.html', {'assistantWork': {0}})
 
 
 def show_student_activity(request):
@@ -29,10 +43,10 @@ def student_activity_form(request):
     return render(request, 'student/student_academic_activity.html', {'activity_list': None})
 
 
-
-#manager
+# manager
 def manager_index(request):
     return render(request, 'manager/manager_index.html', {})
+
 
 def manager_users_add(request):
     return render(request, 'manager/manager_users_add.html', {})
