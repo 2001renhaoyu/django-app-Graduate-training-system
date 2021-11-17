@@ -3,6 +3,8 @@ from polls.models import *
 from polls import academic_activity
 import os
 
+
+
 # Create your views here.
 
 
@@ -10,30 +12,41 @@ def login(request):
     return render(request, "login.html", {})
 
 
-def test(request):
-    return render(request, "student/student_index.html", {})
+def teacher_index(request):
+    return render(request, "teacher/teacher_index.html")
 
 
-# teacher
+def teacher_project(request):
+    return render(request, "teacher/teacher_project.html")
+
+
+def teacher_test(request):
+    return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
+
+
 def teacher_assistant_volunteer_apply(request):
     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
 
 
-# student
 def student_index(request):
     return render(request, 'student/student_index.html', {})
 
 
 def student_assistant_volunteer_apply(request):
-    return render(request, 'student/student_assistant_volunteer_apply.html', {'assistantVolunteer': {3}})
+    return render(request, 'student/student_assistant_volunteer_apply', {})
 
 
 def student_assistant_volunteer_work(request):
-    return render(request, 'student/student_assistant_volunteer_work.html', {'assistantWork': {0}})
+    return render(request, 'student/student_assistant_volunteer_work', {})
 
 
 def student_assistant_volunteer_export(request):
-    return render(request, 'student/student_assistant_volunteer_export.html', {'assistantWork': {0}})
+    return render(request, 'student/student_assistant_volunteer_export', {})
+
+
+def student_myproject(request):
+    ip_list = Identifyproject.objects.filter(ip_stu_id='s001')
+    return render(request, 'student/student_myproject.html', {'ip_list': ip_list})
 
 
 def show_student_activity(request):
@@ -75,6 +88,17 @@ def post_academic_activity_form(request):
 def manager_index(request):
     return render(request, 'manager/manager_index.html', {})
 
+def manager_own(request):
+    return render(request, 'manager/manager_own.html', {})
 
 def manager_users_add(request):
     return render(request, 'manager/manager_users_add.html', {})
+
+def manager_users_delete(request):
+    return render(request, 'manager/manager_users_delete.html', {})
+
+def manager_users_alter(request):
+    return render(request, 'manager/manager_users_alter.html', {})
+
+def manager_users_search(request):
+    return render(request, 'manager/manager_users_search.html', {})
