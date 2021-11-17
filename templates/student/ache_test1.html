@@ -1,0 +1,702 @@
+{% extends "student/student_index.html" %}
+{% block content %}
+  					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								主页
+								<small>
+									<i class="icon-double-angle-right"></i>
+									成果认定
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+
+								<h4 class="lighter">
+									<i class="icon-hand-right icon-animated-hand-pointer blue"></i>
+									<a href="#modal-wizard" data-toggle="modal" class="pink">向导</a>
+								</h4>
+
+								<div class="hr hr-18 hr-double dotted"></div>
+
+								<div class="row-fluid">
+									<div class="span12">
+										<div class="widget-box">
+											<div class="widget-header widget-header-blue widget-header-flat">
+												<h4 class="lighter">新建成果向导</h4>
+
+												<div class="widget-toolbar">
+													<label>
+														<small class="green">
+															<b>Validation</b>
+														</small>
+
+														<input id="skip-validation" type="checkbox" class="ace ace-switch ace-switch-4" />
+														<span class="lbl"></span>
+													</label>
+												</div>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<div id="fuelux-wizard" class="row-fluid" data-target="#step-container">
+														<ul class="wizard-steps">
+															<li data-target="#step1" class="active">
+																<span class="step">1</span>
+																<span class="title">信息录入</span>
+															</li>
+
+															<li data-target="#step2">
+																<span class="step">2</span>
+																<span class="title">成果录入</span>
+															</li>
+
+															<li data-target="#step3">
+																<span class="step">3</span>
+																<span class="title">导师初审</span>
+															</li>
+
+															<li data-target="#step4">
+																<span class="step">4</span>
+																<span class="title">管理员审核</span>
+															</li>
+														</ul>
+													</div>
+
+													<hr />
+													<div class="step-content row-fluid position-relative" id="step-container">
+														<div class="step-pane active" id="step1">
+															<h3 class="lighter block green">输入个人信息</h3>
+
+															<form class="form-horizontal" id="sample-form">
+																<div class="form-group has-warning">
+																	<label for="姓名" class="col-xs-12 col-sm-3 control-label no-padding-right">姓名</label>
+
+																	<div class="col-xs-12 col-sm-5">
+																		<span class="block input-icon input-icon-right">
+																			<input type="text" id="姓名" class="width-100" />
+																		</span>
+																	</div>
+
+																</div>
+
+																<div class="form-group has-error">
+																	<label for="学号" class="col-xs-12 col-sm-3 col-md-3 control-label no-padding-right">学号</label>
+
+																	<div class="col-xs-12 col-sm-5">
+																		<span class="block input-icon input-icon-right">
+																			<input type="text" id="学号" class="width-100" />
+																		</span>
+																	</div>
+
+																</div>
+
+																<div class="form-group has-success">
+																	<label for="成果类型" class="col-xs-12 col-sm-3 control-label no-padding-right">成果类型</label for="成果类型">
+
+																	<div class="col-xs-12 col-sm-5">
+																		<span class="block input-icon input-icon-right">
+
+
+																		</span>
+																		<select class="form-control" id="成果类型" multiple="multiple">
+
+																			<option value="thesis">论文</option>
+																			<option value="standard">标准</option>
+																			<option value="reward">奖励</option>
+																			<option value="softhard">软硬件平台</option>
+																			<option value="report">报告</option>
+																			<option value="patent">专利</option>
+																			<option value="book">教材</option>
+																		</select>
+																	</div>
+
+
+																</div>
+
+
+
+
+															</form>
+
+															<form class="form-horizontal hide" id="validation-form" method="get">
+																<div class="form-group">
+																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">Email Address:</label>
+
+																	<div class="col-xs-12 col-sm-9">
+																		<div class="clearfix">
+																			<input type="email" name="email" id="email" class="col-xs-12 col-sm-6" />
+																		</div>
+																	</div>
+																</div>
+
+																<div class="space-2"></div>
+
+																<div class="form-group">
+																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="password">Password:</label>
+
+																	<div class="col-xs-12 col-sm-9">
+																		<div class="clearfix">
+																			<input type="password" name="password" id="password" class="col-xs-12 col-sm-4" />
+																		</div>
+																	</div>
+																</div>
+
+																<div class="space-2"></div>
+
+																<div class="form-group">
+																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="password2">Confirm Password:</label>
+
+																	<div class="col-xs-12 col-sm-9">
+																		<div class="clearfix">
+																			<input type="password" name="password2" id="password2" class="col-xs-12 col-sm-4" />
+																		</div>
+																	</div>
+																</div>
+
+																<div class="hr hr-dotted"></div>
+
+																<div class="form-group">
+																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="name">Company Name:</label>
+
+																	<div class="col-xs-12 col-sm-9">
+																		<div class="clearfix">
+																			<input type="text" id="name" name="name" class="col-xs-12 col-sm-5" />
+																		</div>
+																	</div>
+																</div>
+
+																<div class="space-2"></div>
+
+																<div class="form-group">
+																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="phone">Phone Number:</label>
+
+																	<div class="col-xs-12 col-sm-9">
+																		<div class="input-group">
+																			<span class="input-group-addon">
+																				<i class="icon-phone"></i>
+																			</span>
+
+																			<input type="tel" id="phone" name="phone" />
+																		</div>
+																	</div>
+																</div>
+
+																<div class="space-2"></div>
+
+																<div class="form-group">
+																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="url">Company URL:</label>
+
+																	<div class="col-xs-12 col-sm-9">
+																		<div class="clearfix">
+																			<input type="url" id="url" name="url" class="col-xs-12 col-sm-8" />
+																		</div>
+																	</div>
+																</div>
+
+																<div class="hr hr-dotted"></div>
+
+																<div class="form-group">
+																	<label class="control-label col-xs-12 col-sm-3 no-padding-right">Subscribe to</label>
+
+																	<div class="col-xs-12 col-sm-9">
+																		<div>
+																			<label>
+																				<input name="subscription" value="1" type="checkbox" class="ace" />
+																				<span class="lbl"> Latest news and announcements</span>
+																			</label>
+																		</div>
+
+																		<div>
+																			<label>
+																				<input name="subscription" value="2" type="checkbox" class="ace" />
+																				<span class="lbl"> Product offers and discounts</span>
+																			</label>
+																		</div>
+																	</div>
+																</div>
+
+																<div class="space-2"></div>
+
+																<div class="form-group">
+																	<label class="control-label col-xs-12 col-sm-3 no-padding-right">Gender</label>
+
+																	<div class="col-xs-12 col-sm-9">
+																		<div>
+																			<label class="blue">
+																				<input name="gender" value="1" type="radio" class="ace" />
+																				<span class="lbl"> Male</span>
+																			</label>
+																		</div>
+
+																		<div>
+																			<label class="blue">
+																				<input name="gender" value="2" type="radio" class="ace" />
+																				<span class="lbl"> Female</span>
+																			</label>
+																		</div>
+																	</div>
+																</div>
+
+																<div class="hr hr-dotted"></div>
+
+
+
+
+
+
+
+																<div class="form-group">
+																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="comment">Comment</label>
+
+																	<div class="col-xs-12 col-sm-9">
+																		<div class="clearfix">
+																			<textarea class="input-xlarge" name="comment" id="comment"></textarea>
+																		</div>
+																	</div>
+																</div>
+
+																<div class="space-8"></div>
+
+																<div class="form-group">
+																	<div class="col-xs-12 col-sm-4 col-sm-offset-3">
+																		<label>
+																			<input name="agree" id="agree" type="checkbox" class="ace" />
+																			<span class="lbl"> I accept the policy</span>
+																		</label>
+																	</div>
+																</div>
+															</form>
+														</div>
+
+														<div class="step-pane" id="step2">
+															<div class="row-fluid">
+																<div class="widget-main">
+																	<div id="奖励" style="display:none">
+																		<div>
+																			<label for="form-field-8">奖励名称</label>
+
+																			<textarea class="form-control" id="form-field-8" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="奖励表">获奖等级</label>
+
+																			<select class="form-control" id="奖励表">
+																				<option value="国家级">国家级</option>
+																				<option value="省部级">省部级</option>
+																				<option value="市级">市级</option>
+																				<option value="其他">其他</option>
+																			</select>
+																		</div>
+
+																		<hr>
+																		<div>
+																			<label for="表2">获奖等级</label>
+
+																			<select class="form-control" id="表2">
+																				<option value="特等奖">特等奖</option>
+																				<option value="一等奖">一等奖</option>
+																				<option value="二等奖">二等奖</option>
+																				<option value="三等奖">三等奖</option>
+																			</select>
+																		</div>
+
+																		<hr>
+																		<div>
+																			<label class="col-sm-3 control-label no-padding-right" for="排名"> 请输入您的排名(整数数字) </label>
+
+																			<div class="col-sm-9">
+																				<input type="password" id="排名" placeholder="rank" class="col-xs-10 col-sm-5">
+
+																			</div>
+																		</div>
+
+																		<hr>
+																		<div>
+
+
+																			<div class="space-2">
+
+																			</div>
+
+																		<div class="chosen-container chosen-container-multi" style="width: 350px;" title="" id="form_field_select_4_chosen"><div class="chosen-drop"><ul class="chosen-results"></ul></div></div>
+																		</div>
+																		<hr>
+																			<div>
+																				<label for="form-field-mask-1">
+																					Date
+																				<small class="text-success">99/99/9999</small>
+																				</label>
+
+																			<div class="input-group">
+																			<input class="form-control input-mask-date" type="text" id="form-field-mask-1">
+																			<span class="input-group-btn">
+																			<button class="btn btn-sm btn-default" type="button">
+																			<i class="icon-calendar bigger-110"></i>
+																				Go!
+																			</button>
+																			</span>
+																			</div>
+																			</div>
+																	</div>
+																	<div id="论文" style="display:none">
+																		<div>
+																			<label for="form-field-8">论文名称</label>
+
+																			<textarea class="form-control" id="论文名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">论文发表刊物名称</label>
+
+																			<textarea class="form-control" id="论文发表刊物名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">索引类型</label>
+
+																			<textarea class="form-control" id="索引类型" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="论文状态">论文状态</label>
+
+																			<select class="form-control" id="论文状态" multiple="multiple">
+
+																				<option value="录用未发表">录用未发表</option>
+																				<option value="已发表">已发表</option>
+																			</select>
+																		</div>
+																		<div>
+																			<label for="论文发表时间">
+																					论文发表时间
+																				<small class="text-success">99/99/9999</small>
+																			</label>
+
+																			<div class="input-group">
+																				<input class="form-control input-mask-date" type="text" id="论文发表时间">
+																				<span class="input-group-btn">
+																				<button class="btn btn-sm btn-default" type="button">
+																				<i class="icon-calendar bigger-110"></i>
+																					Go!
+																				</button>
+																				</span>
+																			</div>
+																		</div>
+																		<div>
+																			<label for="库">Multiple</label>
+
+																			<select class="form-control" id="库" multiple="multiple">
+
+																				<option value="学院高质量论文库">学院高质量论文库</option>
+																				<option value="学院核心论文库">学院核心论文库</option>
+																			</select>
+																		</div>
+																	</div>
+																	<div id="标准" style="display:none">
+																		<div>
+																			<label for="form-field-8">标准名称</label>
+																			<textarea class="form-control" id="标准名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="标准级别">标准级别</label>
+
+																			<select class="form-control" id="标准级别" multiple="multiple">
+
+																				<option value="国家标准">国家标准</option>
+																				<option value="省部级地方标准">省部级地方标准</option>
+																				<option value="行业标准">行业标准</option>
+																				<option value="团队标准">团队标准</option>
+																			</select>
+																		</div>
+																		<div>
+																			<label for="标准发布时间">
+																					标准发布时间
+																				<small class="text-success">99/99/9999</small>
+																			</label>
+
+																			<div class="input-group">
+																				<input class="form-control input-mask-date" type="text" id="标准发布时间">
+																				<span class="input-group-btn">
+																				<button class="btn btn-sm btn-default" type="button">
+																				<i class="icon-calendar bigger-110"></i>
+																					Go!
+																				</button>
+																				</span>
+																			</div>
+																		</div>
+
+																	</div>
+																	<div id="报告" style="display:none">
+																		<div>
+																			<label for="form-field-8">报告名称</label>
+
+																			<textarea class="form-control" id="报告名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">报告服务单位</label>
+
+																			<textarea class="form-control" id="报告服务单位" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">贡献度排名</label>
+
+																			<textarea class="form-control" id="贡献度排名" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="报告时间">
+																					报告时间
+																				<small class="text-success">99/99/9999</small>
+																			</label>
+
+																			<div class="input-group">
+																				<input class="form-control input-mask-date" type="text" id="报告时间">
+																				<span class="input-group-btn">
+																				<button class="btn btn-sm btn-default" type="button">
+																				<i class="icon-calendar bigger-110"></i>
+																					Go!
+																				</button>
+																				</span>
+																			</div>
+																		</div>
+																		<div>
+																			<label for="报告类型">报告类型</label>
+
+																			<select class="form-control" id="报告类型" multiple="multiple">
+
+																				<option value="规划类">规划类</option>
+																				<option value="服务类">服务类</option>
+																				<option value="设计类">设计类</option>
+																				<option value="其他">其他</option>
+																			</select>
+																		</div>
+
+																	</div>
+																	<div id="专利" style="display:none">
+																		<div>
+																			<label for="form-field-8">专利名称</label>
+
+																			<textarea class="form-control" id="专利名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">专利号</label>
+
+																			<textarea class="form-control" id="专利号" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">专利状态</label>
+
+																			<textarea class="form-control" id="专利状态" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">贡献度排名</label>
+
+																			<textarea class="form-control" id="贡献度排名2" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="专利类型">专利类型</label>
+
+																			<select class="form-control" id="专利类型" multiple="multiple">
+
+																				<option value="发明专利">发明专利</option>
+																				<option value="实用新型专利">实用新型专利</option>
+
+																			</select>
+																		</div>
+																		<div>
+																			<label for="专利发布时间">
+																					专利发布时间
+																				<small class="text-success">99/99/9999</small>
+																			</label>
+
+																			<div class="input-group">
+																				<input class="form-control input-mask-date" type="text" id="专利发布时间">
+																				<span class="input-group-btn">
+																				<button class="btn btn-sm btn-default" type="button">
+																				<i class="icon-calendar bigger-110"></i>
+																					Go!
+																				</button>
+																				</span>
+																			</div>
+																		</div>
+																	</div>
+																	<div id="软硬件" style="display:none">
+																		<div>
+																			<label for="form-field-8">名称</label>
+
+																			<textarea class="form-control" id="名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">平台服务单位</label>
+
+																			<textarea class="form-control" id="平台服务单位" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">贡献度</label>
+
+																			<textarea class="form-control" id="贡献度" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="平台上线时间">
+																					平台上线时间
+																				<small class="text-success">99/99/9999</small>
+																			</label>
+
+																			<div class="input-group">
+																				<input class="form-control input-mask-date" type="text" id="平台上线时间">
+																				<span class="input-group-btn">
+																				<button class="btn btn-sm btn-default" type="button">
+																				<i class="icon-calendar bigger-110"></i>
+																					Go!
+																				</button>
+																				</span>
+																			</div>
+																		</div>
+																	</div>
+																	<div id="教材" style="display:none">
+																		<div>
+																			<label for="form-field-8">教材名称</label>
+
+																			<textarea class="form-control" id="教材名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">教材出版社</label>
+
+																			<textarea class="form-control" id="教材出版社" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="form-field-8">贡献度</label>
+
+																			<textarea class="form-control" id="贡献度2" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																		</div>
+																		<div>
+																			<label for="教材出版时间">
+																					教材出版时间
+																				<small class="text-success">99/99/9999</small>
+																			</label>
+
+																			<div class="input-group">
+																				<input class="form-control input-mask-date" type="text" id="教材出版时间">
+																				<span class="input-group-btn">
+																				<button class="btn btn-sm btn-default" type="button">
+																				<i class="icon-calendar bigger-110"></i>
+																					Go!
+																				</button>
+																				</span>
+																			</div>
+																	</div>
+
+																</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="step-pane" id="step3">
+															<div class="center">
+																<h3 class="blue lighter">This is step 3</h3>
+															</div>
+														</div>
+
+														<div class="step-pane" id="step4">
+															<div class="center">
+																<h3 class="green">Congrats!</h3>
+																Your product is ready to ship! Click finish to continue!
+															</div>
+														</div>
+													</div>
+
+													<hr />
+													<div class="row-fluid wizard-actions">
+														<button class="btn btn-prev">
+															<i class="icon-arrow-left"></i>
+															Prev
+														</button>
+
+														<button id="btn-next" class="btn btn-success btn-next" data-last="Finish ">
+															Next
+															<i class="icon-arrow-right icon-on-right"></i>
+														</button>
+													</div>
+												</div><!-- /widget-main -->
+											</div><!-- /widget-body -->
+										</div>
+									</div>
+								</div>
+
+								<div id="modal-wizard" class="modal">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header" data-target="#modal-step-contents">
+												<ul class="wizard-steps">
+													<li data-target="#modal-step1" class="active">
+														<span class="step">1</span>
+														<span class="title">Validation states</span>
+													</li>
+
+													<li data-target="#modal-step2">
+														<span class="step">2</span>
+														<span class="title">Alerts</span>
+													</li>
+
+													<li data-target="#modal-step3">
+														<span class="step">3</span>
+														<span class="title">Payment Info</span>
+													</li>
+
+													<li data-target="#modal-step4">
+														<span class="step">4</span>
+														<span class="title">Other Info</span>
+													</li>
+												</ul>
+											</div>
+
+											<div class="modal-body step-content" id="modal-step-contents">
+												<div class="step-pane active" id="modal-step1">
+													<div class="center">
+														<h4 class="blue">Step 1</h4>
+													</div>
+												</div>
+
+												<div class="step-pane" id="modal-step2">
+													<div class="center">
+														<h4 class="blue">Step 2</h4>
+													</div>
+												</div>
+
+												<div class="step-pane" id="modal-step3">
+													<div class="center">
+														<h4 class="blue">Step 3</h4>
+													</div>
+												</div>
+
+												<div class="step-pane" id="modal-step4">
+													<div class="center">
+														<h4 class="blue">Step 4</h4>
+													</div>
+												</div>
+											</div>
+
+											<div class="modal-footer wizard-actions">
+												<button class="btn btn-sm btn-prev">
+													<i class="icon-arrow-left"></i>
+													Prev
+												</button>
+
+												<button class="btn btn-success btn-sm btn-next" data-last="Finish ">
+													Next
+													<i class="icon-arrow-right icon-on-right"></i>
+												</button>
+
+												<button class="btn btn-danger btn-sm pull-left" data-dismiss="modal">
+													<i class="icon-remove"></i>
+													Cancel
+												</button>
+											</div>
+										</div>
+									</div>
+								</div><!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+
+{% endblock %}

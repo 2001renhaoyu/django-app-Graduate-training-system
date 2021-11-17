@@ -1244,7 +1244,46 @@
 				}
 			})
 		</script>
+        <!--成果判定-->
+		<script type="text/javascript">
+			 $(function(){
+        		$('#btn-next').bind('click', function(event) {
+        		/* 在添加标签的同时给添加的标签绑定点击事件 */
+				var sel=$("#成果类型");
+				var checkText=$("#成果类型").find("option:selected").text(); //获取Select选择的Text
+				if(checkText=="奖励")
+					$("#奖励").show();
+				if(checkText=="论文"){
+					$("#论文").show();
+				}
 
+				if(checkText=="标准"){
+					$("#标准").show();
+				}
+
+				if(checkText=="软硬件"){
+					$("#软硬件").show();
+				}
+
+				if(checkText=="报告"){
+					$("#报告").show();
+				}
+
+				if(checkText=="专利"){
+					$("#专利").show();
+				}
+
+				if(checkText=="教材"){
+					$("#教材").show();
+				}
+
+
+
+        		});
+        	})
+
+
+		</script>
         <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
     </body>
 </html>
