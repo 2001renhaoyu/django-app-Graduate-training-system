@@ -67,7 +67,7 @@
 		<link rel="stylesheet" href="{% static 'css/ace-skins.min.css' %}" />
 
 		<!--[if lte IE 8]>
-		  <link rel="stylesheet" href="{% static 'css/ace-ie.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/ace-ie.min.css' %}" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
@@ -473,7 +473,7 @@
 
 						<div>
 							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
-							<label class="lbl" for="ace-settings-breadcrumbs">固定面包屑</label>
+							<label class="lbl" for="ace-settings-breadcrumbs">固定地址导航</label>
 						</div>
 
 						<div>
@@ -520,6 +520,14 @@
 		<script src="{% static 'js/typeahead-bs2.min.js' %}"></script>
 
 		<!-- page specific plugin scripts -->
+		<link rel="stylesheet" href="{% static 'css/chosen.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/datepicker.css' %}"/>
+		<link rel="stylesheet" href="{% static 'css/bootstrap-timepicker.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/daterangepicker.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/colorpicker.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/ace.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/ace-rtl.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/ace-skins.min.css' %}" />
 
         <script src="{% static 'js/fuelux/fuelux.wizard.min.js' %}"></script>
 		<script src="{% static 'js/jquery.validate.min.js' %}"></script>
@@ -549,15 +557,11 @@
 		<script src="{% static 'js/jquery.inputlimiter.1.3.1.min.js' %}"></script>
 		<script src="{% static 'js/bootstrap-tag.min.js' %}"></script>
 
-		<link rel="stylesheet" href="{% static 'css/chosen.css' %}" />
-		<link rel="stylesheet" href="{% static 'css/datepicker.css' %}"/>
-		<link rel="stylesheet" href="{% static 'css/bootstrap-timepicker.css' %}" />
-		<link rel="stylesheet" href="{% static 'css/daterangepicker.css' %}" />
-		<link rel="stylesheet" href="{% static 'css/colorpicker.css' %}" />
-
         <script src="{% static 'js/jqGrid/jquery.jqGrid.min.js' %}"></script>
 		<script src="{% static 'js/jqGrid/i18n/grid.locale-en.js' %}"></script>
 
+        <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'js/jquery.dataTables.bootstrap.js' %}"></script>
 		<!-- ace scripts -->
 
 		<script src="{% static 'js/ace-elements.min.js' %}"></script>
@@ -1201,6 +1205,44 @@
 				*/
 
 			});
+		</script>
+
+        <!-- jQ基础表格 -->
+		<script type="text/javascript">
+			jQuery(function($) {
+				var oTable1 = $('#sample-table-2').dataTable( {
+				"aoColumns": [
+			      { "bSortable": false },
+			      null, null,null, null, null,
+				  { "bSortable": false }
+				] } );
+
+
+				$('table th input:checkbox').on('click' , function(){
+					var that = this;
+					$(this).closest('table').find('tr > td:first-child input:checkbox')
+					.each(function(){
+						this.checked = that.checked;
+						$(this).closest('tr').toggleClass('selected');
+					});
+
+				});
+
+
+				$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+				function tooltip_placement(context, source) {
+					var $source = $(source);
+					var $parent = $source.closest('table')
+					var off1 = $parent.offset();
+					var w1 = $parent.width();
+
+					var off2 = $source.offset();
+					var w2 = $source.width();
+
+					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+					return 'left';
+				}
+			})
 		</script>
 
         <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
