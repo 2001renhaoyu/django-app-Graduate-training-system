@@ -81,7 +81,15 @@
                             </td>
 
                             <td>
-                                <span class="label label-sm label-warning">{{activity.aca_audit_situation}}</span>
+                                <span
+                                        activity.aca_audit_situation== if {% "通过" %}
+                                class="label label-sm label-success"
+                                {% elif activity.aca_audit_situation == "未通过" %}
+                                class="label label-sm label-inverse arrowed-in"
+                                {% else %}
+                                class="label label-sm label-warning"
+                                {% endif %}
+                                >{{activity.aca_audit_situation}}</span>
 
                             </td>
                             <td>
@@ -114,12 +122,13 @@
         <div class="col-xs-12">
             <!-- PAGE CONTENT BEGINS -->
 
-            <form class="form-horizontal" role="form">
+            <form action="post_academic_activity_form" class="form-horizontal" method="POST" role="form">
                 <div class="form-group">
                     <label class="col-sm-3 control-label no-padding-right" for="form-field-1">活动id </label>
 
                     <div class="col-sm-9">
-                        <input type="text" id="form-field-1" placeholder="活动id" class="col-xs-10 col-sm-5">
+                        <input class="col-xs-10 col-sm-5" id="form-field-1" name="act_id" placeholder="活动id"
+                               type="text">
                     </div>
                 </div>
                 <!-- 活动id -->
@@ -130,7 +139,8 @@
                     <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 活动名称</label>
 
                     <div class="col-sm-9">
-                        <input type="password" id="form-field-2" placeholder="活动名称" class="col-xs-10 col-sm-5">
+                        <input class="col-xs-10 col-sm-5" id="form-field-2" name="act_name" placeholder="活动名称"
+                               type="password">
                     </div>
                 </div>
                 <!-- 活动名称 -->
@@ -140,7 +150,8 @@
                     <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 活动地点</label>
 
                     <div class="col-sm-9">
-                        <input type="password" id="form-field-2" placeholder="活动地点" class="col-xs-10 col-sm-5">
+                        <input class="col-xs-10 col-sm-5" id="form-field-3" name="act_location" placeholder="活动地点"
+                               type="password">
                     </div>
                 </div>
                 <!-- 活动地点 -->
@@ -151,7 +162,8 @@
                     <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 报告中文名称</label>
 
                     <div class="col-sm-9">
-                        <input type="password" id="form-field-2" placeholder="报告中文名称" class="col-xs-10 col-sm-5">
+                        <input class="col-xs-10 col-sm-5" id="form-field-4" name="act_report_zh" placeholder="报告中文名称"
+                               type="password">
                     </div>
                 </div>
                 <!-- 报告中文名称 -->
@@ -162,7 +174,8 @@
                     <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 报告英文名称</label>
 
                     <div class="col-sm-9">
-                        <input type="password" id="form-field-2" placeholder="报告英文名称" class="col-xs-10 col-sm-5">
+                        <input class="col-xs-10 col-sm-5" id="form-field-5" name="act_report_en" placeholder="报告英文名称"
+                               type="password">
                     </div>
                 </div>
                 <!-- 报告英文名称 -->
@@ -173,7 +186,8 @@
                     <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 备注</label>
 
                     <div class="col-sm-9">
-                        <input type="password" id="form-field-2" placeholder="备注" class="col-xs-10 col-sm-5">
+                        <input class="col-xs-10 col-sm-5" id="form-field-6" name="act_extra" placeholder="备注"
+                               type="password">
                     </div>
                 </div>
                 <!-- 备注 -->
@@ -212,9 +226,11 @@
 
                                     <div class="row">
                                         <div class="col-xs-8 col-sm-11">
+
                                             <div class="input-group">
                                                 <input class="form-control date-picker" id="id-date-picker-1"
-                                                    type="text" data-date-format="dd-mm-yyyy">
+                                                       name="act_date"
+                                                       type="text" data-date-format="dd-mm-yyyy">
                                                 <span class="input-group-addon">
                                                     <i class="icon-calendar bigger-110"></i>
                                                 </span>
@@ -229,7 +245,7 @@
                     <div class="col-sm-4">
                         <div class="widget-box">
                             <div class="widget-header">
-                                <h4>上传证明材料</h4>
+                                <h4>Custom File Input</h4>
 
                                 <span class="widget-toolbar">
                                     <a href="#" data-action="collapse">
@@ -244,12 +260,20 @@
 
                             <div class="widget-body">
                                 <div class="widget-main">
-                                    <br>
-                                    <div class="ace-file-input"><input type="file" id="id-input-file-2"><label
+                                    <div class="ace-file-input"><input id="id-input-file-2" type="file"><label
                                             class="file-label" data-title="Choose"><span class="file-name"
-                                                data-title="No File ..."><i
-                                                    class="icon-upload-alt"></i></span></label><a class="remove"
-                                            href="#"><i class="icon-remove"></i></a></div>
+                                                                                         data-title="No File ..."><i
+                                            class="icon-upload-alt"></i></span></label><a class="remove" href="#"><i
+                                            class="icon-remove"></i></a></div>
+                                    <div class="ace-file-input ace-file-multiple"><input id="id-input-file-3"
+                                                                                         multiple="" type="file"><label
+                                            class="file-label" data-title="Drop files here or click to choose"><span
+                                            class="file-name" data-title="No File ..."><i class="icon-cloud-upload"></i></span></label><a
+                                            class="remove" href="#"><i class="icon-remove"></i></a></div>
+                                    <label>
+                                        <input class="ace" id="id-file-format" name="file-format" type="checkbox">
+                                        <span class="lbl"> Allow only images</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -258,15 +282,15 @@
                 </div>
                 <div class="clearfix form-actions">
                     <div class="col-md-offset-3 col-md-9">
-                        <button class="btn btn-info" type="button">
+                        <button class="btn btn-info" type="submit">
                             <i class="icon-ok bigger-110"></i>
-                            Submit
+                            提交
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
                         <button class="btn" type="reset">
                             <i class="icon-undo bigger-110"></i>
-                            Reset
+                            重置
                         </button>
                     </div>
                 </div>
