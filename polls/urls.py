@@ -27,4 +27,12 @@ urlpatterns = [
     path('manager/manager_users_delete', views.manager_users_delete),
     path('manager/manager_users_alter', views.manager_users_alter),
     path('manager/manager_users_search', views.manager_users_search),
+    path('manager/manager_courses_add', views.manager_courses_add),
+    path('manager/manager_courses_delete', views.manager_courses_delete),
+    path('manager/manager_courses_alter', views.manager_courses_alter),
+    path('manager/manager_courses_search', views.manager_courses_search),
+    path('manager/manager_projects_add', views.manager_projects_add),
+    path('manager/manager_projects_delete', views.manager_projects_delete),
+    path('manager/manager_projects_alter', views.manager_projects_alter),
+    path('manager/manager_projects_search', views.manager_projects_search),
 ]
