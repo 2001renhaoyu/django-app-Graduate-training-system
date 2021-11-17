@@ -87,7 +87,7 @@ DATABASES = {
     'default': {
         'NAME': 'CourseDesign',
         'ENGINE': 'sql_server.pyodbc',
-        'HOST': '127.168.1.111',
+        'HOST': '192.168.1.111',
         'PORT': '1433',
         'USER': 'admin921',
         'PASSWORD': '921',
