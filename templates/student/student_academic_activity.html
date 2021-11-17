@@ -82,7 +82,7 @@
 
                             <td>
                                 <span
-                                        activity.aca_audit_situation== if {% "通过" %}
+                                         {% if activity.aca_audit_situation == "通过" %}
                                 class="label label-sm label-success"
                                 {% elif activity.aca_audit_situation == "未通过" %}
                                 class="label label-sm label-inverse arrowed-in"
