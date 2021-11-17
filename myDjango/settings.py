@@ -87,10 +87,10 @@ DATABASES = {
     'default': {
         'NAME': 'CourseDesign',
         'ENGINE': 'sql_server.pyodbc',
-        'HOST': '127.0.0.1',
+        'HOST': '192.168.1.111',
         'PORT': '1433',
-        'USER': 'sa',
-        'PASSWORD': '123456',
+        'USER': 'admin921',
+        'PASSWORD': '921',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
         }

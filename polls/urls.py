@@ -19,6 +19,7 @@ urlpatterns = [
     path('student/student_activity_form', views.student_activity_form),
     path('student/student_myproject', views.student_myproject),
     path('student/student_identify_project',views.student_identify_project),
+    path('student/post_identify_project_form',views.post_identify_project_form),
 
     # manager
     path('manager', views.manager_index),  # 不能使用的模板页
