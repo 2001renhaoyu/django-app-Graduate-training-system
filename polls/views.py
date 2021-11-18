@@ -3,7 +3,6 @@ from django.shortcuts import render
 from reportlab.pdfgen import canvas
 
 from polls.models import *
-from polls import academic_activity
 from django.http import HttpResponseRedirect
 import os
 
@@ -95,7 +94,8 @@ def student_myproject(request):
 
 
 def show_student_activity(request):
-    lists = academic_activity.get_academic_activity_list('s002')
+    student_id=request.session.get('log_id')
+    lists = Academicactivity.objects.all().filter(aca_student_id=student_id)
     return render(request, 'student/student_academic_activity.html', {'activity_list': lists})
 
 
