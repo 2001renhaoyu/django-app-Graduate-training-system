@@ -196,7 +196,9 @@ def manager_users_alter(request):
     return render(request, 'manager/manager_users_alter.html', {})
 
 def manager_users_search(request):
-    return render(request, 'manager/manager_users_search.html', {})
+    id = request.GET.get('u_name')
+    lists = Users.objects.all().filter(log_id=id)
+    return render(request, 'manager/manager_users_search.html', {'lists' : lists})
 
 def manager_courses_add(request):
     return render(request, 'manager/manager_courses_add.html', {})

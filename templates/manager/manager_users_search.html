@@ -29,7 +29,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">用户名 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="登录账号" class="col-xs-10 col-sm-5">
+                                <input type="text" name="u_name" id="form-field-1" placeholder="登录账号" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 用户id -->
@@ -53,6 +53,41 @@
                         </div>
 
                     </form>
+                    <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="center">
+                                    <label>
+                                        <input type="checkbox" class="ace">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </th>
+                                <th>用户名</th>
+                                <th>用户类型</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for item in lists %}
+                        <tr>
+                            <td class="center">
+                                <label>
+                                    <input type="checkbox" class="ace">
+                                    <span class="lbl"></span>
+                                </label>
+                            </td>
+
+                            <td>
+                                {{ item.log_id }}
+                            </td>
+
+                            <td>
+                                {{ item.log_type }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
