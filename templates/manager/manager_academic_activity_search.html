@@ -1,0 +1,112 @@
+{% extends "manager/manager_index.html" %}
+{#地址导航#}
+{% block breadcrumb %}
+        <li>
+		    <i class="icon-home home-icon"></i>
+			<a href="manager_own">主页</a>
+		</li>
+        <li class="active">系统管理</li>
+        <li class="active">学术交流管理</li>
+        <li class="active">查询学术交流</li>
+{% endblock %}
+{% block content %}
+        <div class="page-content">
+            <div class="page-header">
+                <h1>
+                    学术交流管理
+                    <small>
+                        <i class="icon-double-angle-right"></i>
+                        查询活动
+                    </small>
+                </h1>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">活动号 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="学术交流账号" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 学术交流id -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">活动名 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="学术交流名称" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 学术交流name -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">地点 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="交流地点" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 学术交流location -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">日期 </label>
+
+                            <div class="col-sm-9">
+                                <input type="date" id="form-field-1" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 学术交流date -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">报告中文名称 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="报告名" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 报告name-zh -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">报告英文名称 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="报告名" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 报告name-en -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">证明材料 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="参会证明材料" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 参会material -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">审核情况 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="审核状态" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 审核situation -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">备注 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="活动备注" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 活动extra -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> </label>
+
+                            <div class="col-sm-9">
+                                <input type="submit" value="查询">
+                                <input type="reset">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endblock %}

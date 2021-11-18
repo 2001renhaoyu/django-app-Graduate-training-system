@@ -192,3 +192,15 @@ def manager_projects_alter(request):
 
 def manager_projects_search(request):
     return render(request, 'manager/manager_projects_search.html', {})
+
+def manager_academic_activity_add(request):
+    return render(request, 'manager/manager_academic_activity_add.html', {})
+
+def manager_academic_activity_delete(request):
+    return render(request, 'manager/manager_academic_activity_delete.html', {})
+
+def manager_academic_activity_alter(request):
+    return render(request, 'manager/manager_academic_activity_alter.html', {})
+
+def manager_academic_activity_search(request):
+    return render(request, 'manager/manager_academic_activity_search.html', {})
