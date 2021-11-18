@@ -19,7 +19,7 @@ urlpatterns = [
 
     path('student/show_academic_activity', views.show_student_activity),
     path('student/student_activity_form', views.student_activity_form),
-    path('student/student_myproject', views.student_myproject),
+    path('student/student_myProject', views.student_myProject),
     path('student/student_identify_project',views.student_identify_project),
     path('student/post_identify_project_form',views.post_identify_project_form),
     path('student/post_academic_activity_form',views.post_academic_activity_form),
