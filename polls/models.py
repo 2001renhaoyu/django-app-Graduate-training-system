@@ -9,10 +9,9 @@ from django.db import models
 
 
 class Academicactivity(models.Model):
-    aca_activity = models.ForeignKey(
-        'Student', models.DO_NOTHING, primary_key=True)
+    aca_activity_id = models.CharField(primary_key=True, max_length=30)
     aca_activity_name = models.CharField(max_length=30)
-    aca_student_id = models.CharField(max_length=30)
+    aca_student = models.ForeignKey('Student', models.DO_NOTHING)
     aca_activity_location = models.CharField(max_length=30)
     aca_activity_date = models.DateField()
     aca_report_name_zh = models.CharField(max_length=30)
@@ -39,8 +38,7 @@ class Acheievementindex(models.Model):
 class Assistantjob(models.Model):
     ass_stu = models.ForeignKey('Student', models.DO_NOTHING, primary_key=True)
     ass_course = models.ForeignKey('Courses', models.DO_NOTHING)
-    ass_teacher_evaluate = models.CharField(
-        max_length=100, blank=True, null=True)
+    ass_teacher_evaluate = models.CharField(max_length=100, blank=True, null=True)
     ass_stu_evaluate = models.CharField(max_length=100, blank=True, null=True)
     ass_result = models.CharField(max_length=10, blank=True, null=True)
 
@@ -56,8 +54,7 @@ class Book(models.Model):
     bo_time = models.DateField()
     bo_rank = models.IntegerField()
     bo_evidence = models.CharField(max_length=50)
-    ache = models.ForeignKey(
-        Acheievementindex, models.DO_NOTHING, primary_key=True)
+    ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
     class Meta:
         managed = False
@@ -72,7 +69,7 @@ class Courses(models.Model):
     course_number = models.CharField(max_length=50)
     course_academy = models.CharField(max_length=50)
     course_subject = models.CharField(max_length=50)
-    course_teacher_id = models.CharField(max_length=30)
+    course_teacher = models.ForeignKey('Teacher', models.DO_NOTHING)
     course_schedule = models.CharField(max_length=50)
     course_assessment_method = models.CharField(max_length=50)
     course_nature = models.CharField(max_length=50)
@@ -105,8 +102,7 @@ class Patent(models.Model):
     pa_state = models.IntegerField()
     p_evidence = models.CharField(max_length=50)
     p_num = models.CharField(max_length=50)
-    ache = models.ForeignKey(
-        Acheievementindex, models.DO_NOTHING, primary_key=True)
+    ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
     class Meta:
         managed = False
@@ -131,8 +127,7 @@ class Report(models.Model):
     rep_time = models.DateField()
     rep_num = models.IntegerField()
     rep_evidence = models.CharField(max_length=100)
-    ache = models.ForeignKey(
-        Acheievementindex, models.DO_NOTHING, primary_key=True)
+    ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
     class Meta:
         managed = False
@@ -146,8 +141,7 @@ class Reward(models.Model):
     re_num = models.IntegerField()
     re_time = models.DateField()
     re_evidence = models.CharField(max_length=50)
-    ache = models.ForeignKey(
-        Acheievementindex, models.DO_NOTHING, primary_key=True)
+    ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
     class Meta:
         managed = False
@@ -159,8 +153,7 @@ class Softwarehardware(models.Model):
     so_time = models.DateField()
     so_rank = models.IntegerField()
     so_evidence = models.CharField(max_length=50)
-    ache = models.ForeignKey(
-        Acheievementindex, models.DO_NOTHING, primary_key=True)
+    ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
     class Meta:
         managed = False
@@ -172,8 +165,7 @@ class Standard(models.Model):
     sta_level = models.CharField(max_length=50)
     sta_time = models.DateField()
     sta_evidence = models.CharField(max_length=50)
-    ache = models.ForeignKey(
-        Acheievementindex, models.DO_NOTHING, primary_key=True)
+    ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
     class Meta:
         managed = False
@@ -197,8 +189,7 @@ class Teacher(models.Model):
     teacher_id = models.CharField(primary_key=True, max_length=30)
     teacher_name = models.CharField(max_length=30)
     teacher_sex = models.CharField(max_length=1)
-    teacher_funds = models.DecimalField(
-        max_digits=6, decimal_places=1, blank=True, null=True)
+    teacher_funds = models.DecimalField(max_digits=6, decimal_places=1, blank=True, null=True)
     teacher_status = models.IntegerField()
 
     class Meta:
@@ -214,8 +205,7 @@ class Thesis(models.Model):
     the_type = models.CharField(max_length=50)
     the_store = models.IntegerField()
     the_pub = models.CharField(max_length=50)
-    ache = models.ForeignKey(
-        Acheievementindex, models.DO_NOTHING, primary_key=True)
+    ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
     class Meta:
         managed = False
@@ -235,9 +225,22 @@ class Users(models.Model):
 class Volunteerapplication(models.Model):
     stu = models.ForeignKey(Student, models.DO_NOTHING, primary_key=True)
     course = models.ForeignKey(Courses, models.DO_NOTHING)
-    priority = models.CharField(max_length=50)
+    priority = models.CharField(max_length=10)
 
     class Meta:
         managed = False
         db_table = 'VolunteerApplication'
         unique_together = (('stu', 'course'),)
+
+
+class Volunteerapplicationconfig(models.Model):
+    state = models.CharField(max_length=10)
+    maxnum_volunteer = models.CharField(db_column='maxNum_volunteer', max_length=10)  # Field name made lowercase.
+    time_start = models.DateTimeField()
+    time_end = models.DateTimeField()
+    teacher = models.ForeignKey(Teacher, models.DO_NOTHING)
+    config_id = models.CharField(primary_key=True, max_length=30)
+
+    class Meta:
+        managed = False
+        db_table = 'VolunteerApplicationConfig'
