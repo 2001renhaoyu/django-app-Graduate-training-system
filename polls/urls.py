@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.login),
+    path('check_login',views.check_login),
     # path('', views.test),
 
     # teacher
@@ -39,4 +40,8 @@ urlpatterns = [
     path('manager/manager_projects_delete', views.manager_projects_delete),
     path('manager/manager_projects_alter', views.manager_projects_alter),
     path('manager/manager_projects_search', views.manager_projects_search),
+    path('manager/manager_academic_activity_add', views.manager_academic_activity_add),
+    path('manager/manager_academic_activity_delete', views.manager_academic_activity_delete),
+    path('manager/manager_academic_activity_alter', views.manager_academic_activity_alter),
+    path('manager/manager_academic_activity_search', views.manager_academic_activity_search),
 ]
