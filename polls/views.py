@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from reportlab.pdfgen import canvas
 
 from polls.models import *
@@ -209,26 +210,40 @@ def manager_own(request):
     return render(request, 'manager/manager_own.html', {})
 
 
+@csrf_exempt
 def manager_users_add(request):
-    id = request.GET.get('u_id')
-    pwd = request.GET.get('u_pwd')
-    type = request.GET.get('type')
-    lists = Users.objects.create(log_id=id,log_pwd=pwd,log_type=type)
-    lists.save()
-    return render(request, 'manager/manager_users_add.html', {})
+    sta = ""
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        pwd = request.POST.get('u_pwd')
+        type = request.POST.get('type')
+        if Users.objects.all().filter(log_id=id).exists():
+            sta = True
+        else:
+            Users.objects.create(log_id=id,log_pwd=pwd,log_type=type)
+    return render(request, 'manager/manager_users_add.html', {'sta' : sta})
 
 
+@csrf_exempt
 def manager_users_delete(request):
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        type = request.POST.get('type')
+        Users.objects.all().filter(log_id=id,log_type=type).delete()
     return render(request, 'manager/manager_users_delete.html', {})
 
 
+@csrf_exempt
 def manager_users_alter(request):
     return render(request, 'manager/manager_users_alter.html', {})
 
 
+@csrf_exempt
 def manager_users_search(request):
-    id = request.GET.get('u_id')
-    lists = Users.objects.all().filter(log_id=id)
+    lists = []
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        lists = Users.objects.all().filter(log_id=id)
     return render(request, 'manager/manager_users_search.html', {'lists' : lists})
 
 
