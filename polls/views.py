@@ -202,7 +202,7 @@ def manager_users_alter(request):
 
 def manager_users_search(request):
     id = request.GET.get('u_id')
-    lists = Users.objects.all().get(log_id=id)
+    lists = Users.objects.all().filter(log_id=id)
     return render(request, 'manager/manager_users_search.html', {'lists' : lists})
 
 def manager_courses_add(request):
