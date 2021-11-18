@@ -4,7 +4,9 @@ from reportlab.pdfgen import canvas
 
 from polls.models import *
 from polls import academic_activity
+from django.http import HttpResponseRedirect
 import os
+
 
 
 
@@ -12,7 +14,47 @@ import os
 
 
 def login(request):
-    return render(request, "login.html", {})
+    if request.session.get('is_login'):
+        id=request.session.get('log_id')
+        passwd=request.session.get('log_pwd')
+        user_type=request.session.get('log_type')
+        if user_type=='管理员':
+            return HttpResponseRedirect('/manager')
+        elif user_type=='学生':
+            return HttpResponseRedirect('/student')
+        elif user_type=='老师':
+            return HttpResponseRedirect('/teacher')
+        else:
+            pass
+    else:
+        return render(request, "login.html", {})
+
+def check_login(request):
+    id=request.POST.get('log_id')
+    passwd=request.POST.get('log_pwd')
+    user_set=Users.objects.filter(log_id=id,log_pwd=passwd)
+    count= user_set.count()
+    if count==1:
+        request.session['log_id']=id
+        request.session['log_pwd']=passwd
+        request.session['log_type']=user_set[0].log_type
+        request.session['is_login']=True
+        user_type=user_set[0].log_type
+        if user_type=='管理员':
+            return HttpResponseRedirect('/manager')
+        elif user_type=='学生':
+            return HttpResponseRedirect('/student')
+        elif user_type=='老师':
+            return HttpResponseRedirect('/teacher')
+        else:
+            pass
+    else:
+        return HttpResponse("""
+        <script>
+        alert('账号/密码错误');
+        window.location='/';
+        </script>
+        """)
 
 
 def teacher_index(request):
@@ -66,12 +108,15 @@ def post_academic_activity_form(request):
 
     if not myFile:
         return HttpResponse("no files for upload!")
-    destination = open(os.path.join("files",'s002'+'_' + myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
+    id=request.session.get('log_id')
+    if not os.path.exists('files/'+id):
+        os.makedirs('files/'+id)
+    destination = open(os.path.join("files",id , myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
     for chunk in myFile.chunks():  # 分块写入文件
         destination.write(chunk)
     destination.close()
     a_activity = Academicactivity(
-        aca_student_id='s002',
+        aca_student_id=id,
         aca_activity_id=request.POST.get('act_id'),
         aca_activity_name=request.POST.get('act_name'),
         aca_activity_location=request.POST.get('act_location'),
@@ -79,7 +124,7 @@ def post_academic_activity_form(request):
         aca_report_name_zh=request.POST.get('act_report_zh'),
         aca_report_name_en=request.POST.get('act_report_en'),
         aca_extra=request.POST.get('act_extra'),
-        aca_evidentiary_material=os.path.join("files",'s002'+'_' + myFile.name),
+        aca_evidentiary_material=os.path.join("files",id , myFile.name),
         aca_audit_situation='审核中'
     )
 
