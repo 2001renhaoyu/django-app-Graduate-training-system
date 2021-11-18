@@ -1,0 +1,133 @@
+{% extends "manager/manager_index.html" %}
+{% block title %}项目认定{% endblock %}
+{% block breadcrumb %}
+        <li>
+		    <i class="icon-home home-icon"></i>
+			<a href="manager_own">主页</a>
+            <small>
+                <i class="icon-double-angle-right"></i>
+                项目审核
+            </small>
+		</li>
+{% endblock %}
+{% block content %}
+<div class="page-content">
+        <div class="page-header">
+            <h1>
+                项目审核
+                <small>
+                    <i class="icon-double-angle-right"></i>
+                    进行研究生参与项目的认定（科研经费需高于6万）
+                </small>
+            </h1>
+        </div><!-- /.page-header -->
+
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <div class="table-responsive">
+                      <table  class="table table-striped table-bordered table-hover"><!--id="sample-table-2"-->
+                            <thead>
+                                <tr>
+<!--                                    <th class="center">-->
+<!--                                        <label>-->
+<!--                                            <input type="checkbox" class="ace" />认定-->
+<!--                                            <span class="lbl"></span>-->
+<!--                                        </label>-->
+<!--                                    </th>-->
+                                    <th>研究生学号</th>
+                                    <th>项目编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目类型</th>
+                                    <th>
+                                        <i class="icon-time bigger-110 hidden-480"></i>
+                                        项目开始时间
+                                    </th>
+                                    <th>
+                                        <i class="icon-time bigger-110 hidden-480"></i>
+                                        项目结束时间
+                                    </th>
+                                    <th>项目经费(万元)</th>
+                                    <th>承担工作</th>
+                                    <th>是否通过</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for ip in ip_list %}
+                                <tr>
+<!--                                    <td class="center">-->
+<!--                                        <label>-->
+<!--                                            <input type="checkbox" class="ace" />-->
+<!--                                            <span class="lbl"></span>-->
+<!--                                        </label>-->
+<!--                                    </td>-->
+
+                                    <td>
+                                        {{ip.ip_stu_id}}
+                                    </td>
+                                    <td>{{ip.ip_pro.pro_id}}</td>
+                                    <td>{{ip.ip_pro.pro_name}}</td>
+                                    <td>{{ip.ip_pro.pro_type}}</td>
+                                    <td>{{ip.ip_begintime}}</td>
+                                    <td>{{ip.ip_endtime}}</td>
+                                    <td>{{ip.ip_funds}}</td>
+                                    <td>{{ip.ip_job_content}}</td>
+                                    <td>
+                                        <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+                                            <button class="btn btn-xs btn-success">
+                                                <i class="icon-ok bigger-120"></i>
+                                            </button>
+
+
+                                            <button class="btn btn-xs btn-danger">
+                                                <i class="icon-trash bigger-120"></i>
+                                            </button>
+
+                                        </div>
+
+                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                            <div class="inline position-relative">
+                                                <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                    <i class="icon-cog icon-only bigger-110"></i>
+                                                </button>
+
+                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+                                                    <li>
+                                                        <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                                            <span class="blue">
+                                                                <i class="icon-zoom-in bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                            <span class="green">
+                                                                <i class="icon-edit bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                                            <span class="red">
+                                                                <i class="icon-trash bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+</div><!-- /.row -->
+{% endblock %}

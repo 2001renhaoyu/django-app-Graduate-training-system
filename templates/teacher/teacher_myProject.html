@@ -10,6 +10,7 @@
                     我的项目
                 </small>
             </h1>
+        </div>
 
             <div class="row">
                 <div class="col-xs-12">
@@ -35,7 +36,7 @@
                                     <td>
                                         {% for ip in ip_list %}
                                         {% if ip.ip_pro_id == pro.pro_id %}
-                                        {{ ip.ip_stu.stu_id }}
+                                        {{ ip.ip_stu.stu_name }}
                                         {% endif %}
                                         {% endfor %}
                                     </td>
