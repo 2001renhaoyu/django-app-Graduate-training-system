@@ -1,6 +1,6 @@
-from django.forms import model_to_dict
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from reportlab.pdfgen import canvas
 
 from polls.models import *
@@ -9,6 +9,10 @@ import os
 
 
 # Create your views here.
+
+
+def test(request):
+    return render(request, "student/student_index.html", {})
 
 
 def login(request):
@@ -60,8 +64,14 @@ def teacher_index(request):
     return render(request, "teacher/teacher_index.html")
 
 
-def teacher_project(request):
-    return render(request, "teacher/teacher_project.html")
+def teacher_myProject(request):
+    pro_list=Project.objects.filter(pro_tutor_id='d001')
+    ip_list=[]
+    for pro in pro_list:
+        t_list=Identifyproject.objects.filter(ip_pro_id=pro.pro_id)
+        ip_list+=t_list
+    return render(request, "teacher/teacher_myProject.html",{'pro_list':pro_list,
+                                                             'ip_list':ip_list})
 
 
 def teacher_test(request):
@@ -69,6 +79,8 @@ def teacher_test(request):
 
 
 def teacher_assistant_volunteer_apply(request):
+    cur_teacher_id = request.session.get('log_id')
+    cur_config = Volunteerapplicationconfig.objects.filter(teacher_id=cur_teacher_id)
     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
 
 
@@ -107,8 +119,16 @@ def no_pass_activity(request):
 
 
 
+def teacher_ache_commit(request):
+    return render(request, "teacher/teacher_ache_commit", {})
+
+
 def student_index(request):
     return render(request, 'student/student_index.html', {})
+
+
+def ache_test1(request):
+    return render(request, 'student/ache_test1.html', {})
 
 
 def student_assistant_volunteer_apply(request):
@@ -123,9 +143,9 @@ def student_assistant_volunteer_export(request):
     return render(request, 'student/student_assistant_volunteer_export.html', {})
 
 
-def student_myproject(request):
+def student_myProject(request):
     ip_list = Identifyproject.objects.filter(ip_stu_id='s001')
-    return render(request, 'student/student_myproject.html', {'ip_list': ip_list})
+    return render(request, 'student/student_myProject.html', {'ip_list': ip_list})
 
 def student_identify_project(request):
     return render(request, 'student/student_identify_project.html', {})
@@ -134,11 +154,10 @@ def post_identify_project_form(request):
     myFile = request.FILES.get("evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
     if not myFile:
         return HttpResponse("no files for upload!")
-
-    # destination = open(os.path.join('files','s002' + '_' + myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
-    # for chunk in myFile.chunks():  # 分块写入文件
-    #     destination.write(chunk)
-    # destination.close()
+    destination = open(os.path.join('files','s002' + '_' + myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
+    for chunk in myFile.chunks():  # 分块写入文件
+        destination.write(chunk)
+    destination.close()
     ip=Identifyproject(
         ip_stu_id='s002',
         ip_pro_id=request.POST.get('pro_id'),
@@ -160,6 +179,15 @@ def show_student_activity(request):
 
 def student_activity_form(request):
     return render(request, 'student/student_academic_activity.html', {'have_list': False})
+
+
+def post_ache_test1_form(request):
+    ache_name = request.POST.get('ache_type')
+    if(ache_name):
+        print(1)
+    else:
+        print(0)
+
 
 
 def post_academic_activity_form(request):
@@ -218,20 +246,53 @@ def manager_own(request):
     return render(request, 'manager/manager_own.html', {})
 
 
+@csrf_exempt
 def manager_users_add(request):
-    return render(request, 'manager/manager_users_add.html', {})
+    sta = ""
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        pwd = request.POST.get('u_pwd')
+        type = request.POST.get('type')
+        if Users.objects.all().filter(log_id=id).exists():
+            sta = True
+        else:
+            Users.objects.create(log_id=id,log_pwd=pwd,log_type=type)
+    return render(request, 'manager/manager_users_add.html', {'sta' : sta})
 
 
+@csrf_exempt
 def manager_users_delete(request):
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        type = request.POST.get('type')
+        Users.objects.all().filter(log_id=id,log_type=type).delete()
     return render(request, 'manager/manager_users_delete.html', {})
 
 
+@csrf_exempt
 def manager_users_alter(request):
-    return render(request, 'manager/manager_users_alter.html', {})
+    sta = ""
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        new_id = request.POST.get('u_new_id')
+        new_pwd = request.POST.get('u_new_pwd')
+        new_type = request.POST.get('type')
+        if id == new_id and id != None:
+            sta = True
+        else:
+            Users.objects.all().filter(log_id=id).update(log_id=new_id,log_pwd=new_pwd,log_type=new_type)
+    return render(request, 'manager/manager_users_alter.html', {'sta' : sta})
 
+
+@csrf_exempt
 
 def manager_users_search(request):
-    return render(request, 'manager/manager_users_search.html', {})
+    lists = []
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        lists = Users.objects.all().filter(log_id=id)
+    return render(request, 'manager/manager_users_search.html', {'lists' : lists})
+
 
 
 def manager_courses_add(request):

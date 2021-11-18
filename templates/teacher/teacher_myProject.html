@@ -1,83 +1,43 @@
-{% extends "student/student_index.html" %}
+{% extends "teacher/teacher_index.html" %}
 {% block title %}我的项目{% endblock %}
-
 {%block content%}
     <div class="page-content">
         <div class="page-header">
             <h1>
-                参与项目
+                科研项目
                 <small>
                     <i class="icon-double-angle-right"></i>
                     我的项目
                 </small>
             </h1>
-        </div><!-- /.page-header -->
 
             <div class="row">
                 <div class="col-xs-12">
-<!--										<h3 class="header smaller lighter blue">jQuery dataTables</h3>-->
-<!--                    <div class="table-header">-->
-<!--                        项目认定表-->
-<!--                    </div>-->
-
                     <div class="table-responsive">
                       <table  class="table table-striped table-bordered table-hover"><!--id="sample-table-2"-->
                             <thead>
                                 <tr>
-<!--                                    <th class="center">-->
-<!--                                        <label>-->
-<!--                                            <input type="checkbox" class="ace" />-->
-<!--                                            <span class="lbl"></span>-->
-<!--                                        </label>-->
-<!--                                    </th>-->
                                     <th>项目编号</th>
                                     <th>项目名称</th>
                                     <th>项目类型</th>
-
-
-                                    <th>
-                                        <i class="icon-time bigger-110 hidden-480"></i>
-                                        项目开始时间
-                                    </th>
-                                    <th>
-                                        <i class="icon-time bigger-110 hidden-480"></i>
-                                        项目结束时间
-                                    </th>
-                                    <th>项目经费(万元)</th>
-                                    <th>承担工作</th>
-                                    <th class="hidden-480">认定情况</th>
-
+                                    <th>项目成员</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                        {% for ip in ip_list %}
+                        {% for pro in pro_list %}
                                 <tr>
-<!--                                    <td class="center">-->
-<!--                                        <label>-->
-<!--                                            <input type="checkbox" class="ace" />-->
-<!--                                            <span class="lbl"></span>-->
-<!--                                        </label>-->
-<!--                                    </td>-->
-
                                     <td>
-                                        {{ip.ip_pro.pro_id}}
+                                        {{pro.pro_id}}
                                     </td>
-                                    <td>{{ip.ip_pro.pro_name}}</td>
-                                    <td>{{ip.ip_pro.pro_type}}</td>
-                                    <td>{{ip.ip_begintime}}</td>
-                                    <td>{{ip.ip_endtime}}</td>
-                                    <td>{{ip.ip_funds}}</td>
-                                    <td>{{ip.ip_job_content}}</td>
-
-                                    <td class="hidden-480">
-                                        {% if ip.ip_status == 1 %}
-                                        <span class="label label-sm label-success">已认定</span>
-                                        {% elif ip.ip_status == 0%}
-                                        <span class="label label-sm label-warning">未认定</span>
-                                        {% else %}
-                                        <span class="label label-sm label-info arrowed arrowed-righ">待认定</span>
+                                    <td>{{pro.pro_name}}</td>
+                                    <td>{{pro.pro_type}}</td>
+                                    <td>
+                                        {% for ip in ip_list %}
+                                        {% if ip.ip_pro_id == pro.pro_id %}
+                                        {{ ip.ip_stu.stu_id }}
                                         {% endif %}
+                                        {% endfor %}
                                     </td>
 
                                 </tr>

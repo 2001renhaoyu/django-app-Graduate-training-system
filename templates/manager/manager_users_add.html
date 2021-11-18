@@ -24,12 +24,12 @@
             <div class="row">
                 <div class="col-xs-12">
 
-                    <form class="form-horizontal" role="form">
+                    <form class="form-horizontal" role="form" method="post">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">用户名 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="登录账号" class="col-xs-10 col-sm-5">
+                                <input type="text" name="u_id" id="form-field-1" placeholder="登录账号" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 用户id -->
@@ -37,7 +37,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">用户密码 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="登录密码" class="col-xs-10 col-sm-5">
+                                <input type="text" name="u_pwd" id="form-field-1" placeholder="登录密码" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 用户pwd -->
@@ -45,7 +45,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">用户身份 </label>
 
                             <div class="col-sm-9">
-                                <input type="radio" name="type" value="研究生">研究生
+                                <input type="radio" name="type" value="学生">学生
                                 <input type="radio" name="type" value="老师">老师
                                 <input type="radio" name="type" value="管理员">管理员
                             </div>
@@ -59,6 +59,12 @@
                                 <input type="reset">
                             </div>
                         </div>
+                        {% if sta == True %}
+                            <script>
+                            alert('不能添加id相同的数据');
+                            window.location='/manager/manager_users_add';
+                            </script>
+                        {% endif %}
 
                     </form>
                 </div>

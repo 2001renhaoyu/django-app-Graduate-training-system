@@ -501,12 +501,6 @@
 
 		<!--[if !IE]> -->
 
-		<script src="http://ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-		<!-- <![endif]-->
-
-		<!--[if !IE]> -->
-
 		<script type="text/javascript">
 			window.jQuery || document.write("<script src='{% static 'js/jquery-2.0.3.min.js' %}'>" + "<" + "script>");
 		</script>
@@ -774,27 +768,6 @@
 				.on('change', function(){
 					$(this).closest('form').validate().element($(this));
 				});
-
-
-				var $validation = false;
-				$('#fuelux-wizard').ace_wizard().on('change' , function(e, info){
-					if(info.step == 1 && $validation) {
-						if(!$('#validation-form').valid()) return false;
-					}
-				}).on('finished', function(e) {
-					bootbox.dialog({
-						message: "Thank you! Your information was successfully saved!",
-						buttons: {
-							"success" : {
-								"label" : "OK",
-								"className" : "btn-sm btn-primary"
-							}
-						}
-					});
-				}).on('stepclick', function(e){
-					//return false;//prevent clicking on steps
-				});
-
 
 				$('#skip-validation').removeAttr('checked').on('click', function(){
 					$validation = this.checked;
@@ -1246,12 +1219,13 @@
 		</script>
         <!--成果判定-->
 		<script type="text/javascript">
-			 $(function(){
+            			 $(function(){
         		$('#btn-next').bind('click', function(event) {
         		/* 在添加标签的同时给添加的标签绑定点击事件 */
 				var sel=$("#成果类型");
 				var checkText=$("#成果类型").find("option:selected").text(); //获取Select选择的Text
 				if(checkText=="奖励")
+
 					$("#奖励").show();
 				if(checkText=="论文"){
 					$("#论文").show();
@@ -1282,7 +1256,80 @@
         		});
         	})
 
+            jQuery(function($) {
+                var $validation = false;
+				$('#fuelux-wizard').ace_wizard().on('change' , function(e, info){
+					if(info.step == 1 && $validation) {
+						if(!$('#validation-form').valid()) return false;
+					}
+				}).on('finished', function(e) {
+                    var sel=$("#成果类型");
+                    var checkText=$("#成果类型").find("option:selected").text(); //获取Select选择的Text
+                    if(checkText=="奖励"){
+                        var XHR = new XMLHttpRequest();
+                        var FD  = new FormData();
+                        var indexs = ["奖励名称","获奖等级"];
+                        var data = []
 
+                          // 把我们的数据添加到这个FormData对象中
+                          for(index in indexs) {
+                            FD.append(index, data[index]);
+                          }
+
+                          // 定义数据成功发送并返回后执行的操作
+                          XHR.addEventListener('load', function(event) {
+                            alert('Yeah! 已发送数据并加载响应。');
+                          });
+
+                          // 定义发生错误时执行的操作
+                          XHR.addEventListener('error', function(event) {
+                            alert('Oops! 出错了。');
+                          });
+
+                          // 设置请求地址和方法
+                          XHR.open('POST', 'https://example.com/cors.php');
+
+                          // 发送这个formData对象,HTTP请求头会自动设置
+                          XHR.send(FD);
+                    }
+                    if(checkText=="论文"){
+                        $("#论文").show();
+                    }
+
+                    if(checkText=="标准"){
+                        $("#标准").show();
+                    }
+
+                    if(checkText=="软硬件"){
+                        $("#软硬件").show();
+                    }
+
+                    if(checkText=="报告"){
+                        $("#报告").show();
+                    }
+
+                    if(checkText=="专利"){
+                        $("#专利").show();
+                    }
+
+                    if(checkText=="教材"){
+                        $("#教材").show();
+                    }
+
+
+					bootbox.dialog({
+						message: "Thank you! Your information was successfully saved!",
+						buttons: {
+							"success" : {
+								"label" : "OK",
+								"className" : "btn-sm btn-primary"
+							}
+						}
+					});
+				}).on('stepclick', function(e){
+					//return false;//prevent clicking on steps
+				});
+            });
 		</script>
         <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
     </body>
