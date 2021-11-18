@@ -127,6 +127,7 @@ def post_academic_activity_form(request):
         aca_evidentiary_material=os.path.join("files",id , myFile.name),
         aca_audit_situation='审核中'
     )
+    a_activity.save()
 
     return render(request,'student/student_index.html',{'main_content':'提交成功'})
 
