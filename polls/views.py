@@ -77,20 +77,44 @@ def student_index(request):
 
 
 def student_assistant_volunteer_apply(request):
-    return render(request, 'student/student_assistant_volunteer_apply', {})
+    return render(request, 'student/student_assistant_volunteer_apply.html', {'assistantVolunteer':1})
 
 
 def student_assistant_volunteer_work(request):
-    return render(request, 'student/student_assistant_volunteer_work', {})
+    return render(request, 'student/student_assistant_volunteer_work.html', {})
 
 
 def student_assistant_volunteer_export(request):
-    return render(request, 'student/student_assistant_volunteer_export', {})
+    return render(request, 'student/student_assistant_volunteer_export.html', {})
 
 
 def student_myproject(request):
     ip_list = Identifyproject.objects.filter(ip_stu_id='s001')
     return render(request, 'student/student_myproject.html', {'ip_list': ip_list})
+
+def student_identify_project(request):
+    return render(request, 'student/student_identify_project.html', {})
+
+def post_identify_project_form(request):
+    myFile = request.FILES.get("evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
+    if not myFile:
+        return HttpResponse("no files for upload!")
+
+    # destination = open(os.path.join('files','s002' + '_' + myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
+    # for chunk in myFile.chunks():  # 分块写入文件
+    #     destination.write(chunk)
+    # destination.close()
+    ip=Identifyproject(
+        ip_stu_id='s002',
+        ip_pro_id=request.POST.get('pro_id'),
+        ip_job_content=request.POST.get('job_content'),
+        ip_begintime=request.POST.get('begin_time'),
+        ip_endtime=request.POST.get('end_time'),
+        ip_funds=request.POST.get('pro_funds'),
+        ip_status=0
+    )
+    ip.save()
+    return render(request, 'student/student_index.html', {'main_content': '提交成功'})
 
 
 def show_student_activity(request):
