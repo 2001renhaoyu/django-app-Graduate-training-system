@@ -769,28 +769,6 @@
 					$(this).closest('form').validate().element($(this));
 				});
 
-
-				var $validation = false;
-				$('#fuelux-wizard').ace_wizard().on('change' , function(e, info){
-					if(info.step == 1 && $validation) {
-						if(!$('#validation-form').valid()) return false;
-					}
-				}).on('finished', function(e) {
-
-					bootbox.dialog({
-						message: "Thank you! Your information was successfully saved!",
-						buttons: {
-							"success" : {
-								"label" : "OK",
-								"className" : "btn-sm btn-primary"
-							}
-						}
-					});
-				}).on('stepclick', function(e){
-					//return false;//prevent clicking on steps
-				});
-
-
 				$('#skip-validation').removeAttr('checked').on('click', function(){
 					$validation = this.checked;
 					if(this.checked) {
@@ -1241,7 +1219,7 @@
 		</script>
         <!--成果判定-->
 		<script type="text/javascript">
-			 $(function(){
+            			 $(function(){
         		$('#btn-next').bind('click', function(event) {
         		/* 在添加标签的同时给添加的标签绑定点击事件 */
 				var sel=$("#成果类型");
@@ -1278,7 +1256,65 @@
         		});
         	})
 
+            jQuery(function($) {
+                var $validation = false;
+				$('#fuelux-wizard').ace_wizard().on('change' , function(e, info){
+					if(info.step == 1 && $validation) {
+						if(!$('#validation-form').valid()) return false;
+					}
+				}).on('finished', function(e) {
+                    var sel=$("#成果类型");
+                    var checkText=$("#成果类型").find("option:selected").text(); //获取Select选择的Text
+                    if(checkText=="奖励"){
+                       var x1 = $('#form-field-bonus').innerHTML();
+                       var x1 = $('#form-field-bonus').innerHTML();
 
+                            var tmp = document.createElement("form");
+                             var action = "http://.../servlet.do?"+""+"=" +x1;
+                             tmp.action = action;
+                             tmp.method = "post";
+                             document.body.appendChild(tmp);
+                             tmp.submit();
+                             return tmp;
+                    }
+                    if(checkText=="论文"){
+                        $("#论文").show();
+                    }
+
+                    if(checkText=="标准"){
+                        $("#标准").show();
+                    }
+
+                    if(checkText=="软硬件"){
+                        $("#软硬件").show();
+                    }
+
+                    if(checkText=="报告"){
+                        $("#报告").show();
+                    }
+
+                    if(checkText=="专利"){
+                        $("#专利").show();
+                    }
+
+                    if(checkText=="教材"){
+                        $("#教材").show();
+                    }
+
+
+					bootbox.dialog({
+						message: "Thank you! Your information was successfully saved!",
+						buttons: {
+							"success" : {
+								"label" : "OK",
+								"className" : "btn-sm btn-primary"
+							}
+						}
+					});
+				}).on('stepclick', function(e){
+					//return false;//prevent clicking on steps
+				});
+            });
 		</script>
         <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
     </body>
