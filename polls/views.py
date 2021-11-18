@@ -235,13 +235,17 @@ def manager_users_delete(request):
 
 @csrf_exempt
 def manager_users_alter(request):
+    sta = ""
     if request.method == 'POST':
         id = request.POST.get('u_id')
         new_id = request.POST.get('u_new_id')
         new_pwd = request.POST.get('u_new_pwd')
         new_type = request.POST.get('type')
-        Users.objects.all().filter(log_id=id).update(log_id=new_id,log_pwd=new_pwd,log_type=new_type)
-    return render(request, 'manager/manager_users_alter.html', {})
+        if id == new_id and id != None:
+            sta = True
+        else:
+            Users.objects.all().filter(log_id=id).update(log_id=new_id,log_pwd=new_pwd,log_type=new_type)
+    return render(request, 'manager/manager_users_alter.html', {'sta' : sta})
 
 
 @csrf_exempt

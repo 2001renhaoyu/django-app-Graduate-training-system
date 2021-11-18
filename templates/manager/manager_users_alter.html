@@ -68,6 +68,13 @@
                             </div>
                         </div>
 
+                        {% if sta == True %}
+                            <script>
+                            alert('旧用户名不能与新用户名一致');
+                            window.location='/manager/manager_users_alter';
+                            </script>
+                        {% endif %}
+
                     </form>
                 </div>
             </div>
