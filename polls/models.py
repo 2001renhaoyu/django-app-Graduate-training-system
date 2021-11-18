@@ -178,7 +178,7 @@ class Student(models.Model):
     stu_subject = models.CharField(max_length=30, blank=True, null=True)
     stu_sex = models.CharField(max_length=1)
     stu_type = models.CharField(max_length=10)
-    stu_tutor_id = models.CharField(max_length=30)
+    stu_tutor = models.ForeignKey('Teacher', models.DO_NOTHING)
 
     class Meta:
         managed = False
