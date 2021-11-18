@@ -60,8 +60,14 @@ def teacher_index(request):
     return render(request, "teacher/teacher_index.html")
 
 
-def teacher_project(request):
-    return render(request, "teacher/teacher_project.html")
+def teacher_myProject(request):
+    pro_list=Project.objects.filter(pro_tutor_id='d001')
+    ip_list=[]
+    for pro in pro_list:
+        t_list=Identifyproject.objects.filter(ip_pro_id=pro.pro_id)
+        ip_list+=t_list
+    return render(request, "teacher/teacher_myProject.html",{'pro_list':pro_list,
+                                                             'ip_list':ip_list})
 
 
 def teacher_test(request):
