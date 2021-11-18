@@ -1,0 +1,89 @@
+{% extends "manager/manager_index.html" %}
+{#地址导航#}
+{% block breadcrumb %}
+        <li>
+		    <i class="icon-home home-icon"></i>
+			<a href="manager_own">主页</a>
+		</li>
+        <li class="active">信息录入</li>
+        <li class="active">研究生</li>
+        <li class="active">基本信息</li>
+{% endblock %}
+{% block content %}
+        <div class="page-content">
+            <div class="page-header">
+                <h1>
+                    研究生
+                    <small>
+                        <i class="icon-double-angle-right"></i>
+                        基本信息
+                    </small>
+                </h1>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">姓名 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="学生姓名" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 研究生name -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">学生号 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="学生id" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 研究生id -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">性别 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="学生性别" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 研究生sex -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">专业 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="subject" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 研究生subject -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">类型 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="博士生/研究生" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 研究生type -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">导师号 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="form-field-1" placeholder="导师id" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- tutor id -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> </label>
+
+                            <div class="col-sm-9">
+                                <input type="submit">
+                                <input type="reset">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endblock %}
