@@ -238,9 +238,29 @@ class Volunteerapplicationconfig(models.Model):
     maxnum_volunteer = models.CharField(db_column='maxNum_volunteer', max_length=10)  # Field name made lowercase.
     time_start = models.DateTimeField()
     time_end = models.DateTimeField()
-    teacher = models.ForeignKey(Teacher, models.DO_NOTHING)
-    config_id = models.CharField(primary_key=True, max_length=30)
+    teacher = models.ForeignKey(Teacher, models.DO_NOTHING, primary_key=True)
 
     class Meta:
         managed = False
         db_table = 'VolunteerApplicationConfig'
+
+
+class DjangoContentType(models.Model):
+    name = models.CharField(max_length=100)
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+
+
+class DjangoMigrations(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
