@@ -250,19 +250,20 @@ def manager_users_search(request):
     return render(request, 'manager/manager_users_search.html', {})
 
 
-
+@csrf_exempt
 def manager_courses_add(request):
+
     return render(request, 'manager/manager_courses_add.html', {})
 
-
+@csrf_exempt
 def manager_courses_delete(request):
     return render(request, 'manager/manager_courses_delete.html', {})
 
-
+@csrf_exempt
 def manager_courses_alter(request):
     return render(request, 'manager/manager_courses_alter.html', {})
 
-
+@csrf_exempt
 def manager_courses_search(request):
     return render(request, 'manager/manager_courses_search.html', {})
 
