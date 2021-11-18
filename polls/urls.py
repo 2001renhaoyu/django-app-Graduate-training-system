@@ -42,4 +42,5 @@ urlpatterns = [
     path('manager/manager_academic_activity_delete', views.manager_academic_activity_delete),
     path('manager/manager_academic_activity_alter', views.manager_academic_activity_alter),
     path('manager/manager_academic_activity_search', views.manager_academic_activity_search),
+    path('manager/manager_student_basic_information', views.manager_student_basic_information),
 ]
