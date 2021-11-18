@@ -78,6 +78,45 @@ def teacher_assistant_volunteer_apply(request):
     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
 
 
+def teacher_academic_activity_aduit(requset):
+    id=requset.session.get('log_id')
+    result_set1=Teacher.objects.get(teacher_id=id).student_set.all()
+    result_set2=[]
+    for a_stu in result_set1:
+        l=list(Student.objects.get(stu_id=a_stu.stu_id).academicactivity_set.all())
+        l=[ model_to_dict(i)
+            for i in l
+        ]
+        for t in l:
+            t['student_name']=a_stu.stu_name
+        result_set2+=l
+
+    return render(requset, 'teacher/teacher_academic_activity_aduit.html', {'activity_list':result_set2})
+
+def pass_activity(request):
+    act_id=request.GET.get('act_id')
+    a_act=Academicactivity.objects.get(aca_activity_id=act_id)
+    if a_act.aca_audit_situation=='审核中':
+        a_act.aca_audit_situation='学科负责人审核通过'
+        a_act.save()
+    else:
+        a_act.aca_audit_situation='通过'
+        a_act.save()
+    return HttpResponseRedirect('/teacher/teacher_academic_activity_aduit')
+
+def no_pass_activity(request):
+    act_id=request.GET.get('act_id')
+    a_act=Academicactivity.objects.get(aca_activity_id=act_id)
+    a_act.aca_audit_situation='未通过'
+    a_act.save()
+    return HttpResponseRedirect('/teacher/teacher_academic_activity_aduit')
+
+
+
+def teacher_ache_commit(request):
+    return render(request, "teacher/teacher_ache_commit", {})
+
+
 def student_index(request):
     return render(request, 'student/student_index.html', {})
 
@@ -206,8 +245,10 @@ def manager_users_alter(request):
 
 
 @csrf_exempt
+
 def manager_users_search(request):
     return render(request, 'manager/manager_users_search.html', {})
+
 
 
 def manager_courses_add(request):

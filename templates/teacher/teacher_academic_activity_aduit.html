@@ -1,0 +1,112 @@
+{% extends "teacher/teacher_index.html" %}
+
+{% block title %}审核学生学术交流活动{% endblock %}
+{% block content %}
+<div class="page-content">
+            <div class="page-header">
+                <h1>
+                    审核学生学术交流情况
+                    <small>
+                        <i class="icon-double-angle-right"></i>
+                        需要您与学科负责人都进行审核方可通过
+                    </small>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="table-responsive">
+                        <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>申请人</th>
+                                <th>活动id</th>
+                                <th>活动名称</th>
+                                <th>活动地点</th>
+                                <th>活动日期</th>
+                                <th>报告中文名称</th>
+                                <th>报告英文名称</th>
+                                <th>证明材料</th>
+                                <th>审核状态</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            {% for activity in activity_list %}
+                                <tr>
+
+                                    <td>
+                                        {{ activity.student_name }}
+                                    </td>
+                                    <td>
+                                        {{ activity.aca_activity_id }}
+                                    </td>
+
+                                    <td>
+                                        {{ activity.aca_activity_name }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ activity.aca_activity_location }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ activity.aca_activity_date }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ activity.aca_report_name_zh }}
+                                    </td>
+
+                                    <td>
+                                        {{ activity.aca_report_name_en }}
+                                    </td>
+
+                                    <td>
+                                        {{ activity.aca_evidentiary_material|truncatechars:20 }}
+                                    </td>
+
+                                    <td>
+                                <span
+                                        {% if activity.aca_audit_situation == "通过" %}
+                                            class="label label-sm label-success"
+                                        {% elif activity.aca_audit_situation == "未通过" %}
+                                            class="label label-sm label-inverse arrowed-in"
+                                        {% else %}
+                                            class="label label-sm label-warning"
+                                        {% endif %}
+                                >{{ activity.aca_audit_situation }}</span>
+
+                                    </td>
+                                    <td>
+                                        {{ activity.aca_extra }}
+                                    </td>
+
+                                    <td>
+                                        <button class="btn btn-xs btn-success"
+                                                onclick="javascrtpt:window.location.href='/teacher/teacher_academic_activity_aduit/pass_acticity?act_id={{ activity.aca_activity_id }}'"
+                                        >
+                                            <i class="icon-ok bigger-120"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-danger"
+                                                onclick="javascrtpt:window.location.href='/teacher/teacher_academic_activity_aduit/no_pass_acticity?act_id={{ activity.aca_activity_id }}'"
+                                        >
+                                            <i class="icon-trash bigger-120"></i>
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div><!-- /.table-responsive -->
+                </div><!-- /span -->
+            </div>
+        </div>
+{% endblock %}
