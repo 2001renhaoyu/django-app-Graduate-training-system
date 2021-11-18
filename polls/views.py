@@ -18,7 +18,7 @@ def login(request):
         passwd=request.session.get('log_pwd')
         user_type=request.session.get('log_type')
         if user_type=='管理员':
-            return HttpResponseRedirect('/manager')
+            return HttpResponseRedirect('/manager/manager_own')
         elif user_type=='学生':
             return HttpResponseRedirect('/student')
         elif user_type=='老师':
@@ -40,7 +40,7 @@ def check_login(request):
         request.session['is_login']=True
         user_type=user_set[0].log_type
         if user_type=='管理员':
-            return HttpResponseRedirect('/manager')
+            return HttpResponseRedirect('/manager/manager_own')
         elif user_type=='学生':
             return HttpResponseRedirect('/student')
         elif user_type=='老师':
