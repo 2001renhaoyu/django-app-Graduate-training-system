@@ -204,3 +204,6 @@ def manager_academic_activity_alter(request):
 
 def manager_academic_activity_search(request):
     return render(request, 'manager/manager_academic_activity_search.html', {})
+
+def manager_student_basic_information(request):
+    return render(request, 'manager/manager_student_basic_information.html', {})
