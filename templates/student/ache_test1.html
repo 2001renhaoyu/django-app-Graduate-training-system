@@ -54,15 +54,6 @@
 																<span class="title">成果录入</span>
 															</li>
 
-															<li data-target="#step3">
-																<span class="step">3</span>
-																<span class="title">导师初审</span>
-															</li>
-
-															<li data-target="#step4">
-																<span class="step">4</span>
-																<span class="title">管理员审核</span>
-															</li>
 														</ul>
 													</div>
 
@@ -71,7 +62,7 @@
 														<div class="step-pane active" id="step1">
 															<h3 class="lighter block green">输入个人信息</h3>
 
-															<form class="form-horizontal" id="sample-form">
+															<form class="form-horizontal" id="sample-form" action="post_ache_test1_form">
 																<div class="form-group has-warning">
 																	<label for="姓名" class="col-xs-12 col-sm-3 control-label no-padding-right">姓名</label>
 
@@ -95,14 +86,14 @@
 																</div>
 
 																<div class="form-group has-success">
-																	<label for="成果类型" class="col-xs-12 col-sm-3 control-label no-padding-right">成果类型</label for="成果类型">
+																	<label for="成果类型" class="col-xs-12 col-sm-3 control-label no-padding-right">成果类型</label>
 
 																	<div class="col-xs-12 col-sm-5">
 																		<span class="block input-icon input-icon-right">
 
 
 																		</span>
-																		<select class="form-control" id="成果类型" multiple="multiple">
+																		<select class="form-control" id="成果类型" name="ache_type" multiple="multiple">
 
 																			<option value="thesis">论文</option>
 																			<option value="standard">标准</option>
@@ -116,6 +107,7 @@
 
 
 																</div>
+																<button type="submit">tijiao</button>
 
 
 
@@ -270,6 +262,7 @@
 																	</div>
 																</div>
 															</form>
+
 														</div>
 
 														<div class="step-pane" id="step2">
@@ -279,12 +272,12 @@
 																		<div>
 																			<label for="form-field-8">奖励名称</label>
 
-																			<textarea class="form-control" id="form-field-8" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+																			<textarea class="form-control" id="form-field-8" name="re_name" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
 																		</div>
 																		<div>
 																			<label for="奖励表">获奖等级</label>
 
-																			<select class="form-control" id="奖励表">
+																			<select class="form-control" id="奖励表" name="re_list">
 																				<option value="国家级">国家级</option>
 																				<option value="省部级">省部级</option>
 																				<option value="市级">市级</option>
@@ -296,7 +289,7 @@
 																		<div>
 																			<label for="表2">获奖等级</label>
 
-																			<select class="form-control" id="表2">
+																			<select class="form-control" id="表2" name="re_list2">
 																				<option value="特等奖">特等奖</option>
 																				<option value="一等奖">一等奖</option>
 																				<option value="二等奖">二等奖</option>
@@ -309,7 +302,7 @@
 																			<label class="col-sm-3 control-label no-padding-right" for="排名"> 请输入您的排名(整数数字) </label>
 
 																			<div class="col-sm-9">
-																				<input type="password" id="排名" placeholder="rank" class="col-xs-10 col-sm-5">
+																				<input type="password" id="排名" name="re_rank" placeholder="rank" class="col-xs-10 col-sm-5">
 
 																			</div>
 																		</div>
@@ -325,14 +318,14 @@
 																		<div class="chosen-container chosen-container-multi" style="width: 350px;" title="" id="form_field_select_4_chosen"><div class="chosen-drop"><ul class="chosen-results"></ul></div></div>
 																		</div>
 																		<hr>
-																			<div>
+																		<div>
 																				<label for="form-field-mask-1">
 																					Date
 																				<small class="text-success">99/99/9999</small>
 																				</label>
 
 																			<div class="input-group">
-																			<input class="form-control input-mask-date" type="text" id="form-field-mask-1">
+																			<input class="form-control input-mask-date" type="text" id="form-field-mask-1" name="re_date">
 																			<span class="input-group-btn">
 																			<button class="btn btn-sm btn-default" type="button">
 																			<i class="icon-calendar bigger-110"></i>
@@ -341,6 +334,39 @@
 																			</span>
 																			</div>
 																			</div>
+																		<hr>
+																		<div class="widget-box">
+                            												<div class="widget-header">
+                               		 											<h4>Custom File Input</h4>
+
+                                												<span class="widget-toolbar">
+                                    											<a href="#" data-action="collapse">
+                                        											<i class="icon-chevron-up"></i>
+                                    											</a>
+
+                                												</span>
+                            											</div>
+																		<div class="widget-body">
+                                											<div class="widget-main">
+
+
+																					<div class="ace-file-input ace-file-multiple">
+																						<input name="re_evidence" id="id-input-file-3" multiple="" type="file">
+																						<a class="remove" href="#">
+																							<i class="icon-remove"></i>
+																						</a>
+																					</div>
+
+
+
+
+                                        											<a class="remove" href="#"><i class="icon-remove"></i></a></div>
+
+
+																		</div>
+
+
+                        </div>
 																	</div>
 																	<div id="论文" style="display:none">
 																		<div>
@@ -591,18 +617,9 @@
 															</div>
 														</div>
 
-														<div class="step-pane" id="step3">
-															<div class="center">
-																<h3 class="blue lighter">This is step 3</h3>
-															</div>
-														</div>
 
-														<div class="step-pane" id="step4">
-															<div class="center">
-																<h3 class="green">Congrats!</h3>
-																Your product is ready to ship! Click finish to continue!
-															</div>
-														</div>
+
+
 													</div>
 
 													<hr />

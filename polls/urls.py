@@ -3,14 +3,15 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.login),
-    path('check_login',views.check_login),
-    # path('', views.test),
+    # path('', views.login),
+    # path('check_login', views.check_login),
+    path('', views.test),
 
     # teacher
     path('teacher', views.teacher_index),  # 不能使用的模板页
     path('teacher_assistant_volunteer_apply', views.teacher_assistant_volunteer_apply),
     path('teacher/teacher_myProject',views.teacher_myProject),
+
 
     # student
     path('student', views.student_index),  # 不能使用的模板页
@@ -23,8 +24,10 @@ urlpatterns = [
     path('student/student_myProject', views.student_myProject),
     path('student/student_identify_project',views.student_identify_project),
     path('student/post_identify_project_form',views.post_identify_project_form),
-    path('student/post_academic_activity_form',views.post_academic_activity_form),
-    path('student/export_form',views.export_form),
+    path('student/post_academic_activity_form', views.post_academic_activity_form),
+    path('student/export_form', views.export_form),
+    path('student/ache_test1', views.ache_test1),
+    path('student/post_ache_test1_form', views.post_ache_test1_form),
 
     # manager
     path('manager', views.manager_index),  # 不能使用的模板页

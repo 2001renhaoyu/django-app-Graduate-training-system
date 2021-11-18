@@ -7,43 +7,45 @@ from django.http import HttpResponseRedirect
 import os
 
 
-
-
 # Create your views here.
+
+def test(request):
+    return render(request, "student/student_index.html", {})
 
 
 def login(request):
     if request.session.get('is_login'):
-        id=request.session.get('log_id')
-        passwd=request.session.get('log_pwd')
-        user_type=request.session.get('log_type')
-        if user_type=='管理员':
+        id = request.session.get('log_id')
+        passwd = request.session.get('log_pwd')
+        user_type = request.session.get('log_type')
+        if user_type == '管理员':
             return HttpResponseRedirect('/manager/manager_own')
-        elif user_type=='学生':
+        elif user_type == '学生':
             return HttpResponseRedirect('/student')
-        elif user_type=='老师':
+        elif user_type == '老师':
             return HttpResponseRedirect('/teacher')
         else:
             pass
     else:
         return render(request, "login.html", {})
 
+
 def check_login(request):
-    id=request.POST.get('log_id')
-    passwd=request.POST.get('log_pwd')
-    user_set=Users.objects.filter(log_id=id,log_pwd=passwd)
-    count= user_set.count()
-    if count==1:
-        request.session['log_id']=id
-        request.session['log_pwd']=passwd
-        request.session['log_type']=user_set[0].log_type
-        request.session['is_login']=True
-        user_type=user_set[0].log_type
-        if user_type=='管理员':
+    id = request.POST.get('log_id')
+    passwd = request.POST.get('log_pwd')
+    user_set = Users.objects.filter(log_id=id, log_pwd=passwd)
+    count = user_set.count()
+    if count == 1:
+        request.session['log_id'] = id
+        request.session['log_pwd'] = passwd
+        request.session['log_type'] = user_set[0].log_type
+        request.session['is_login'] = True
+        user_type = user_set[0].log_type
+        if user_type == '管理员':
             return HttpResponseRedirect('/manager/manager_own')
-        elif user_type=='学生':
+        elif user_type == '学生':
             return HttpResponseRedirect('/student')
-        elif user_type=='老师':
+        elif user_type == '老师':
             return HttpResponseRedirect('/teacher')
         else:
             pass
@@ -78,8 +80,16 @@ def teacher_assistant_volunteer_apply(request):
     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
 
 
+def teacher_ache_commit(request):
+    return render(request, "teacher/teacher_ache_commit", {})
+
+
 def student_index(request):
     return render(request, 'student/student_index.html', {})
+
+
+def ache_test1(request):
+    return render(request, 'student/ache_test1.html', {})
 
 
 def student_assistant_volunteer_apply(request):
@@ -123,13 +133,22 @@ def post_identify_project_form(request):
 
 
 def show_student_activity(request):
-    student_id=request.session.get('log_id')
+    student_id = request.session.get('log_id')
     lists = Academicactivity.objects.all().filter(aca_student_id=student_id)
-    return render(request, 'student/student_academic_activity.html', {'activity_list': lists,'have_list':True})
+    return render(request, 'student/student_academic_activity.html', {'activity_list': lists, 'have_list': True})
 
 
 def student_activity_form(request):
-    return render(request, 'student/student_academic_activity.html', {'have_list':False})
+    return render(request, 'student/student_academic_activity.html', {'have_list': False})
+
+
+def post_ache_test1_form(request):
+    ache_name = request.POST.get('ache_type')
+    if(ache_name):
+        print(1)
+    else:
+        print(0)
+
 
 
 def post_academic_activity_form(request):
@@ -137,10 +156,10 @@ def post_academic_activity_form(request):
 
     if not myFile:
         return HttpResponse("no files for upload!")
-    id=request.session.get('log_id')
-    if not os.path.exists('files/'+id):
-        os.makedirs('files/'+id)
-    destination = open(os.path.join("files",id , myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
+    id = request.session.get('log_id')
+    if not os.path.exists('files/' + id):
+        os.makedirs('files/' + id)
+    destination = open(os.path.join("files", id, myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
     for chunk in myFile.chunks():  # 分块写入文件
         destination.write(chunk)
     destination.close()
@@ -153,12 +172,12 @@ def post_academic_activity_form(request):
         aca_report_name_zh=request.POST.get('act_report_zh'),
         aca_report_name_en=request.POST.get('act_report_en'),
         aca_extra=request.POST.get('act_extra'),
-        aca_evidentiary_material=os.path.join("files",id , myFile.name),
+        aca_evidentiary_material=os.path.join("files", id, myFile.name),
         aca_audit_situation='审核中'
     )
     a_activity.save()
 
-    return render(request,'student/student_index.html',{'main_content':'提交成功'})
+    return render(request, 'student/student_index.html', {'main_content': '提交成功'})
 
 
 def export_form(request):
@@ -183,8 +202,10 @@ def export_form(request):
 def manager_index(request):
     return render(request, 'manager/manager_index.html', {})
 
+
 def manager_own(request):
     return render(request, 'manager/manager_own.html', {})
+
 
 def manager_users_add(request):
     id = request.GET.get('u_id')
@@ -194,49 +215,64 @@ def manager_users_add(request):
     lists.save()
     return render(request, 'manager/manager_users_add.html', {})
 
+
 def manager_users_delete(request):
     return render(request, 'manager/manager_users_delete.html', {})
 
+
 def manager_users_alter(request):
     return render(request, 'manager/manager_users_alter.html', {})
+
 
 def manager_users_search(request):
     id = request.GET.get('u_id')
     lists = Users.objects.all().filter(log_id=id)
     return render(request, 'manager/manager_users_search.html', {'lists' : lists})
 
+
 def manager_courses_add(request):
     return render(request, 'manager/manager_courses_add.html', {})
+
 
 def manager_courses_delete(request):
     return render(request, 'manager/manager_courses_delete.html', {})
 
+
 def manager_courses_alter(request):
     return render(request, 'manager/manager_courses_alter.html', {})
+
 
 def manager_courses_search(request):
     return render(request, 'manager/manager_courses_search.html', {})
 
+
 def manager_projects_add(request):
     return render(request, 'manager/manager_projects_add.html', {})
+
 
 def manager_projects_delete(request):
     return render(request, 'manager/manager_projects_delete.html', {})
 
+
 def manager_projects_alter(request):
     return render(request, 'manager/manager_projects_alter.html', {})
+
 
 def manager_projects_search(request):
     return render(request, 'manager/manager_projects_search.html', {})
 
+
 def manager_academic_activity_add(request):
     return render(request, 'manager/manager_academic_activity_add.html', {})
+
 
 def manager_academic_activity_delete(request):
     return render(request, 'manager/manager_academic_activity_delete.html', {})
 
+
 def manager_academic_activity_alter(request):
     return render(request, 'manager/manager_academic_activity_alter.html', {})
+
 
 def manager_academic_activity_search(request):
     return render(request, 'manager/manager_academic_activity_search.html', {})

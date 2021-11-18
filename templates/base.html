@@ -782,6 +782,7 @@
 						if(!$('#validation-form').valid()) return false;
 					}
 				}).on('finished', function(e) {
+
 					bootbox.dialog({
 						message: "Thank you! Your information was successfully saved!",
 						buttons: {
@@ -1252,6 +1253,7 @@
 				var sel=$("#成果类型");
 				var checkText=$("#成果类型").find("option:selected").text(); //获取Select选择的Text
 				if(checkText=="奖励")
+
 					$("#奖励").show();
 				if(checkText=="论文"){
 					$("#论文").show();
