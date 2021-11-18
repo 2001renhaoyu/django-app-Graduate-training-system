@@ -6,8 +6,8 @@ from polls.models import *
 from django.http import HttpResponseRedirect
 import os
 
-
 # Create your views here.
+
 
 def test(request):
     return render(request, "student/student_index.html", {})
@@ -77,6 +77,8 @@ def teacher_test(request):
 
 
 def teacher_assistant_volunteer_apply(request):
+    cur_teacher_id = request.session.get('log_id')
+    cur_config = Volunteerapplicationconfig.objects.filter(teacher_id=cur_teacher_id)
     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
 
 
