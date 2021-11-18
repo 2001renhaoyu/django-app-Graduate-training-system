@@ -154,5 +154,5 @@ SESSION_COOKIE_DOMAIN = None                              # Session的cookie保�
 SESSION_COOKIE_SECURE = False                             # 是否Https传输cookie
 SESSION_COOKIE_HTTPONLY = True                            # 是否Session的cookie只支持http传输
 SESSION_COOKIE_AGE = 1209600                              # Session的cookie失效日期（2周）
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False                   # 是否关闭浏览器使得Session过期
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True                  # 是否关闭浏览器使得Session过期
 SESSION_SAVE_EVERY_REQUEST = False

@@ -96,11 +96,11 @@ def student_myproject(request):
 def show_student_activity(request):
     student_id=request.session.get('log_id')
     lists = Academicactivity.objects.all().filter(aca_student_id=student_id)
-    return render(request, 'student/student_academic_activity.html', {'activity_list': lists})
+    return render(request, 'student/student_academic_activity.html', {'activity_list': lists,'have_list':True})
 
 
 def student_activity_form(request):
-    return render(request, 'student/student_academic_activity.html', {'activity_list': None})
+    return render(request, 'student/student_academic_activity.html', {'have_list':False})
 
 
 def post_academic_activity_form(request):
