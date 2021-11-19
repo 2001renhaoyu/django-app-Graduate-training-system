@@ -373,14 +373,28 @@ def manager_courses_add(request):
             list_task = Teacher.objects.all().filter(teacher_id=teacher_id)
             if list_task.exists():
                 if list_task[0].teacher_status == 2:
-                    list_task[0].teacher_status = 4
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=4)
                 elif list_task[0].teacher_status == 3:
-                    list_task[0].teacher_status = 5
-                Teacher.objects.all().filter(teacher_id=teacher_id).update()
-                Courses.objects.create(course_id=id, course_name=name, course_hours=hours, course_scores=scores,
-                                       course_number=numbers, course_academy=academy, course_subject=subject,
-                                       course_teacher=list_task, course_schedule=schedule,
-                                       course_assessment_method=assessment, course_nature=nature)
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=5)
+                elif list_task[0].teacher_status == 6:
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=7)
+                Courses.objects.create(course_id=id,course_name=name,course_hours=hours,course_scores=scores,
+                                       course_number=numbers,course_academy=academy,course_subject=subject,
+                                       course_teacher=Teacher.objects.all().get(teacher_id=teacher_id),
+                                       course_schedule=schedule,
+                                       course_assessment_method=assessment,course_nature=nature)
             else:
                 Courses.objects.create(course_id=id, course_name=name, course_hours=hours, course_scores=scores,
                                        course_number=numbers, course_academy=academy, course_subject=subject,
@@ -391,7 +405,6 @@ def manager_courses_add(request):
                                                                              teacher_status=1),
                                        course_schedule=schedule,
                                        course_assessment_method=assessment, course_nature=nature)
-
     return render(request, 'manager/manager_courses_add.html', {})
 
 
@@ -427,12 +440,35 @@ def manager_courses_alter(request):
             """
                                 )
         else:
-            Teacher.objects.all().filter()
-            Courses.objects.all().filter(course_id=id).update(course_id=id, course_name=name, course_hours=hours,
-                                                              course_scores=scores, course_number=numbers,
-                                                              course_academy=academy, course_subject=subject,
-                                                              course_teacher=teacher_id, course_schedule=schedule,
-                                                              course_assessment_method=assessment, course_nature=nature)
+            list_task = Teacher.objects.all().filter(teacher_id=teacher_id)
+            if list_task.exists():
+                if list_task[0].teacher_status == 2:
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=4)
+                elif list_task[0].teacher_status == 3:
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=5)
+                elif list_task[0].teacher_status == 6:
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=7)
+            else:
+                return HttpResponse("""
+                            <script>
+                            alert('不存在该序号教师');
+                            window.location='/manager/manager_courses_alter';
+                            </script>
+                            """
+                                    )
+            Courses.objects.all().filter(course_id=id).update(course_id=new_id,course_name=name,course_hours=hours,course_scores=scores,course_number=numbers,course_academy=academy,course_subject=subject,course_teacher=teacher_id,course_schedule=schedule,course_assessment_method=assessment,course_nature=nature)
     return render(request, 'manager/manager_courses_alter.html', {})
 
 
@@ -440,23 +476,23 @@ def manager_courses_alter(request):
 def manager_courses_search(request):
     lists = []
     if request.method == 'POST':
-        id = request.POST.get('u_id')
+        id = request.POST.get('c_id')
         lists = Courses.objects.all().filter(course_id=id)
     return render(request, 'manager/manager_courses_search.html', {'lists': lists})
 
-
+@csrf_exempt
 def manager_projects_add(request):
     return render(request, 'manager/manager_projects_add.html', {})
 
-
+@csrf_exempt
 def manager_projects_delete(request):
     return render(request, 'manager/manager_projects_delete.html', {})
 
-
+@csrf_exempt
 def manager_projects_alter(request):
     return render(request, 'manager/manager_projects_alter.html', {})
 
-
+@csrf_exempt
 def manager_projects_search(request):
     return render(request, 'manager/manager_projects_search.html', {})
 
@@ -465,22 +501,22 @@ def manager_project_identify(request):
     ip_list = Identifyproject.objects.filter(ip_status=0)
     return render(request, 'manager/manager_project_identify.html', {'ip_list': ip_list})
 
-
+@csrf_exempt
 def manager_academic_activity_add(request):
     return render(request, 'manager/manager_academic_activity_add.html', {})
 
-
+@csrf_exempt
 def manager_academic_activity_delete(request):
     return render(request, 'manager/manager_academic_activity_delete.html', {})
 
-
+@csrf_exempt
 def manager_academic_activity_alter(request):
     return render(request, 'manager/manager_academic_activity_alter.html', {})
 
-
+@csrf_exempt
 def manager_academic_activity_search(request):
     return render(request, 'manager/manager_academic_activity_search.html', {})
 
-
+@csrf_exempt
 def manager_student_basic_information(request):
     return render(request, 'manager/manager_student_basic_information.html', {})
