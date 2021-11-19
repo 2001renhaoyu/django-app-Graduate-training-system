@@ -117,8 +117,8 @@ def teacher_assistant_volunteer_apply(request):
                               {"cur_config": cur_config, "distant_course_num": distant_course_num})
 
 
-def teacher_academic_activity_aduit(requset):
-    id=requset.session.get('log_id')
+def teacher_academic_activity_aduit(request):
+    id=request.session.get('log_id')
     result_set1=Teacher.objects.get(teacher_id=id).student_set.all()
     result_set2=[]
     for a_stu in result_set1:
@@ -129,17 +129,37 @@ def teacher_academic_activity_aduit(requset):
         for t in l:
             t['student_name']=a_stu.stu_name
         result_set2+=l
+    return render(request, 'teacher/teacher_academic_activity_aduit.html', {'activity_list':result_set2})
 
-    return render(requset, 'teacher/teacher_academic_activity_aduit.html', {'activity_list':result_set2})
+
+def head_teacher_academic_activity_aduit(request):
+    id = request.session.get('log_id')
+    a_teacher = Teacher.objects.get(teacher_id=id)
+    if a_teacher.teacher_status not in [3,5,6,7]:
+        return render(request, 'teacher/head_teacher_academic_activity_aduit.html', {'is_head_teacher': False})
+    else:
+        subject = a_teacher.teacher_subject
+        result_set1 = Student.objects.filter(stu_subject=subject)
+        result_set2 = []
+        for a_stu in result_set1:
+            l = list(Student.objects.get(stu_id=a_stu.stu_id).academicactivity_set.all())
+            l = [model_to_dict(i)
+                 for i in l
+                 ]
+            for t in l:
+                t['student_name'] = a_stu.stu_name
+            result_set2 += l
+        return render(request, 'teacher/head_teacher_academic_activity_aduit.html', {'is_head_teacher':True,'activity_list':result_set2})
+
 
 def pass_activity(request):
     act_id=request.GET.get('act_id')
     a_act=Academicactivity.objects.get(aca_activity_id=act_id)
-    if a_act.aca_audit_situation=='审核中':
-        a_act.aca_audit_situation='学科负责人审核通过'
+    if a_act.aca_audit_situation in ['审核中', '未通过','导师审核通过']:
+        a_act.aca_audit_situation = '导师审核通过'
         a_act.save()
     else:
-        a_act.aca_audit_situation='通过'
+        a_act.aca_audit_situation = '通过'
         a_act.save()
     return HttpResponseRedirect('/teacher/teacher_academic_activity_aduit')
 
@@ -149,6 +169,24 @@ def no_pass_activity(request):
     a_act.aca_audit_situation='未通过'
     a_act.save()
     return HttpResponseRedirect('/teacher/teacher_academic_activity_aduit')
+
+def head_pass_activity(request):
+    act_id=request.GET.get('act_id')
+    a_act=Academicactivity.objects.get(aca_activity_id=act_id)
+    if a_act.aca_audit_situation in ['审核中', '未通过','负责人审核通过']:
+        a_act.aca_audit_situation = '负责人审核通过'
+        a_act.save()
+    else:
+        a_act.aca_audit_situation = '通过'
+        a_act.save()
+    return HttpResponseRedirect('/teacher/head_teacher_academic_activity_aduit')
+
+def head_no_pass_activity(request):
+    act_id=request.GET.get('act_id')
+    a_act=Academicactivity.objects.get(aca_activity_id=act_id)
+    a_act.aca_audit_situation='未通过'
+    a_act.save()
+    return HttpResponseRedirect('/teacher/head_teacher_academic_activity_aduit')
 
 
 
@@ -281,28 +319,83 @@ def manager_own(request):
 
 @csrf_exempt
 def manager_users_add(request):
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        pwd = request.POST.get('u_pwd')
+        type = request.POST.get('type')
+        if Users.objects.all().filter(log_id=id).exists():
+            return HttpResponse("""
+            <script>
+            alert('不能添加id相同的数据');
+            window.location='/manager/manager_users_add';
+            </script>
+            """)
+        else:
+            Users.objects.create(log_id=id,log_pwd=pwd,log_type=type)
     return render(request, 'manager/manager_users_add.html', {})
 
 
 @csrf_exempt
 def manager_users_delete(request):
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        type = request.POST.get('type')
+        Users.objects.all().filter(log_id=id,log_type=type).delete()
     return render(request, 'manager/manager_users_delete.html', {})
 
 
 @csrf_exempt
 def manager_users_alter(request):
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        new_id = request.POST.get('u_new_id')
+        new_pwd = request.POST.get('u_new_pwd')
+        new_type = request.POST.get('type')
+        if id == new_id and id != None:
+            return HttpResponse("""
+            <script>
+            alert('旧用户名不能与新用户名一致');
+            window.location='/manager/manager_users_alter';
+            </script>
+            """
+            )
+        else:
+            Users.objects.all().filter(log_id=id).update(log_id=new_id,log_pwd=new_pwd,log_type=new_type)
     return render(request, 'manager/manager_users_alter.html', {})
 
 
 @csrf_exempt
-
 def manager_users_search(request):
-    return render(request, 'manager/manager_users_search.html', {})
+    lists = []
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        lists = Users.objects.all().filter(log_id=id)
+    return render(request, 'manager/manager_users_search.html', {'lists' : lists})
 
 
 @csrf_exempt
 def manager_courses_add(request):
-
+    if request.method == 'POST':
+        id = request.POST.get('c_id')
+        name = request.POST.get('c_name')
+        hours = request.POST.get('c_hours')
+        scores = request.POST.get('c_scores')
+        numbers = request.POST.get('c_numbers')
+        academy = request.POST.get('c_academy')
+        subject = request.POST.get('c_subject')
+        teacher_id = request.POST.get('c_teacher_id')
+        schedule = request.POST.get('c_schedule')
+        assessment = request.POST.get('c_assessment_method')
+        nature = request.POST.get('c_nature')
+        if Courses.objects.all().filter(courses_id=id).exists():
+            return HttpResponse("""
+            <script>
+            alert('不能添加id相同的数据');
+            window.location='/manager/manager_courses_add';
+            </script>
+            """)
+        else:
+            Users.objects.create(course_id=id,course_name=name,course_hours=hours,course_scores=scores,course_number=numbers,course_acdemy=academy,course_subject=subject,course_teacher=teacher_id,course_schedule=schedule,course_assessment=assessment,course_nature=nature)
     return render(request, 'manager/manager_courses_add.html', {})
 
 @csrf_exempt

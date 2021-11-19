@@ -13,6 +13,9 @@ urlpatterns = [
     path('teacher/teacher_academic_activity_aduit', views.teacher_academic_activity_aduit),
     path('teacher/teacher_academic_activity_aduit/pass_acticity',views.pass_activity),
     path('teacher/teacher_academic_activity_aduit/no_pass_acticity',views.no_pass_activity),
+    path('teacher/head_teacher_academic_activity_aduit', views.head_teacher_academic_activity_aduit),
+    path('teacher/head_teacher_academic_activity_aduit/pass_acticity',views.head_pass_activity),
+    path('teacher/head_teacher_academic_activity_aduit/no_pass_acticity',views.head_no_pass_activity),
     path('teacher/teacher_myProject',views.teacher_myProject),
 
 
