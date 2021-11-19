@@ -280,16 +280,20 @@ def manager_own(request):
 
 @csrf_exempt
 def manager_users_add(request):
-    sta = ""
     if request.method == 'POST':
         id = request.POST.get('u_id')
         pwd = request.POST.get('u_pwd')
         type = request.POST.get('type')
         if Users.objects.all().filter(log_id=id).exists():
-            sta = True
+            return HttpResponse("""
+            <script>
+            alert('不能添加id相同的数据');
+            window.location='/manager/manager_users_add';
+            </script>
+            """)
         else:
             Users.objects.create(log_id=id,log_pwd=pwd,log_type=type)
-    return render(request, 'manager/manager_users_add.html', {'sta' : sta})
+    return render(request, 'manager/manager_users_add.html', {})
 
 
 @csrf_exempt
@@ -303,17 +307,22 @@ def manager_users_delete(request):
 
 @csrf_exempt
 def manager_users_alter(request):
-    sta = ""
     if request.method == 'POST':
         id = request.POST.get('u_id')
         new_id = request.POST.get('u_new_id')
         new_pwd = request.POST.get('u_new_pwd')
         new_type = request.POST.get('type')
         if id == new_id and id != None:
-            sta = True
+            return HttpResponse("""
+            <script>
+            alert('旧用户名不能与新用户名一致');
+            window.location='/manager/manager_users_alter';
+            </script>
+            """
+            )
         else:
             Users.objects.all().filter(log_id=id).update(log_id=new_id,log_pwd=new_pwd,log_type=new_type)
-    return render(request, 'manager/manager_users_alter.html', {'sta' : sta})
+    return render(request, 'manager/manager_users_alter.html', {})
 
 
 @csrf_exempt
