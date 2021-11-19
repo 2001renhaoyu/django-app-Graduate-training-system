@@ -362,13 +362,21 @@ def manager_courses_add(request):
             list_task = Teacher.objects.all().filter(teacher_id=teacher_id)
             if list_task.exists():
                 if list_task[0].teacher_status == 2:
-                    list_task[0].teacher_status = 4
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=4)
                 elif list_task[0].teacher_status == 3:
-                    list_task[0].teacher_status = 5
-                Teacher.objects.all().filter(teacher_id=teacher_id).update()
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=5)
                 Courses.objects.create(course_id=id,course_name=name,course_hours=hours,course_scores=scores,
                                        course_number=numbers,course_academy=academy,course_subject=subject,
-                                       course_teacher=list_task,course_schedule=schedule,
+                                       course_teacher=Teacher.objects.all().get(teacher_id=teacher_id),
+                                       course_schedule=schedule,
                                        course_assessment_method=assessment,course_nature=nature)
             else:
                 Courses.objects.create(course_id=id, course_name=name, course_hours=hours, course_scores=scores,
@@ -380,7 +388,6 @@ def manager_courses_add(request):
                                                                              teacher_status=1),
                                        course_schedule=schedule,
                                        course_assessment_method=assessment, course_nature=nature)
-
     return render(request, 'manager/manager_courses_add.html', {})
 
 @csrf_exempt
