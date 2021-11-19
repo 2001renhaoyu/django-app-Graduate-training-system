@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.login),
-    # path('check_login',views.check_login),
+    path('check_login',views.check_login),
     # path('', views.login),
 
     # teacher
