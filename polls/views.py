@@ -1,5 +1,5 @@
 from django.forms import model_to_dict
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from reportlab.pdfgen import canvas
@@ -156,6 +156,16 @@ def student_identify_project(request):
         return render(request, 'student/student_search_project.html', {'isexist': isexist})
 
 
+def download_evidence(request):
+    filename = request.GET.get('filename')
+    file = open(filename, 'rb')
+    response = FileResponse(file)
+    _, n=os.path.split(filename)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{}"'.format(n)
+    return response
+
+
 def post_identify_project_form(request):
     myFile = request.FILES.get("evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
     if not myFile:
@@ -263,18 +273,20 @@ def manager_users_search(request):
     return render(request, 'manager/manager_users_search.html', {})
 
 
+@csrf_exempt
 def manager_courses_add(request):
+
     return render(request, 'manager/manager_courses_add.html', {})
 
-
+@csrf_exempt
 def manager_courses_delete(request):
     return render(request, 'manager/manager_courses_delete.html', {})
 
-
+@csrf_exempt
 def manager_courses_alter(request):
     return render(request, 'manager/manager_courses_alter.html', {})
 
-
+@csrf_exempt
 def manager_courses_search(request):
     return render(request, 'manager/manager_courses_search.html', {})
 
