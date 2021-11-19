@@ -561,22 +561,22 @@ def manager_projects_add(request):
             if list_task.exists():
                 if list_task[0].teacher_status == 1:
                     Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
-                                                                               teacher_name=list_task[0].teacher_name,
-                                                                               teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[0].teacher_subject,
-                                                                               teacher_status=4)
+                                                                          teacher_name=list_task[0].teacher_name,
+                                                                          teacher_sex=list_task[0].teacher_sex,
+                                                                          teacher_subject=list_task[0].teacher_subject,
+                                                                          teacher_status=4)
                 elif list_task[0].teacher_status == 3:
                     Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
-                                                                               teacher_name=list_task[0].teacher_name,
-                                                                               teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[0].teacher_subject,
-                                                                               teacher_status=6)
+                                                                          teacher_name=list_task[0].teacher_name,
+                                                                          teacher_sex=list_task[0].teacher_sex,
+                                                                          teacher_subject=list_task[0].teacher_subject,
+                                                                          teacher_status=6)
                 elif list_task[0].teacher_status == 5:
                     Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
-                                                                               teacher_name=list_task[0].teacher_name,
-                                                                               teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[0].teacher_subject,
-                                                                               teacher_status=7)
+                                                                          teacher_name=list_task[0].teacher_name,
+                                                                          teacher_sex=list_task[0].teacher_sex,
+                                                                          teacher_subject=list_task[0].teacher_subject,
+                                                                          teacher_status=7)
                 Project.objects.create(pro_id=id,pro_name=name,pro_type=type,
                                        pro_tutor=Teacher.objects.all().get(teacher_id=tutor))
             else:
