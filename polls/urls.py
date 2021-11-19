@@ -17,6 +17,8 @@ urlpatterns = [
     path('teacher/head_teacher_academic_activity_aduit/pass_acticity',views.head_pass_activity),
     path('teacher/head_teacher_academic_activity_aduit/no_pass_acticity',views.head_no_pass_activity),
     path('teacher/teacher_myProject',views.teacher_myProject),
+    path('teacher/teacher_fill_in_funds',views.teacher_fill_in_funds),
+    path('teacher/post_fill_in_funds_form',views.post_fill_in_funds_form),
 
 
     # student
@@ -28,6 +30,7 @@ urlpatterns = [
     path('student/show_academic_activity', views.show_student_activity),
     path('student/student_activity_form', views.student_activity_form),
     path('student/student_myProject', views.student_myProject),
+    path('student/student_search_project', views.student_search_project),
     path('student/student_identify_project',views.student_identify_project),
     path('student/post_identify_project_form',views.post_identify_project_form),
     path('student/post_academic_activity_form', views.post_academic_activity_form),
@@ -52,6 +55,8 @@ urlpatterns = [
     path('manager/manager_projects_alter', views.manager_projects_alter),
     path('manager/manager_projects_search', views.manager_projects_search),
     path('manager/manager_project_identify',views.manager_project_identify),
+    path('manager/manager_project_identify/pass_project', views.pass_project),
+    path('manager/manager_project_identify/no_pass_project', views.pass_project),
     path('manager/manager_academic_activity_add', views.manager_academic_activity_add),
     path('manager/manager_academic_activity_delete', views.manager_academic_activity_delete),
     path('manager/manager_academic_activity_alter', views.manager_academic_activity_alter),
