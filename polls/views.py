@@ -117,7 +117,7 @@ def head_teacher_academic_activity_aduit(request):
 def pass_activity(request):
     act_id=request.GET.get('act_id')
     a_act=Academicactivity.objects.get(aca_activity_id=act_id)
-    if a_act.aca_audit_situation in ['审核中', '未通过']:
+    if a_act.aca_audit_situation in ['审核中', '未通过','导师审核通过']:
         a_act.aca_audit_situation = '导师审核通过'
         a_act.save()
     else:
@@ -135,7 +135,7 @@ def no_pass_activity(request):
 def head_pass_activity(request):
     act_id=request.GET.get('act_id')
     a_act=Academicactivity.objects.get(aca_activity_id=act_id)
-    if a_act.aca_audit_situation in ['审核中', '未通过']:
+    if a_act.aca_audit_situation in ['审核中', '未通过','负责人审核通过']:
         a_act.aca_audit_situation = '负责人审核通过'
         a_act.save()
     else:

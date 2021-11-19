@@ -87,6 +87,7 @@ class Identifyproject(models.Model):
     ip_endtime = models.DateField()
     ip_funds = models.DecimalField(max_digits=6, decimal_places=1)
     ip_status = models.IntegerField()
+    ip_mid_status = models.IntegerField()
 
     class Meta:
         managed = False
@@ -196,6 +197,15 @@ class Teacher(models.Model):
     class Meta:
         managed = False
         db_table = 'Teacher'
+
+
+class Teacherselect(models.Model):
+    course = models.ForeignKey(Courses, models.DO_NOTHING, primary_key=True)
+    stu = models.ForeignKey(Student, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'TeacherSelect'
 
 
 class Thesis(models.Model):
