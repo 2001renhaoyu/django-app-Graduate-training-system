@@ -470,19 +470,19 @@ def manager_courses_search(request):
         lists = Courses.objects.all().filter(course_id=id)
     return render(request, 'manager/manager_courses_search.html', {'lists' : lists})
 
-
+@csrf_exempt
 def manager_projects_add(request):
     return render(request, 'manager/manager_projects_add.html', {})
 
-
+@csrf_exempt
 def manager_projects_delete(request):
     return render(request, 'manager/manager_projects_delete.html', {})
 
-
+@csrf_exempt
 def manager_projects_alter(request):
     return render(request, 'manager/manager_projects_alter.html', {})
 
-
+@csrf_exempt
 def manager_projects_search(request):
     return render(request, 'manager/manager_projects_search.html', {})
 
@@ -491,22 +491,22 @@ def manager_project_identify(request):
     ip_list = Identifyproject.objects.filter(ip_status=0)
     return render(request, 'manager/manager_project_identify.html', {'ip_list': ip_list})
 
-
+@csrf_exempt
 def manager_academic_activity_add(request):
     return render(request, 'manager/manager_academic_activity_add.html', {})
 
-
+@csrf_exempt
 def manager_academic_activity_delete(request):
     return render(request, 'manager/manager_academic_activity_delete.html', {})
 
-
+@csrf_exempt
 def manager_academic_activity_alter(request):
     return render(request, 'manager/manager_academic_activity_alter.html', {})
 
-
+@csrf_exempt
 def manager_academic_activity_search(request):
     return render(request, 'manager/manager_academic_activity_search.html', {})
 
-
+@csrf_exempt
 def manager_student_basic_information(request):
     return render(request, 'manager/manager_student_basic_information.html', {})
