@@ -34,7 +34,7 @@ urlpatterns = [
     path('student/export_form', views.export_form),
     path('download_evidence',views.download_evidence),
     path('student/ache_test1', views.ache_test1),
-    #path('student/post_ache_test1_form', views.post_ache_test1_form),
+    path('student/post_reward_form', views.post_reward_form),
 
     # manager
     path('manager', views.manager_index),  # 不能使用的模板页
