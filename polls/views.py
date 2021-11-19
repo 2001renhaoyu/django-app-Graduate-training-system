@@ -155,6 +155,7 @@ def head_teacher_academic_activity_aduit(request):
     return render(requset, 'teacher/teacher_academic_activity_aduit.html', {'activity_list': result_set2})
 
 
+
 def pass_activity(request):
     act_id = request.GET.get('act_id')
     a_act = Academicactivity.objects.get(aca_activity_id=act_id)
@@ -162,7 +163,7 @@ def pass_activity(request):
         a_act.aca_audit_situation = '学科负责人审核通过'
         a_act.save()
     else:
-        a_act.aca_audit_situation = '通过'
+        a_act.aca_audit_situation='通过'
         a_act.save()
     return HttpResponseRedirect('/teacher/teacher_academic_activity_aduit')
 
@@ -330,6 +331,10 @@ def export_form(request):
     return response
 
 
+def ache_test1(request):
+    return render(request, 'student/ache_test1.html', {})
+
+
 # manager
 def manager_index(request):
     return render(request, 'manager/manager_index.html', {})
@@ -406,10 +411,13 @@ def manager_courses_add(request):
         academy = request.POST.get('c_academy')
         subject = request.POST.get('c_subject')
         teacher_id = request.POST.get('c_teacher_id')
+        teacher_name = request.POST.get('c_teacher_name')
+        teacher_sex = request.POST.get('c_teacher_sex')
+        teacher_subject = request.POST.get('c_teacher_subject')
         schedule = request.POST.get('c_schedule')
         assessment = request.POST.get('c_assessment_method')
         nature = request.POST.get('c_nature')
-        if Courses.objects.all().filter(courses_id=id).exists():
+        if Courses.objects.all().filter(course_id=id).exists():
             return HttpResponse("""
             <script>
             alert('不能添加id相同的数据');
@@ -417,40 +425,129 @@ def manager_courses_add(request):
             </script>
             """)
         else:
-            Users.objects.create(course_id=id, course_name=name, course_hours=hours, course_scores=scores,
-                                 course_number=numbers, course_acdemy=academy, course_subject=subject,
-                                 course_teacher=teacher_id, course_schedule=schedule, course_assessment=assessment,
-                                 course_nature=nature)
+            list_task = Teacher.objects.all().filter(teacher_id=teacher_id)
+            if list_task.exists():
+                if list_task[0].teacher_status == 2:
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=4)
+                elif list_task[0].teacher_status == 3:
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=5)
+                elif list_task[0].teacher_status == 6:
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=7)
+                Courses.objects.create(course_id=id,course_name=name,course_hours=hours,course_scores=scores,
+                                       course_number=numbers,course_academy=academy,course_subject=subject,
+                                       course_teacher=Teacher.objects.all().get(teacher_id=teacher_id),
+                                       course_schedule=schedule,
+                                       course_assessment_method=assessment,course_nature=nature)
+            else:
+                Courses.objects.create(course_id=id, course_name=name, course_hours=hours, course_scores=scores,
+                                       course_number=numbers, course_academy=academy, course_subject=subject,
+                                       course_teacher=Teacher.objects.create(teacher_id=teacher_id,
+                                                                             teacher_name=teacher_name,
+                                                                             teacher_sex=teacher_sex,
+                                                                             teacher_subject=teacher_subject,
+                                                                             teacher_status=1),
+                                       course_schedule=schedule,
+                                       course_assessment_method=assessment, course_nature=nature)
     return render(request, 'manager/manager_courses_add.html', {})
 
 
 @csrf_exempt
 def manager_courses_delete(request):
+    if request.method == 'POST':
+        id = request.POST.get('c_id')
+        Courses.objects.all().filter(course_id=id).delete()
     return render(request, 'manager/manager_courses_delete.html', {})
 
 
 @csrf_exempt
 def manager_courses_alter(request):
+    if request.method == 'POST':
+        id = request.POST.get('c_id')
+        new_id = request.POST.get('c_new_id')
+        name = request.POST.get('c_name')
+        hours = request.POST.get('c_hours')
+        scores = request.POST.get('c_scores')
+        numbers = request.POST.get('c_numbers')
+        academy = request.POST.get('c_academy')
+        subject = request.POST.get('c_subject')
+        teacher_id = request.POST.get('c_teacher_id')
+        schedule = request.POST.get('c_schedule')
+        assessment = request.POST.get('c_assessment_method')
+        nature = request.POST.get('c_nature')
+        if id == new_id and id != None:
+            return HttpResponse("""
+            <script>
+            alert('旧课程号不能与新课程号一致');
+            window.location='/manager/manager_courses_alter';
+            </script>
+            """
+            )
+        else:
+            list_task = Teacher.objects.all().filter(teacher_id=teacher_id)
+            if list_task.exists():
+                if list_task[0].teacher_status == 2:
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=4)
+                elif list_task[0].teacher_status == 3:
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=5)
+                elif list_task[0].teacher_status == 6:
+                    Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=7)
+            else:
+                return HttpResponse("""
+                            <script>
+                            alert('不存在该序号教师');
+                            window.location='/manager/manager_courses_alter';
+                            </script>
+                            """
+                                    )
+            Courses.objects.all().filter(course_id=id).update(course_id=new_id,course_name=name,course_hours=hours,course_scores=scores,course_number=numbers,course_academy=academy,course_subject=subject,course_teacher=teacher_id,course_schedule=schedule,course_assessment_method=assessment,course_nature=nature)
     return render(request, 'manager/manager_courses_alter.html', {})
 
 
 @csrf_exempt
 def manager_courses_search(request):
-    return render(request, 'manager/manager_courses_search.html', {})
+    lists = []
+    if request.method == 'POST':
+        id = request.POST.get('c_id')
+        lists = Courses.objects.all().filter(course_id=id)
+    return render(request, 'manager/manager_courses_search.html', {'lists' : lists})
 
-
+@csrf_exempt
 def manager_projects_add(request):
     return render(request, 'manager/manager_projects_add.html', {})
 
-
+@csrf_exempt
 def manager_projects_delete(request):
     return render(request, 'manager/manager_projects_delete.html', {})
 
-
+@csrf_exempt
 def manager_projects_alter(request):
     return render(request, 'manager/manager_projects_alter.html', {})
 
-
+@csrf_exempt
 def manager_projects_search(request):
     return render(request, 'manager/manager_projects_search.html', {})
 
@@ -478,22 +575,22 @@ def no_pass_project(request):
     ip.save()
     return HttpResponseRedirect('/manager/manager_project_identify')
 
-
+@csrf_exempt
 def manager_academic_activity_add(request):
     return render(request, 'manager/manager_academic_activity_add.html', {})
 
-
+@csrf_exempt
 def manager_academic_activity_delete(request):
     return render(request, 'manager/manager_academic_activity_delete.html', {})
 
-
+@csrf_exempt
 def manager_academic_activity_alter(request):
     return render(request, 'manager/manager_academic_activity_alter.html', {})
 
-
+@csrf_exempt
 def manager_academic_activity_search(request):
     return render(request, 'manager/manager_academic_activity_search.html', {})
 
-
+@csrf_exempt
 def manager_student_basic_information(request):
     return render(request, 'manager/manager_student_basic_information.html', {})
