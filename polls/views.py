@@ -336,7 +336,27 @@ def manager_users_search(request):
 
 @csrf_exempt
 def manager_courses_add(request):
-
+    if request.method == 'POST':
+        id = request.POST.get('c_id')
+        name = request.POST.get('c_name')
+        hours = request.POST.get('c_hours')
+        scores = request.POST.get('c_scores')
+        numbers = request.POST.get('c_numbers')
+        academy = request.POST.get('c_academy')
+        subject = request.POST.get('c_subject')
+        teacher_id = request.POST.get('c_teacher_id')
+        schedule = request.POST.get('c_schedule')
+        assessment = request.POST.get('c_assessment_method')
+        nature = request.POST.get('c_nature')
+        if Courses.objects.all().filter(courses_id=id).exists():
+            return HttpResponse("""
+            <script>
+            alert('不能添加id相同的数据');
+            window.location='/manager/manager_courses_add';
+            </script>
+            """)
+        else:
+            Users.objects.create(course_id=id,course_name=name,course_hours=hours,course_scores=scores,course_number=numbers,course_acdemy=academy,course_subject=subject,course_teacher=teacher_id,course_schedule=schedule,course_assessment=assessment,course_nature=nature)
     return render(request, 'manager/manager_courses_add.html', {})
 
 @csrf_exempt
