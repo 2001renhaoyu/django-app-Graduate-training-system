@@ -294,7 +294,8 @@ def manager_users_add(request):
             alert('不能添加id相同的数据');
             window.location='/manager/manager_users_add';
             </script>
-            """)
+            """
+                                )
         else:
             Users.objects.create(log_id=id,log_pwd=pwd,log_type=type)
     return render(request, 'manager/manager_users_add.html', {})
@@ -323,7 +324,7 @@ def manager_users_alter(request):
             window.location='/manager/manager_users_alter';
             </script>
             """
-            )
+                                )
         else:
             Users.objects.all().filter(log_id=id).update(log_id=new_id,log_pwd=new_pwd,log_type=new_type)
     return render(request, 'manager/manager_users_alter.html', {})
@@ -361,7 +362,8 @@ def manager_courses_add(request):
             alert('不能添加id相同的数据');
             window.location='/manager/manager_courses_add';
             </script>
-            """)
+            """
+                                )
         else:
             list_task = Teacher.objects.all().filter(teacher_id=teacher_id)
             if list_task.exists():
@@ -429,7 +431,7 @@ def manager_courses_alter(request):
             window.location='/manager/manager_courses_alter';
             </script>
             """
-            )
+                                )
         else:
             list_task = Teacher.objects.all().filter(teacher_id=teacher_id)
             if list_task.exists():
@@ -459,7 +461,11 @@ def manager_courses_alter(request):
                             </script>
                             """
                                     )
-            Courses.objects.all().filter(course_id=id).update(course_id=new_id,course_name=name,course_hours=hours,course_scores=scores,course_number=numbers,course_academy=academy,course_subject=subject,course_teacher=teacher_id,course_schedule=schedule,course_assessment_method=assessment,course_nature=nature)
+            Courses.objects.all().filter(course_id=id).update(course_id=new_id,course_name=name,course_hours=hours,
+                                                              course_scores=scores,course_number=numbers,
+                                                              course_academy=academy,course_subject=subject,
+                                                              course_teacher=teacher_id,course_schedule=schedule,
+                                                              course_assessment_method=assessment,course_nature=nature)
     return render(request, 'manager/manager_courses_alter.html', {})
 
 @csrf_exempt
@@ -472,19 +478,110 @@ def manager_courses_search(request):
 
 @csrf_exempt
 def manager_projects_add(request):
+    if request.method == 'POST':
+        id = request.POST.get('p_id')
+        name = request.POST.get('p_name')
+        type = request.POST.get('p_type')
+        tutor = request.POST.get('p_tutor')
+        if Project.objects.all().filter(pro_id=id).exists():
+            return HttpResponse("""
+            <script>
+            alert('不能添加id相同的数据');
+            window.location='/manager/manager_projects_add';
+            </script>
+            """
+                                )
+        else:
+            list_task = Teacher.objects.all().filter(teacher_id=tutor)
+            if list_task.exists():
+                if list_task[0].teacher_status == 1:
+                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=4)
+                elif list_task[0].teacher_status == 3:
+                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=6)
+                elif list_task[0].teacher_status == 5:
+                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                               teacher_name=list_task[0].teacher_name,
+                                                                               teacher_sex=list_task[0].teacher_sex,
+                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_status=7)
+                Project.objects.create(pro_id=id,pro_name=name,pro_type=type,
+                                       pro_tutor=Teacher.objects.all().get(teacher_id=tutor))
+            else:
+                Project.objects.create(pro_id=id,pro_name=name,pro_type=type,
+                                       pro_tutor=Teacher.objects.all().get(teacher_id=tutor))
     return render(request, 'manager/manager_projects_add.html', {})
 
 @csrf_exempt
 def manager_projects_delete(request):
+    if request.method == 'POST':
+        id = request.POST.get('p_id')
+        Project.objects.all().filter(pro_id=id).delete()
     return render(request, 'manager/manager_projects_delete.html', {})
 
 @csrf_exempt
 def manager_projects_alter(request):
+    if request.method == 'POST':
+        id = request.POST.get('p_id')
+        new_id = request.POST.get('p_new_id')
+        name = request.POST.get('p_name')
+        type = request.POST.get('p_type')
+        tutor = request.POST.get('p_tutor')
+        if id == new_id and id != None:
+            return HttpResponse("""
+            <script>
+            alert('旧项目号不能与新项目号一致');
+            window.location='/manager/manager_projects_alter';
+            </script>
+            """
+                                )
+        else:
+            list_task = Teacher.objects.all().filter(teacher_id=tutor)
+            if list_task.exists():
+                if list_task[0].teacher_status == 1:
+                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                          teacher_name=list_task[0].teacher_name,
+                                                                          teacher_sex=list_task[0].teacher_sex,
+                                                                          teacher_subject=list_task[0].teacher_subject,
+                                                                          teacher_status=4)
+                elif list_task[0].teacher_status == 3:
+                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                          teacher_name=list_task[0].teacher_name,
+                                                                          teacher_sex=list_task[0].teacher_sex,
+                                                                          teacher_subject=list_task[0].teacher_subject,
+                                                                          teacher_status=6)
+                elif list_task[0].teacher_status == 5:
+                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                          teacher_name=list_task[0].teacher_name,
+                                                                          teacher_sex=list_task[0].teacher_sex,
+                                                                          teacher_subject=list_task[0].teacher_subject,
+                                                                          teacher_status=7)
+            else:
+                return HttpResponse("""
+                            <script>
+                            alert('不存在该序号教师');
+                            window.location='/manager/manager_projects_alter';
+                            </script>
+                            """
+                                    )
+            Project.objects.all().filter(pro_id=id).update(pro_id=id,pro_name=name,pro_type=type,
+                                                              pro_tutor=Teacher.objects.all().get(teacher_id=tutor))
     return render(request, 'manager/manager_projects_alter.html', {})
 
 @csrf_exempt
 def manager_projects_search(request):
-    return render(request, 'manager/manager_projects_search.html', {})
+    lists = []
+    if request.method == 'POST':
+        id = request.POST.get('p_id')
+        lists = Project.objects.all().filter(pro_id=id)
+    return render(request, 'manager/manager_projects_search.html', {'lists': lists})
 
 
 def manager_project_identify(request):

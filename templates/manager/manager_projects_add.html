@@ -24,12 +24,12 @@
             <div class="row">
                 <div class="col-xs-12">
 
-                    <form class="form-horizontal" role="form">
+                    <form class="form-horizontal" role="form" method="post">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">项目编号 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="项目id" class="col-xs-10 col-sm-5">
+                                <input type="text" name="p_id" id="form-field-1" placeholder="项目id" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 项目id -->
@@ -37,7 +37,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">项目名称 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="项目name" class="col-xs-10 col-sm-5">
+                                <input type="text" name="p_name" id="form-field-1" placeholder="项目name" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 项目name -->
@@ -45,10 +45,18 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">项目类型 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="项目type" class="col-xs-10 col-sm-5">
+                                <input type="text" name="p_type" id="form-field-1" placeholder="项目type" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 项目type -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">项目老师 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="p_tutor" id="form-field-1" placeholder="项目指导老师" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 项目tutor -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> </label>
 
