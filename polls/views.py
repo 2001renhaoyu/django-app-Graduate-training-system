@@ -1,3 +1,4 @@
+from django.forms import model_to_dict
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -79,38 +80,39 @@ def teacher_assistant_volunteer_apply(request):
 
 
 def teacher_academic_activity_aduit(requset):
-    id=requset.session.get('log_id')
-    result_set1=Teacher.objects.get(teacher_id=id).student_set.all()
-    result_set2=[]
+    id = requset.session.get('log_id')
+    result_set1 = Teacher.objects.get(teacher_id=id).student_set.all()
+    result_set2 = []
     for a_stu in result_set1:
-        l=list(Student.objects.get(stu_id=a_stu.stu_id).academicactivity_set.all())
-        l=[ model_to_dict(i)
-            for i in l
-        ]
+        l = list(Student.objects.get(stu_id=a_stu.stu_id).academicactivity_set.all())
+        l = [model_to_dict(i)
+             for i in l
+             ]
         for t in l:
-            t['student_name']=a_stu.stu_name
-        result_set2+=l
+            t['student_name'] = a_stu.stu_name
+        result_set2 += l
 
-    return render(requset, 'teacher/teacher_academic_activity_aduit.html', {'activity_list':result_set2})
+    return render(requset, 'teacher/teacher_academic_activity_aduit.html', {'activity_list': result_set2})
+
 
 def pass_activity(request):
-    act_id=request.GET.get('act_id')
-    a_act=Academicactivity.objects.get(aca_activity_id=act_id)
-    if a_act.aca_audit_situation=='审核中':
-        a_act.aca_audit_situation='学科负责人审核通过'
+    act_id = request.GET.get('act_id')
+    a_act = Academicactivity.objects.get(aca_activity_id=act_id)
+    if a_act.aca_audit_situation == '审核中':
+        a_act.aca_audit_situation = '学科负责人审核通过'
         a_act.save()
     else:
-        a_act.aca_audit_situation='通过'
+        a_act.aca_audit_situation = '通过'
         a_act.save()
     return HttpResponseRedirect('/teacher/teacher_academic_activity_aduit')
 
+
 def no_pass_activity(request):
-    act_id=request.GET.get('act_id')
-    a_act=Academicactivity.objects.get(aca_activity_id=act_id)
-    a_act.aca_audit_situation='未通过'
+    act_id = request.GET.get('act_id')
+    a_act = Academicactivity.objects.get(aca_activity_id=act_id)
+    a_act.aca_audit_situation = '未通过'
     a_act.save()
     return HttpResponseRedirect('/teacher/teacher_academic_activity_aduit')
-
 
 
 def teacher_ache_commit(request):
@@ -134,12 +136,24 @@ def student_assistant_volunteer_export(request):
 
 
 def student_myProject(request):
-    ip_list = Identifyproject.objects.filter(ip_stu_id='s001')
+    stu_id = request.session.get('log_id')
+    ip_list = Identifyproject.objects.filter(ip_stu_id=stu_id)
     return render(request, 'student/student_myProject.html', {'ip_list': ip_list})
 
 
+def student_search_project(request):
+    return render(request, 'student/student_search_project.html', {})
+
+
+@csrf_exempt
 def student_identify_project(request):
-    return render(request, 'student/student_identify_project.html', {})
+    try:
+        pro_id = request.GET.get('pro_id')
+        project = Project.objects.get(pro_id=pro_id)
+        return render(request, 'student/student_identify_project.html', {'project': project})
+    except:
+        isexist = False
+        return render(request, 'student/student_search_project.html', {'isexist': isexist})
 
 
 def post_identify_project_form(request):
@@ -245,10 +259,8 @@ def manager_users_alter(request):
 
 
 @csrf_exempt
-
 def manager_users_search(request):
     return render(request, 'manager/manager_users_search.html', {})
-
 
 
 def manager_courses_add(request):
@@ -286,6 +298,24 @@ def manager_projects_search(request):
 def manager_project_identify(request):
     ip_list = Identifyproject.objects.filter(ip_status=0)
     return render(request, 'manager/manager_project_identify.html', {'ip_list': ip_list})
+
+
+def pass_project(request):  # 通过项目
+    pro_id = request.GET.get('pro_id')
+    stu_id = request.GET.get('stu_id')
+    ip = Identifyproject.objects.get(ip_pro_id=pro_id, ip_stu_id=stu_id)
+    ip.ip_status = 1  # 设置为通过
+    ip.save()
+    return HttpResponseRedirect('/manager/manager_project_identify')
+
+
+def no_pass_project(request):
+    pro_id = request.GET.get('pro_id')
+    stu_id = request.GET.get('stu_id')
+    ip = Identifyproject.objects.get(ip_pro_id=pro_id, ip_stu_id=stu_id)
+    ip.ip_status = -1  # 设置为不通过
+    ip.save()
+    return HttpResponseRedirect('/manager/manager_project_identify')
 
 
 def manager_academic_activity_add(request):

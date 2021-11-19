@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.login),
-    # path('check_login',views.check_login),
+    path('check_login',views.check_login),
     # path('', views.login),
 
     # teacher
@@ -25,6 +25,7 @@ urlpatterns = [
     path('student/show_academic_activity', views.show_student_activity),
     path('student/student_activity_form', views.student_activity_form),
     path('student/student_myProject', views.student_myProject),
+    path('student/student_search_project', views.student_search_project),
     path('student/student_identify_project',views.student_identify_project),
     path('student/post_identify_project_form',views.post_identify_project_form),
     path('student/post_academic_activity_form', views.post_academic_activity_form),
@@ -48,6 +49,8 @@ urlpatterns = [
     path('manager/manager_projects_alter', views.manager_projects_alter),
     path('manager/manager_projects_search', views.manager_projects_search),
     path('manager/manager_project_identify',views.manager_project_identify),
+    path('manager/manager_project_identify/pass_project', views.pass_project),
+    path('manager/manager_project_identify/no_pass_project', views.pass_project),
     path('manager/manager_academic_activity_add', views.manager_academic_activity_add),
     path('manager/manager_academic_activity_delete', views.manager_academic_activity_delete),
     path('manager/manager_academic_activity_alter', views.manager_academic_activity_alter),
