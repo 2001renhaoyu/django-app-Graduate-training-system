@@ -114,6 +114,7 @@ def head_teacher_academic_activity_aduit(request):
         return render(request, 'teacher/head_teacher_academic_activity_aduit.html', {'is_head_teacher':True,'activity_list':result_set2})
 
 
+
 def pass_activity(request):
     act_id=request.GET.get('act_id')
     a_act=Academicactivity.objects.get(aca_activity_id=act_id)
@@ -121,7 +122,7 @@ def pass_activity(request):
         a_act.aca_audit_situation = '导师审核通过'
         a_act.save()
     else:
-        a_act.aca_audit_situation = '通过'
+        a_act.aca_audit_situation='通过'
         a_act.save()
     return HttpResponseRedirect('/teacher/teacher_academic_activity_aduit')
 
@@ -149,7 +150,6 @@ def head_no_pass_activity(request):
     a_act.aca_audit_situation='未通过'
     a_act.save()
     return HttpResponseRedirect('/teacher/head_teacher_academic_activity_aduit')
-
 
 
 def teacher_ache_commit(request):
@@ -267,6 +267,10 @@ def export_form(request):
     p.showPage()
     p.save()
     return response
+
+
+def ache_test1(request):
+    return render(request, 'student/ache_test1.html', {})
 
 
 # manager
