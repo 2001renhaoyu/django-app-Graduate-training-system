@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.forms import model_to_dict
+from django.http import HttpResponse, FileResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from reportlab.pdfgen import canvas
@@ -140,6 +141,16 @@ def student_myProject(request):
 
 def student_identify_project(request):
     return render(request, 'student/student_identify_project.html', {})
+
+
+def download_evidence(request):
+    filename = request.GET.get('filename')
+    file = open(filename, 'rb')
+    response = FileResponse(file)
+    _, n=os.path.split(filename)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{}"'.format(n)
+    return response
 
 
 def post_identify_project_form(request):
