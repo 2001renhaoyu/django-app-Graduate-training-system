@@ -345,10 +345,13 @@ def manager_courses_add(request):
         academy = request.POST.get('c_academy')
         subject = request.POST.get('c_subject')
         teacher_id = request.POST.get('c_teacher_id')
+        teacher_name = request.POST.get('c_teacher_name')
+        teacher_sex = request.POST.get('c_teacher_sex')
+        teacher_subject = request.POST.get('c_teacher_subject')
         schedule = request.POST.get('c_schedule')
         assessment = request.POST.get('c_assessment_method')
         nature = request.POST.get('c_nature')
-        if Courses.objects.all().filter(courses_id=id).exists():
+        if Courses.objects.all().filter(course_id=id).exists():
             return HttpResponse("""
             <script>
             alert('不能添加id相同的数据');
@@ -356,7 +359,28 @@ def manager_courses_add(request):
             </script>
             """)
         else:
-            Users.objects.create(course_id=id,course_name=name,course_hours=hours,course_scores=scores,course_number=numbers,course_acdemy=academy,course_subject=subject,course_teacher=teacher_id,course_schedule=schedule,course_assessment=assessment,course_nature=nature)
+            list_task = Teacher.objects.all().filter(teacher_id=teacher_id)
+            if list_task.exists():
+                if list_task[0].teacher_status == 2:
+                    list_task[0].teacher_status = 4
+                elif list_task[0].teacher_status == 3:
+                    list_task[0].teacher_status = 5
+                Teacher.objects.all().filter(teacher_id=teacher_id).update()
+                Courses.objects.create(course_id=id,course_name=name,course_hours=hours,course_scores=scores,
+                                       course_number=numbers,course_academy=academy,course_subject=subject,
+                                       course_teacher=list_task,course_schedule=schedule,
+                                       course_assessment_method=assessment,course_nature=nature)
+            else:
+                Courses.objects.create(course_id=id, course_name=name, course_hours=hours, course_scores=scores,
+                                       course_number=numbers, course_academy=academy, course_subject=subject,
+                                       course_teacher=Teacher.objects.create(teacher_id=teacher_id,
+                                                                             teacher_name=teacher_name,
+                                                                             teacher_sex=teacher_sex,
+                                                                             teacher_subject=teacher_subject,
+                                                                             teacher_status=1),
+                                       course_schedule=schedule,
+                                       course_assessment_method=assessment, course_nature=nature)
+
     return render(request, 'manager/manager_courses_add.html', {})
 
 @csrf_exempt
@@ -390,7 +414,8 @@ def manager_courses_alter(request):
             """
             )
         else:
-            Users.objects.all().filter(course_id=id).update(course_id=id,course_name=name,course_hours=hours,course_scores=scores,course_number=numbers,course_acdemy=academy,course_subject=subject,course_teacher=teacher_id,course_schedule=schedule,course_assessment=assessment,course_nature=nature)
+            Teacher.objects.all().filter()
+            Courses.objects.all().filter(course_id=id).update(course_id=id,course_name=name,course_hours=hours,course_scores=scores,course_number=numbers,course_academy=academy,course_subject=subject,course_teacher=teacher_id,course_schedule=schedule,course_assessment_method=assessment,course_nature=nature)
     return render(request, 'manager/manager_courses_alter.html', {})
 
 @csrf_exempt
