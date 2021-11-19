@@ -280,23 +280,49 @@ def manager_own(request):
 
 @csrf_exempt
 def manager_users_add(request):
-    return render(request, 'manager/manager_users_add.html', {})
+    sta = ""
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        pwd = request.POST.get('u_pwd')
+        type = request.POST.get('type')
+        if Users.objects.all().filter(log_id=id).exists():
+            sta = True
+        else:
+            Users.objects.create(log_id=id,log_pwd=pwd,log_type=type)
+    return render(request, 'manager/manager_users_add.html', {'sta' : sta})
 
 
 @csrf_exempt
 def manager_users_delete(request):
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        type = request.POST.get('type')
+        Users.objects.all().filter(log_id=id,log_type=type).delete()
     return render(request, 'manager/manager_users_delete.html', {})
 
 
 @csrf_exempt
 def manager_users_alter(request):
-    return render(request, 'manager/manager_users_alter.html', {})
+    sta = ""
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        new_id = request.POST.get('u_new_id')
+        new_pwd = request.POST.get('u_new_pwd')
+        new_type = request.POST.get('type')
+        if id == new_id and id != None:
+            sta = True
+        else:
+            Users.objects.all().filter(log_id=id).update(log_id=new_id,log_pwd=new_pwd,log_type=new_type)
+    return render(request, 'manager/manager_users_alter.html', {'sta' : sta})
 
 
 @csrf_exempt
-
 def manager_users_search(request):
-    return render(request, 'manager/manager_users_search.html', {})
+    lists = []
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        lists = Users.objects.all().filter(log_id=id)
+    return render(request, 'manager/manager_users_search.html', {'lists' : lists})
 
 
 @csrf_exempt
