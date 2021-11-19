@@ -191,6 +191,7 @@ class Teacher(models.Model):
     teacher_sex = models.CharField(max_length=1)
     teacher_funds = models.DecimalField(max_digits=6, decimal_places=1, blank=True, null=True)
     teacher_status = models.IntegerField()
+    teacher_subject = models.CharField(max_length=30)
 
     class Meta:
         managed = False
