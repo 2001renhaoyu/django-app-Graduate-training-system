@@ -33,8 +33,8 @@ urlpatterns = [
     path('student/post_academic_activity_form', views.post_academic_activity_form),
     path('student/export_form', views.export_form),
     path('download_evidence',views.download_evidence),
-    # path('student/ache_test1', views.ache_test1),
-    # path('student/post_ache_test1_form', views.post_ache_test1_form),
+    path('student/ache_test1', views.ache_test1),
+    #path('student/post_ache_test1_form', views.post_ache_test1_form),
 
     # manager
     path('manager', views.manager_index),  # 不能使用的模板页
