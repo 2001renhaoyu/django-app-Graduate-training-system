@@ -33,15 +33,24 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <ul class="list-unstyled spaced">
-
-
                             <li>
                                 <i class="icon-remove bigger-110 red"></i>
                                 不存在该项目
                             </li>
                         </ul>
+                    </div>
+                </div>
+                {% endif %}
 
-
+                {% if issame == True %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul class="list-unstyled spaced">
+                            <li>
+                                <i class="icon-remove bigger-110 red"></i>
+                                该项目已经认定，不可重复认定
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 {% endif %}
