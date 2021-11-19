@@ -67,8 +67,11 @@
                                         {{ activity.aca_report_name_en }}
                                     </td>
 
+
                                     <td>
-                                        {{ activity.aca_evidentiary_material|truncatechars:20 }}
+                                        <a href="/download_evidence?filename={{ activity.aca_evidentiary_material }}">
+                                            下载
+                                        </a>
                                     </td>
 
                                     <td>
