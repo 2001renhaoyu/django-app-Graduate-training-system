@@ -361,15 +361,45 @@ def manager_courses_add(request):
 
 @csrf_exempt
 def manager_courses_delete(request):
+    if request.method == 'POST':
+        id = request.POST.get('c_id')
+        Courses.objects.all().filter(course_id=id).delete()
     return render(request, 'manager/manager_courses_delete.html', {})
 
 @csrf_exempt
 def manager_courses_alter(request):
+    if request.method == 'POST':
+        id = request.POST.get('c_id')
+        new_id = request.POST.get('c_new_id')
+        name = request.POST.get('c_name')
+        hours = request.POST.get('c_hours')
+        scores = request.POST.get('c_scores')
+        numbers = request.POST.get('c_numbers')
+        academy = request.POST.get('c_academy')
+        subject = request.POST.get('c_subject')
+        teacher_id = request.POST.get('c_teacher_id')
+        schedule = request.POST.get('c_schedule')
+        assessment = request.POST.get('c_assessment_method')
+        nature = request.POST.get('c_nature')
+        if id == new_id and id != None:
+            return HttpResponse("""
+            <script>
+            alert('旧课程号不能与新课程号一致');
+            window.location='/manager/manager_courses_alter';
+            </script>
+            """
+            )
+        else:
+            Users.objects.all().filter(course_id=id).update(course_id=id,course_name=name,course_hours=hours,course_scores=scores,course_number=numbers,course_acdemy=academy,course_subject=subject,course_teacher=teacher_id,course_schedule=schedule,course_assessment=assessment,course_nature=nature)
     return render(request, 'manager/manager_courses_alter.html', {})
 
 @csrf_exempt
 def manager_courses_search(request):
-    return render(request, 'manager/manager_courses_search.html', {})
+    lists = []
+    if request.method == 'POST':
+        id = request.POST.get('u_id')
+        lists = Courses.objects.all().filter(course_id=id)
+    return render(request, 'manager/manager_courses_search.html', {'lists' : lists})
 
 
 def manager_projects_add(request):
