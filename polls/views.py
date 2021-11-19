@@ -277,8 +277,11 @@ def ache_test1(request):
 
 
 def post_reward_form(request):
-    indexes=request.POST.get('id')
-    print(indexes)
+    index=request.GET.get('reward_id')
+    index1=request.GET.get('reward_level')
+    print(index)
+    print(index1)
+    return render(request, 'student/ache_test1.html', {})
 
 # manager
 def manager_index(request):

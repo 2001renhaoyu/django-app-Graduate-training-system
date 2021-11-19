@@ -1322,6 +1322,7 @@
                         var FD  = new FormData();
                         var indexes = ["id","奖励名称","奖励等级","获奖等级","排名","获奖时间","证明"];
                         var data = []
+        //                var reward_id=document.getElementById("奖励名称").value
                         data["id"]=Math.round(Math.random()*100000+899999);
                         data["奖励名称"]=document.getElementById("奖励名称").value;
 						data["奖励等级"]=$("#奖励表").find("option:selected").text();
@@ -1331,25 +1332,8 @@
 						data["证明"]=document.getElementById("证明").value;
 						alert(data["id"]);
                           // 把我们的数据添加到这个FormData对象中
-					    for(index in indexes) {
-						FD.append(index, data[index]);
-					  }
 
-					  // 定义数据成功发送并返回后执行的操作
-					  	XHR.addEventListener('load', function(event) {
-							alert('Yeah! 已发送数据并加载响应。');
-					  });
-
-					  // 定义发生错误时执行的操作
-					  	XHR.addEventListener('error', function(event) {
-							alert('Oops! 出错了。');
-					  });
-
-					  // 设置请求地址和方法
-					  	XHR.open('POST', 'student/post_reward_form');
-
-					  // 发送这个formData对象,HTTP请求头会自动设置
-					  	XHR.send(FD);
+					    window.location.href='/student/post_reward_form?reward_id='+data["奖励名称"]+'&reward_level='+data["奖励等级"]
                     }
                     if(checkText=="论文"){
                         var XHR = new XMLHttpRequest();
