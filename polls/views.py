@@ -980,3 +980,9 @@ def manager_tutor_basic_information_search(request):
     lists = Teacher.objects.all().filter(teacher_id=search_id)
     list = Student.objects.all().filter(stu_tutor=search_id)
     return render(request, 'manager/manager_tutor_basic_information_search.html', {'lists' : lists, 'list' : list})
+
+@csrf_exempt
+def manager_tutor_projects_information_search(request):
+    search_id = request.POST.get('t_p_search_id')
+    lists = Project.objects.all().filter(pro_tutor=search_id)
+    return render(request, 'manager/manager_tutor_projects_information_search.html', {'lists' : lists})

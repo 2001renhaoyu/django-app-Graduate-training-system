@@ -65,4 +65,5 @@ urlpatterns = [
     path('manager/manager_student_basic_information_search', views.manager_student_basic_information_search),
     path('manager/manager_tutor_basic_information', views.manager_tutor_basic_information),
     path('manager/manager_tutor_basic_information_search', views.manager_tutor_basic_information_search),
+    path('manager/manager_tutor_projects_information_search', views.manager_tutor_projects_information_search),
 ]
