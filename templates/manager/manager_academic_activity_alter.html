@@ -24,20 +24,36 @@
             <div class="row">
                 <div class="col-xs-12">
 
-                    <form class="form-horizontal" role="form">
+                    <form class="form-horizontal" role="form" method="post">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">活动号 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="学术交流账号" class="col-xs-10 col-sm-5">
+                                <input type="text" name="a_id" id="form-field-1" placeholder="学术交流账号" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 学术交流id -->
                         <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">新活动号 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="a_new_id" id="form-field-1" placeholder="学术交流账号" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 学术交流id -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">学生号 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="a_student_id" id="form-field-1" placeholder="学术交流账号" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 学生id -->
+                        <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">活动名 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="学术交流名称" class="col-xs-10 col-sm-5">
+                                <input type="text" name="a_name" id="form-field-1" placeholder="学术交流名称" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 学术交流name -->
@@ -45,7 +61,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">地点 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="交流地点" class="col-xs-10 col-sm-5">
+                                <input type="text" name="a_local" id="form-field-1" placeholder="交流地点" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 学术交流location -->
@@ -53,7 +69,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">日期 </label>
 
                             <div class="col-sm-9">
-                                <input type="date" id="form-field-1" class="col-xs-10 col-sm-5">
+                                <input type="date" name="a_date" id="form-field-1" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 学术交流date -->
@@ -61,7 +77,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">报告中文名称 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="报告名" class="col-xs-10 col-sm-5">
+                                <input type="text" name="a_zh" id="form-field-1" placeholder="报告名" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 报告name-zh -->
@@ -69,7 +85,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">报告英文名称 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="报告名" class="col-xs-10 col-sm-5">
+                                <input type="text" name="a_en" id="form-field-1" placeholder="报告名" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 报告name-en -->
@@ -77,7 +93,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">证明材料 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="参会证明材料" class="col-xs-10 col-sm-5">
+                                <input type="text" name="a_material" id="form-field-1" placeholder="参会证明材料" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 参会material -->
@@ -85,7 +101,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">审核情况 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="审核状态" class="col-xs-10 col-sm-5">
+                                <input type="text" name="a_situation" id="form-field-1" placeholder="审核状态" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 审核situation -->
@@ -93,7 +109,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">备注 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="活动备注" class="col-xs-10 col-sm-5">
+                                <input type="text" name="a_extra" id="form-field-1" placeholder="活动备注" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
                         <!-- 活动extra -->
