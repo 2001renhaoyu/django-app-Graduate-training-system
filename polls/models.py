@@ -63,14 +63,14 @@ class Book(models.Model):
 
 
 class BookV(models.Model):
-    bo_name = models.CharField(max_length=50)
-    bo_pub = models.CharField(max_length=50)
-    bo_time = models.DateField()
-    bo_rank = models.IntegerField()
-    ache_id = models.CharField(max_length=50)
-    stu_name = models.CharField(max_length=30)
-    ache_evidence = models.CharField(max_length=100)
-    ache_audit_situation = models.CharField(max_length=10)
+    id = models.CharField(max_length=50,primary_key=True)
+    书名 = models.CharField(max_length=50)
+    出版社 = models.CharField(max_length=50)
+    出版时间 = models.DateField()
+    贡献度 = models.IntegerField()
+    学生名 = models.CharField(max_length=30)
+    材料 = models.CharField(max_length=100)
+    审核情况 = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -126,16 +126,16 @@ class Patent(models.Model):
 
 
 class PatentV(models.Model):
-    pa_name = models.CharField(max_length=50)
-    pa_type = models.CharField(max_length=50)
-    pa_rank = models.IntegerField()
-    pa_time = models.DateField()
-    pa_state = models.CharField(max_length=50)
-    pa_num = models.CharField(max_length=50)
-    ache_id = models.CharField(max_length=50)
-    ache_evidence = models.CharField(max_length=100)
-    stu_name = models.CharField(max_length=30)
-    ache_audit_situation = models.CharField(max_length=10)
+    id = models.CharField(max_length=50,primary_key=True)
+    专利名称 = models.CharField(max_length=50)
+    专利类型 = models.CharField(max_length=50)
+    专利号 = models.IntegerField()
+    专利发布时间 = models.DateField()
+    专利状态 = models.CharField(max_length=50)
+    贡献度 = models.CharField(max_length=50)
+    材料 = models.CharField(max_length=100)
+    学生名 = models.CharField(max_length=30)
+    审核情况 = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -167,15 +167,15 @@ class Report(models.Model):
 
 
 class ReportV(models.Model):
-    rep_name = models.CharField(max_length=50)
-    rep_type = models.CharField(max_length=50)
-    rep_port = models.CharField(max_length=50)
-    rep_time = models.DateField()
-    rep_num = models.IntegerField()
-    ache_id = models.CharField(max_length=50)
-    ache_evidence = models.CharField(max_length=100)
-    stu_name = models.CharField(max_length=30)
-    ache_audit_situation = models.CharField(max_length=10)
+    id = models.CharField(max_length=50,primary_key=True)
+    报告名 = models.CharField(max_length=50)
+    报告类型 = models.CharField(max_length=50)
+    服务单位 = models.CharField(max_length=50)
+    报告时间 = models.DateField()
+    贡献度排名 = models.IntegerField()
+    材料 = models.CharField(max_length=100)
+    学生名 = models.CharField(max_length=30)
+    审核情况 = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -196,15 +196,15 @@ class Reward(models.Model):
 
 
 class RewardV(models.Model):
-    re_name = models.CharField(max_length=50)
-    re_level = models.CharField(max_length=50)
-    re_grade = models.CharField(max_length=50)
-    re_num = models.IntegerField()
-    re_time = models.DateField()
-    ache_id = models.CharField(max_length=50)
-    ache_evidence = models.CharField(max_length=100)
-    ache_audit_situation = models.CharField(max_length=10)
-    stu_name = models.CharField(max_length=30)
+    id = models.CharField(max_length=50,primary_key=True)
+    奖励名称 = models.CharField(max_length=50)
+    奖励等级 = models.CharField(max_length=50)
+    获奖等级 = models.CharField(max_length=50)
+    排名 = models.IntegerField()
+    获奖时间 = models.DateField()
+    材料 = models.CharField(max_length=100)
+    学生名 = models.CharField(max_length=30)
+    审核情况 = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -224,14 +224,14 @@ class Softwarehardware(models.Model):
 
 
 class SoftwarehardwareV(models.Model):
-    so_name = models.CharField(max_length=50)
-    so_server = models.CharField(max_length=50)
-    so_time = models.DateField()
-    so_rank = models.IntegerField()
-    ache_id = models.CharField(max_length=50)
-    ache_evidence = models.CharField(max_length=100)
-    stu_name = models.CharField(max_length=30)
-    ache_audit_situation = models.CharField(max_length=10)
+    id = models.CharField(max_length=50,primary_key=True)
+    名称 = models.CharField(max_length=50)
+    服务单位 = models.CharField(max_length=50)
+    上线时间 = models.DateField()
+    贡献度 = models.IntegerField()
+    材料 = models.CharField(max_length=100)
+    学生名 = models.CharField(max_length=30)
+    审核情况 = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -250,13 +250,13 @@ class Standard(models.Model):
 
 
 class StandardV(models.Model):
-    sta_name = models.CharField(max_length=50)
-    sta_level = models.CharField(max_length=50)
-    sta_time = models.DateField()
-    ache_id = models.CharField(max_length=50)
-    ache_evidence = models.CharField(max_length=100)
-    stu_name = models.CharField(max_length=30)
-    ache_audit_situation = models.CharField(max_length=10)
+    id = models.CharField(max_length=50,primary_key=True)
+    标准名称 = models.CharField(max_length=50)
+    标准级别 = models.CharField(max_length=50)
+    标准时间 = models.DateField()
+    材料 = models.CharField(max_length=100)
+    学生名 = models.CharField(max_length=30)
+    审核情况 = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -313,16 +313,16 @@ class Thesis(models.Model):
 
 
 class ThesisV(models.Model):
-    stu_name = models.CharField(max_length=30)
-    ache_evidence = models.CharField(max_length=100)
-    the_name = models.CharField(max_length=100)
-    the_book_name = models.CharField(max_length=100)
-    the_state = models.CharField(max_length=50)
-    the_time = models.DateField(blank=True, null=True)
-    the_type = models.CharField(max_length=50)
-    the_pub = models.CharField(max_length=50)
-    ache_id = models.CharField(max_length=50)
-    ache_audit_situation = models.CharField(max_length=10)
+    id = models.CharField(max_length=50,primary_key=True)
+    学生名 = models.CharField(max_length=30)
+    材料 = models.CharField(max_length=100)
+    论文名 = models.CharField(max_length=100)
+    刊物名称 = models.CharField(max_length=100)
+    论文状态 = models.CharField(max_length=50)
+    发表时间 = models.DateField(blank=True, null=True)
+    类型 = models.CharField(max_length=50)
+    归属库 = models.CharField(max_length=50)
+    审核情况 = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.

@@ -290,6 +290,17 @@ def student_identify_project(request):
         isexist = False
         return render(request, 'student/student_search_project.html', {'isexist': isexist})
 
+    ache_lists=[
+        thesis_list,
+        reward_list,
+        standard_list,
+        book_list,
+        patent_list,
+        report_list,
+        softwarehardware_list,
+                ]
+    ache_lists=[[model_to_dict(j) for j in i] for i in ache_lists]
+    return render(request,'teacher/teacher_achievement_audit.html', {'ache_lists':ache_lists})
 
 
 def download_evidence(request):
@@ -430,6 +441,45 @@ def post_reward_form(request):
     else:
         return HttpResponse('error')
     return HttpResponseRedirect('/student')
+
+def teacher_achievement_aduit(request):
+    thesis_list=ThesisV.objects.all()
+    reward_list=RewardV.objects.all()
+    standard_list=StandardV.objects.all()
+    book_list=BookV.objects.all()
+    patent_list=PatentV.objects.all()
+    report_list=ReportV.objects.all()
+    softwarehardware_list=SoftwarehardwareV.objects.all()
+    ache_lists = [
+        thesis_list,
+        reward_list,
+        standard_list,
+        book_list,
+        patent_list,
+        report_list,
+        softwarehardware_list,
+    ]
+    ache_lists = [[model_to_dict(j) for j in i] for i in ache_lists]
+    return render(request, 'teacher/teacher_achievement_audit.html', {'ache_lists': ache_lists})
+
+def pass_achievement(request):
+    ache_id = request.GET.get('ache_id')
+    a_ache = Acheievementindex.objects.get(ache_id=ache_id)
+    if a_ache.ache_audit_situation in ['审核中', '未通过', '导师审核通过']:
+        a_ache.ache_audit_situation = '导师审核通过'
+        a_ache.save()
+    else:
+        a_ache.ache_audit_situation = '通过'
+        a_ache.save()
+    return HttpResponseRedirect('/teacher/teacher_achievement_aduit')
+
+def no_pass_achievement(request):
+    ache_id = request.GET.get('ache_id')
+    a_ache = Acheievementindex.objects.get(ache_id=ache_id)
+    a_ache.ache_audit_situation = '未通过'
+    a_ache.save()
+    return HttpResponseRedirect('/teacher/teacher_achievement_aduit')
+
 
 
 # manager

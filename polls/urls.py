@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.login),
     path('check_login',views.check_login),
-    # path('', views.login),
+    path('teacher/teacher_achievement_aduit', views.teacher_achievement_aduit),
 
     # teacher
     path('teacher', views.teacher_index),  # 不能使用的模板页
@@ -19,6 +19,8 @@ urlpatterns = [
     path('teacher/teacher_myProject',views.teacher_myProject),
     path('teacher/teacher_fill_in_funds',views.teacher_fill_in_funds),
     path('teacher/post_fill_in_funds_form',views.post_fill_in_funds_form),
+    path('teacher/teacher_achievement_aduit/pass_achievement',views.pass_achievement),
+    path('teacher/teacher_achievement_aduit/no_pass_achievement',views.no_pass_achievement),
 
 
     # student
