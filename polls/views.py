@@ -1,3 +1,5 @@
+import random
+
 from django.forms import model_to_dict
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render
@@ -362,7 +364,8 @@ def post_reward_form(request):
     a_dict.pop('csrfmiddlewaretoken')
     a_dict.pop('ache_type')
     Acheievementindex(
-        ache_id=request.POST.get('ache_id'),
+        ache_id='a'+str(random.randint(1,1000)),
+        # ache_id=request.POST.get('ache_id'),
         ache_stu_id=request.session.get('log_id'),
         ache_type=request.POST.get('ache_type'),
         ache_audit_situation='审核中',
