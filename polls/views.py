@@ -673,11 +673,16 @@ def manager_projects_add(request):
                                                                           teacher_sex=list_task[0].teacher_sex,
                                                                           teacher_subject=list_task[0].teacher_subject,
                                                                           teacher_status=7)
-                Project.objects.create(pro_id=id, pro_name=name, pro_type=type,
-                                       pro_tutor=Teacher.objects.all().get(teacher_id=tutor))
             else:
-                Project.objects.create(pro_id=id, pro_name=name, pro_type=type,
-                                       pro_tutor=Teacher.objects.all().get(teacher_id=tutor))
+                return HttpResponse("""
+                                    <script>
+                                    alert('不存在该序号教师');
+                                    window.location='/manager/manager_projects_add';
+                                    </script>
+                                    """
+                                    )
+            Project.objects.create(pro_id=id, pro_name=name, pro_type=type,
+                                   pro_tutor=Teacher.objects.all().get(teacher_id=tutor))
     return render(request, 'manager/manager_projects_add.html', {})
 
 
@@ -883,44 +888,80 @@ def manager_student_basic_information(request):
         subject = request.POST.get('s_b_subject')
         type = request.POST.get('s_b_type')
         tutor = request.POST.get('s_b_tutor_id')
-        if Student.objects.all().filter(stu_id=id).exists():
-            return HttpResponse("""
-            <script>
-            alert('不能添加id相同的数据');
-            window.location='/manager/manager_student_basic_information.html';
-            </script>
-            """
-                                )
+        list_task = Teacher.objects.all().filter(teacher_id=tutor)
+        if list_task.exists():
+            if list_task[0].teacher_status == 1:
+                Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                      teacher_name=list_task[0].teacher_name,
+                                                                      teacher_sex=list_task[0].teacher_sex,
+                                                                      teacher_subject=list_task[0].teacher_subject,
+                                                                      teacher_status=4)
+            elif list_task[0].teacher_status == 3:
+                Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                      teacher_name=list_task[0].teacher_name,
+                                                                      teacher_sex=list_task[0].teacher_sex,
+                                                                      teacher_subject=list_task[0].teacher_subject,
+                                                                      teacher_status=6)
+            elif list_task[0].teacher_status == 5:
+                Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                      teacher_name=list_task[0].teacher_name,
+                                                                      teacher_sex=list_task[0].teacher_sex,
+                                                                      teacher_subject=list_task[0].teacher_subject,
+                                                                      teacher_status=7)
         else:
-            list_task = Teacher.objects.all().filter(teacher_id=tutor)
-            if list_task.exists():
-                if list_task[0].teacher_status == 1:
-                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
-                                                                          teacher_name=list_task[0].teacher_name,
-                                                                          teacher_sex=list_task[0].teacher_sex,
-                                                                          teacher_subject=list_task[0].teacher_subject,
-                                                                          teacher_status=4)
-                elif list_task[0].teacher_status == 3:
-                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
-                                                                          teacher_name=list_task[0].teacher_name,
-                                                                          teacher_sex=list_task[0].teacher_sex,
-                                                                          teacher_subject=list_task[0].teacher_subject,
-                                                                          teacher_status=6)
-                elif list_task[0].teacher_status == 5:
-                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
-                                                                          teacher_name=list_task[0].teacher_name,
-                                                                          teacher_sex=list_task[0].teacher_sex,
-                                                                          teacher_subject=list_task[0].teacher_subject,
-                                                                          teacher_status=7)
-                Student.objects.create(stu_name=name, stu_id=id, stu_sex=sex,
+            return HttpResponse("""
+                                <script>
+                                alert('不能添加未知导师id');
+                                window.location='/manager/manager_academic_activity_alter';
+                                </script>
+                                """
+                                )
+        if Student.objects.all().filter(stu_id=id).exists():
+            Student.objects.all.filter(stu_id=id).update(stu_name=name, stu_id=id, stu_sex=sex,
                                        stu_subject=subject, stu_type=type,
                                        stu_tutor=Teacher.objects.all().get(teacher_id=tutor))
-            else:
-                return HttpResponse("""
-                                        <script>
-                                        alert('不能添加未知导师id');
-                                        window.location='/manager/manager_academic_activity_alter';
-                                        </script>
-                                        """
-                                    )
+        else:
+            Student.objects.create(stu_name=name, stu_id=id, stu_sex=sex,
+                                   stu_subject=subject, stu_type=type,
+                                   stu_tutor=Teacher.objects.all().get(teacher_id=tutor))
     return render(request, 'manager/manager_student_basic_information.html', {})
+
+@csrf_exempt
+def manager_tutor_basic_information(request):
+    if request.method == 'POST':
+        id = request.POST.get('t_b_id')
+        name = request.POST.get('t_b_name')
+        sex = request.POST.get('t_b_sex')
+        funds = request.POST.get('t_b_funds')
+        subject = request.POST.get('t_b_subject')
+        list_task = Teacher.objects.all().filter(teacher_id=id)
+        if list_task.exists():
+            if list_task[0].teacher_status == 1:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=4)
+            elif list_task[0].teacher_status == 3:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=6)
+            elif list_task[0].teacher_status == 5:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=7)
+        else:
+            Teacher.objects.create(teacher_id=id,
+                                   teacher_name=name,
+                                   teacher_sex=sex,
+                                   teacher_funds=funds,
+                                   teacher_subject=subject,
+                                   teacher_status=2)
+    return render(request, 'manager/manager_tutor_basic_information.html', {})
