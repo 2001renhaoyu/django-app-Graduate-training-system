@@ -248,9 +248,10 @@
                                         <div class="step-pane" id="step2">
                                             <div class="row-fluid">
                                                 <div class="widget-main">
-                                                 <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Reward">
-                                                    {% csrf_token %}
+
                                                     <div id="奖励" style="display:none">
+                                                        <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Reward">
+                                                        {% csrf_token %}
                                                         <input name="ache_type" value="奖励" type="text" style="display:none">
                                                         <div>
                                                             <label for="奖励名称">奖励名称</label>
@@ -318,32 +319,12 @@
                                                         </div>
 
                                                         <hr>
-                                                        <div class="widget-box">
-                                                            <div class="widget-header">
-                                                                <h4>Custom File Input</h4>
-
-                                                                <span class="widget-toolbar">
-                                                                <a href="#" data-action="collapse">
-                                                                    <i class="icon-chevron-up"></i>
-                                                                </a>
-
-                                                                </span>
-                                                            </div>
-                                                        <div class="widget-body">
-                                                            <div class="widget-main">
-                                                                    <div class="ace-file-input ace-file-multiple">
-                                                                        <input name="ache_evidence" id="id-input-file-3" multiple="" type="file">
-                                                                        <a class="remove" href="#">
-                                                                            <i class="icon-remove"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                    <a class="remove" href="#"><i class="icon-remove"></i></a></div>
-                                                            </div>
-                                                        </div>
-
-
+                                                        <label for="获奖时间">上传证明材料</label>
+                                                        <input name="ache_evidence" type="file">
+                                                        </form>
                                                     </div>
-                                                </form>
+
+
 
                                                 <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Thesis">
                                                     {% csrf_token %}
@@ -398,12 +379,15 @@
                                                         </div>
 
 
+                                            <label for="获奖时间">上传证明材料</label>
+                                            <input name="ache_evidence" type="file">
 
+                                            </div>
 
-        </div>
                                                 </form>
 
                                                 <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Standard">
+                                                    {% csrf_token %}
                                                     <div id="标准" style="display:none">
                                                         <input name="ache_type" value="标准" type="text" style="display:none">
                                                         <div>
@@ -438,10 +422,14 @@
                                                             </div>
                                                         </div>
 
+                                            <label for="获奖时间">上传证明材料</label>
+                                            <input name="ache_evidence" type="file">
                                                     </div>
+
                                                 </form>
 
                                                 <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Report">
+                                                    {% csrf_token %}
                                                     <div id="报告" style="display:none">
                                                         <input name="ache_type" value="报告" type="text" style="display:none">
                                                         <div>
@@ -487,10 +475,13 @@
                                                             </select>
                                                         </div>
 
+                                            <label for="获奖时间">上传证明材料</label>
+                                            <input name="ache_evidence" type="file">
                                                     </div>
                                                 </form>
 
                                                 <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Patent">
+                                                    {% csrf_token %}
                                                     <div id="专利" style="display:none">
                                                         <input name="ache_type" value="专利" type="text" style="display:none">
                                                         <div>
@@ -539,10 +530,14 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                            <label for="获奖时间">上传证明材料</label>
+                                            <input name="ache_evidence" type="file">
                                                     </div>
                                                 </form>
 
                                                 <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="SoftwareHardware">
+                                                    {% csrf_token %}
                                                     <div id="软硬件" style="display:none">
                                                         <input name="ache_type" value="软硬件" type="text" style="display:none">
                                                         <div>
@@ -576,10 +571,14 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                            <label for="获奖时间">上传证明材料</label>
+                                            <input name="ache_evidence" type="file">
                                                     </div>
                                                 </form>
 
                                                 <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Book">
+                                                    {% csrf_token %}
                                                     <div id="教材" style="display:none">
                                                         <input name="ache_type" value="教材" type="text" style="display:none">
                                                         <div>
@@ -614,6 +613,8 @@
                                                             </div>
                                                     </div>
 
+                                            <label for="获奖时间">上传证明材料</label>
+                                            <input name="ache_evidence" type="file">
                                                 </div>
                                                 </form>
 
