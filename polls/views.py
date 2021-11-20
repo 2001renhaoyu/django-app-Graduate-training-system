@@ -528,22 +528,19 @@ def manager_courses_add(request):
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=4)
                 elif list_task[0].teacher_status == 3:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=5)
                 elif list_task[0].teacher_status == 6:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=7)
                 Courses.objects.create(course_id=id, course_name=name, course_hours=hours, course_scores=scores,
                                        course_number=numbers, course_academy=academy, course_subject=subject,
