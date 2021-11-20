@@ -375,6 +375,7 @@ def post_reward_form(request):
     if ache_type =='论文':
         Thesis(a_dict).save()
     elif ache_type=='奖励':
+        a_dict['re_num']=int(a_dict['re_num'])
         Reward(a_dict).save()
     elif ache_type=='标准':
         Standard(a_dict).save()
