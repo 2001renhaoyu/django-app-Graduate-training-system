@@ -1,4 +1,5 @@
 import datetime
+import random
 
 from django.forms import model_to_dict
 from django.http import HttpResponse, FileResponse
@@ -13,10 +14,6 @@ import os
 
 
 # Create your views here.
-
-
-def test(request):
-    return render(request, "teacher/teacher_index.html", {})
 
 
 def login(request):
@@ -385,14 +382,28 @@ def ache_test1(request):
     return render(request, 'student/ache_test1.html', {})
 
 def post_reward_form(request):
+    myFile = request.FILES.get("ache_evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
+
+    if not myFile:
+        return HttpResponse("no files for upload!")
+    id = request.session.get('log_id')
+    if not os.path.exists('files/' + id):
+        os.makedirs('files/' + id)
+    destination = open(os.path.join("files", id, myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
+    for chunk in myFile.chunks():  # 分块写入文件
+        destination.write(chunk)
+    destination.close()
 
     a_dict = request.POST.dict()
     a_dict.pop('csrfmiddlewaretoken')
     a_dict.pop('ache_type')
     Acheievementindex(
-        ache_id=request.POST.get('ache_id'),
+        ache_id='a'+str(random.randint(1,1000)),
+        # ache_id=request.POST.get('ache_id'),
         ache_stu_id=request.session.get('log_id'),
         ache_type=request.POST.get('ache_type'),
+        ache_audit_situation='审核中',
+        ache_evidence=os.path.join("files", id, myFile.name),
     ).save()
     ache_type=request.POST.get('ache_type')
     if ache_type =='论文':
