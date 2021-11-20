@@ -248,7 +248,10 @@
                                         <div class="step-pane" id="step2">
                                             <div class="row-fluid">
                                                 <div class="widget-main">
+                                                 <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Reward">
+                                                    {% csrf_token %}
                                                     <div id="奖励" style="display:none">
+                                                        <input name="ache_type" value="奖励" type="text" style="display:none">
                                                         <div>
                                                             <label for="奖励名称">奖励名称</label>
 
@@ -257,7 +260,7 @@
                                                         <div>
                                                             <label for="奖励表">奖励等级</label>
 
-                                                            <select class="form-control" id="奖励表" name="re_list">
+                                                            <select class="form-control" id="奖励表" name="re_level">
                                                                 <option value="国家级">国家级</option>
                                                                 <option value="省部级">省部级</option>
                                                                 <option value="市级">市级</option>
@@ -269,7 +272,7 @@
                                                         <div>
                                                             <label for="表2">获奖等级</label>
 
-                                                            <select class="form-control" id="表2" name="re_list2">
+                                                            <select class="form-control" id="表2" name="re_grade">
                                                                 <option value="特等奖">特等奖</option>
                                                                 <option value="一等奖">一等奖</option>
                                                                 <option value="二等奖">二等奖</option>
@@ -282,7 +285,7 @@
                                                             <label class="col-sm-3 control-label no-padding-right" for="排名"> 请输入您的排名(整数数字) </label>
 
                                                             <div class="col-sm-9">
-                                                                <input id="排名" name="re_rank" placeholder="rank" class="col-xs-10 col-sm-5">
+                                                                <input id="排名" name="re_num" placeholder="rank" class="col-xs-10 col-sm-5">
 
                                                             </div>
                                                         </div>
@@ -298,99 +301,96 @@
                                                         <div class="chosen-container chosen-container-multi" style="width: 350px;" title="" ><div class="chosen-drop"><ul class="chosen-results"></ul></div></div>
                                                         </div>
                                                         <hr>
-                                                         <div class="widget-box">
-                                                            <div class="widget-header">
 
+                                                        <label for="获奖时间">奖励时间</label>
+                                                        <div class="row">
+                                                            <div class="col-xs-8 col-sm-11">
 
-                                                                <span class="widget-toolbar">
-                                                                    <a href="#" data-action="settings">
-                                                                        <i class="icon-cog"></i>
-                                                                    </a>
-
-                                                                    <a href="#" data-action="reload">
-                                                                        <i class="icon-refresh"></i>
-                                                                    </a>
-
-                                                                    <a href="#" data-action="collapse">
-                                                                        <i class="icon-chevron-up"></i>
-                                                                    </a>
-
-                                                                </span>
-                                                            </div>
-
-                                                            <div class="widget-body">
-                                                                <div class="widget-main">
-                                                                    <label for="获奖时间">奖励时间</label>
-
-                                                                    <div class="row">
-                                                                        <div class="col-xs-8 col-sm-11">
-
-                                                                            <div class="input-group">
-                                                                                <input class="form-control date-picker" id="获奖时间"
-                                                                                       name="begin_time"
-                                                                                       type="text" data-date-format="yyyy-mm-dd">
-                                                                                <span class="input-group-addon">
-                                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-
-
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker" id="获奖时间"
+                                                                           name="re_time"
+                                                                           type="text" data-date-format="yyyy-mm-dd">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <hr>
+                                                        <div class="widget-box">
+                                                            <div class="widget-header">
+                                                                <h4>Custom File Input</h4>
+
+                                                                <span class="widget-toolbar">
+                                                                <a href="#" data-action="collapse">
+                                                                    <i class="icon-chevron-up"></i>
+                                                                </a>
+
+                                                                </span>
+                                                            </div>
+                                                        <div class="widget-body">
+                                                            <div class="widget-main">
+                                                                    <div class="ace-file-input ace-file-multiple">
+                                                                        <input name="ache_evidence" id="id-input-file-3" multiple="" type="file">
+                                                                        <a class="remove" href="#">
+                                                                            <i class="icon-remove"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                    <a class="remove" href="#"><i class="icon-remove"></i></a></div>
+                                                            </div>
+                                                        </div>
+
 
                                                     </div>
+                                                </form>
 
-
+                                                <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Thesis">
+                                                    {% csrf_token %}
                                                     <div id="论文" style="display:none">
+                                                        <input name="ache_type" value="论文" type="text" style="display:none">
                                                         <div>
                                                             <label for="论文名称">论文名称</label>
 
-                                                            <textarea class="form-control" id="论文名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="the_name" class="form-control" id="论文名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="论文发表刊物名称">论文发表刊物名称</label>
 
-                                                            <textarea class="form-control" id="论文发表刊物名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="the_book_name" class="form-control" id="论文发表刊物名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="索引类型">索引类型</label>
 
-                                                            <textarea class="form-control" id="索引类型" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="the_type" class="form-control" id="索引类型" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="论文状态">论文状态</label>
 
-                                                            <select class="form-control" id="论文状态" multiple="multiple">
+                                                            <select name="the_state" class="form-control" id="论文状态" multiple="multiple">
 
                                                                 <option value="录用未发表">录用未发表</option>
                                                                 <option value="已发表">已发表</option>
                                                             </select>
                                                         </div>
-                                                        <div>
-                                                            <label for="论文发表时间">
-                                                                    论文发表时间
-                                                                <small class="text-success">99/99/9999</small>
-                                                            </label>
+                                                        <label for="获奖时间">论文发表时间</label>
+                                                        <div class="row">
+                                                            <div class="col-xs-8 col-sm-11">
 
-                                                            <div class="input-group">
-                                                                <input class="form-control input-mask-date" type="text" id="论文发表时间">
-                                                                <span class="input-group-btn">
-                                                                <button class="btn btn-sm btn-default" type="button">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                                    Go!
-                                                                </button>
-                                                                </span>
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker"
+                                                                           name="the_time"
+                                                                           type="text" data-date-format="yyyy-mm-dd">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div>
                                                             <label for="库">Multiple</label>
 
-                                                            <select class="form-control" id="库" multiple="multiple">
+                                                            <select name="the_pub" class="form-control" id="库" multiple="multiple">
 
                                                                 <option value="学院高质量论文库">学院高质量论文库</option>
                                                                 <option value="学院核心论文库">学院核心论文库</option>
@@ -401,16 +401,19 @@
 
 
         </div>
+                                                </form>
 
+                                                <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Standard">
                                                     <div id="标准" style="display:none">
+                                                        <input name="ache_type" value="标准" type="text" style="display:none">
                                                         <div>
                                                             <label for="标准名称">标准名称</label>
-                                                            <textarea class="form-control" id="标准名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="sta_name" class="form-control" id="标准名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="标准级别">标准级别</label>
 
-                                                            <select class="form-control" id="标准级别" multiple="multiple">
+                                                            <select name="sta_level" class="form-control" id="标准级别" multiple="multiple">
 
                                                                 <option value="国家标准">国家标准</option>
                                                                 <option value="省部级地方标准">省部级地方标准</option>
@@ -419,59 +422,63 @@
                                                             </select>
                                                         </div>
                                                         <div>
-                                                            <label for="标准发布时间">
-                                                                    标准发布时间
-                                                                <small class="text-success">99/99/9999</small>
-                                                            </label>
+                                                            <label for="获奖时间">标准发布时间</label>
+                                                            <div class="row">
+                                                                <div class="col-xs-8 col-sm-11">
 
-                                                            <div class="input-group">
-                                                                <input class="form-control input-mask-date" type="text" id="标准发布时间">
-                                                                <span class="input-group-btn">
-                                                                <button class="btn btn-sm btn-default" type="button">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                                    Go!
-                                                                </button>
-                                                                </span>
+                                                                    <div class="input-group">
+                                                                        <input class="form-control date-picker"
+                                                                               name="sta_time"
+                                                                               type="text" data-date-format="yyyy-mm-dd">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="icon-calendar bigger-110"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
 
                                                     </div>
+                                                </form>
+
+                                                <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Report">
                                                     <div id="报告" style="display:none">
+                                                        <input name="ache_type" value="报告" type="text" style="display:none">
                                                         <div>
                                                             <label for="报告名称">报告名称</label>
 
-                                                            <textarea class="form-control" id="报告名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="rep_name" class="form-control" id="报告名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="报告服务单位">报告服务单位</label>
 
-                                                            <textarea class="form-control" id="报告服务单位" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="rep_port" class="form-control" id="报告服务单位" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="贡献度排名">贡献度排名</label>
 
-                                                            <textarea class="form-control" id="贡献度排名" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="rep_num" class="form-control" id="贡献度排名" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
-                                                            <label for="报告时间">
-                                                                    报告时间
-                                                                <small class="text-success">99/99/9999</small>
-                                                            </label>
+                                                            <label for="获奖时间">报告时间</label>
+                                                            <div class="row">
+                                                                <div class="col-xs-8 col-sm-11">
 
-                                                            <div class="input-group">
-                                                                <input class="form-control input-mask-date" type="text" id="报告时间">
-                                                                <span class="input-group-btn">
-                                                                <button class="btn btn-sm btn-default" type="button">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                                    Go!
-                                                                </button>
-                                                                </span>
+                                                                    <div class="input-group">
+                                                                        <input class="form-control date-picker"
+                                                                               name="rep_time"
+                                                                               type="text" data-date-format="yyyy-mm-dd">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="icon-calendar bigger-110"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div>
                                                             <label for="报告类型">报告类型</label>
 
-                                                            <select class="form-control" id="报告类型" multiple="multiple">
+                                                            <select name="rep_type" class="form-control" id="报告类型" multiple="multiple">
 
                                                                 <option value="规划类">规划类</option>
                                                                 <option value="服务类">服务类</option>
@@ -481,31 +488,35 @@
                                                         </div>
 
                                                     </div>
+                                                </form>
+
+                                                <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Patent">
                                                     <div id="专利" style="display:none">
+                                                        <input name="ache_type" value="专利" type="text" style="display:none">
                                                         <div>
                                                             <label for="专利名称">专利名称</label>
 
-                                                            <textarea class="form-control" id="专利名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="pa_name" class="form-control" id="专利名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="专利号">专利号</label>
 
-                                                            <textarea class="form-control" id="专利号" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="pa_rank" class="form-control" id="专利号" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="专利状态">专利状态</label>
 
-                                                            <textarea class="form-control" id="专利状态" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="pa_state" class="form-control" id="专利状态" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="贡献度排名2">贡献度排名</label>
 
-                                                            <textarea class="form-control" id="贡献度排名2" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="pa_num" class="form-control" id="贡献度排名2" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="专利类型">专利类型</label>
 
-                                                            <select class="form-control" id="专利类型" multiple="multiple">
+                                                            <select name="pa_type" class="form-control" id="专利类型" multiple="multiple">
 
                                                                 <option value="发明专利">发明专利</option>
                                                                 <option value="实用新型专利">实用新型专利</option>
@@ -513,121 +524,99 @@
                                                             </select>
                                                         </div>
                                                         <div>
-                                                            <label for="专利发布时间">
-                                                                    专利发布时间
-                                                                <small class="text-success">99/99/9999</small>
-                                                            </label>
+                                                            <label for="获奖时间">专利发布时间</label>
+                                                            <div class="row">
+                                                                <div class="col-xs-8 col-sm-11">
 
-                                                            <div class="input-group">
-                                                                <input class="form-control input-mask-date" type="text" id="专利发布时间">
-                                                                <span class="input-group-btn">
-                                                                <button class="btn btn-sm btn-default" type="button">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                                    Go!
-                                                                </button>
-                                                                </span>
+                                                                    <div class="input-group">
+                                                                        <input class="form-control date-picker"
+                                                                               name="pa_time"
+                                                                               type="text" data-date-format="yyyy-mm-dd">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="icon-calendar bigger-110"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </form>
+
+                                                <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="SoftwareHardware">
                                                     <div id="软硬件" style="display:none">
+                                                        <input name="ache_type" value="软硬件" type="text" style="display:none">
                                                         <div>
                                                             <label for="名称">名称</label>
 
-                                                            <textarea class="form-control" id="名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="so_name" class="form-control" id="名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="平台服务单位">平台服务单位</label>
 
-                                                            <textarea class="form-control" id="平台服务单位" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="so_server" class="form-control" id="平台服务单位" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="贡献度">贡献度</label>
 
-                                                            <textarea class="form-control" id="贡献度" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="so_rank" class="form-control" id="贡献度" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
-                                                            <label for="平台上线时间">
-                                                                    平台上线时间
-                                                                <small class="text-success">99/99/9999</small>
-                                                            </label>
+                                                            <label for="获奖时间">平台上线时间</label>
+                                                            <div class="row">
+                                                                <div class="col-xs-8 col-sm-11">
 
-                                                            <div class="input-group">
-                                                                <input class="form-control input-mask-date" type="text" id="平台上线时间">
-                                                                <span class="input-group-btn">
-                                                                <button class="btn btn-sm btn-default" type="button">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                                    Go!
-                                                                </button>
-                                                                </span>
+                                                                    <div class="input-group">
+                                                                        <input class="form-control date-picker"
+                                                                               name="so_time"
+                                                                               type="text" data-date-format="yyyy-mm-dd">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="icon-calendar bigger-110"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </form>
+
+                                                <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Book">
                                                     <div id="教材" style="display:none">
+                                                        <input name="ache_type" value="教材" type="text" style="display:none">
                                                         <div>
                                                             <label for="教材名称">教材名称</label>
 
-                                                            <textarea class="form-control" id="教材名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="bo_name" class="form-control" id="教材名称" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="教材出版社">教材出版社</label>
 
-                                                            <textarea class="form-control" id="教材出版社" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="bo_pub" class="form-control" id="教材出版社" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
                                                             <label for="贡献度2">贡献度</label>
 
-                                                            <textarea class="form-control" id="贡献度2" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
+                                                            <textarea name="bo_rank" class="form-control" id="贡献度2" placeholder="Default Text" style="margin: 0px -1.6125px 0px 0px; width: 299px; height: 54px;"></textarea>
                                                         </div>
                                                         <div>
-                                                            <label for="教材出版时间">
-                                                                    教材出版时间
-                                                                <small class="text-success">99/99/9999</small>
-                                                            </label>
+                                                           <label for="获奖时间">教材出版时间</label>
+                                                            <div class="row">
+                                                                <div class="col-xs-8 col-sm-11">
 
-                                                            <div class="input-group">
-                                                                <input class="form-control input-mask-date" type="text" id="教材出版时间">
-                                                                <span class="input-group-btn">
-                                                                <button class="btn btn-sm btn-default" type="button">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                                    Go!
-                                                                </button>
-                                                                </span>
+                                                                    <div class="input-group">
+                                                                        <input class="form-control date-picker"
+                                                                               name="bo_time"
+                                                                               type="text" data-date-format="yyyy-mm-dd">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="icon-calendar bigger-110"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                     </div>
 
                                                 </div>
-                                                    <div id="证明" class="widget-box" style="display:none">
-                                                            <div class="widget-header">
-                                                                <h4>Custom File Input</h4>
+                                                </form>
 
-                                                                <span class="widget-toolbar">
-                                                                <a href="#" data-action="collapse">
-                                                                    <i class="icon-chevron-up"></i>
-                                                                </a>
-
-                                                                </span>
-                                                        </div>
-                                                        <div class="widget-body">
-                                                            <div class="widget-main">
-
-
-                                                                    <div class="ace-file-input ace-file-multiple">
-                                                                        <input name="re_evidence" id="id-input-file-3" multiple="" type="file">
-                                                                        <a class="remove" href="#">
-                                                                            <i class="icon-remove"></i>
-                                                                        </a>
-                                                                    </div>
-
-
-
-
-                                                                    <a class="remove" href="#"><i class="icon-remove"></i></a></div>
-
-
-                                                        </div>
-
-
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

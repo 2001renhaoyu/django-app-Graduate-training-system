@@ -1,3 +1,6 @@
+import datetime
+import random
+
 from django.forms import model_to_dict
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render
@@ -14,6 +17,14 @@ import os
 
 
 def login(request):
+
+    u=Users({
+        'log_id':'132',
+        'log_pwd':'213',
+        'log_type':'12231',
+    })
+    print(u)
+
     if request.session.get('is_login'):
         id = request.session.get('log_id')
         passwd = request.session.get('log_pwd')
@@ -115,7 +126,39 @@ def teacher_test(request):
 
 
 def teacher_assistant_volunteer_apply(request):
-    return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
+    cur_teacher_id = request.session.get('log_id')
+    cur_teacher_status = Teacher.objects.get(teacher_id=cur_teacher_id).teacher_status
+    if cur_teacher_status == 4 or cur_teacher_status == 1 or cur_teacher_status == 2:
+        return HttpResponse("你没有学科负责人的权限")
+    else:
+        try:
+            cur_config = Volunteerapplicationconfig.objects.get(teacher_id=cur_teacher_id)
+        except Volunteerapplicationconfig.DoesNotExist:
+            cur_config = Volunteerapplicationconfig()
+            cur_config.teacher_id = cur_teacher_id
+            cur_config.maxnum_volunteer = 2
+            cur_config.time_start = "2000-01-01"
+            cur_config.time_end = "2000-01-01"
+            cur_config.state = 0
+            cur_config.save()
+        finally:
+            if cur_config.state == "0":  # 志愿填报未开启
+                return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
+            elif cur_config.state == "1":  # 正在进行一轮志愿填报
+                distant_course = Volunteerapplication.objects.distant('course_id')
+                distant_course_num = {}
+                for one in distant_course:
+                    distant_course_num[one] = Volunteerapplication.objects.count(one)
+                return render(request, "teacher/teacher_assistant_volunteer_apply.html",
+                              {"cur_config": cur_config, "distant_course_num": distant_course_num})
+                pass
+            elif cur_config.state == "2":  # 多轮志愿填报中途
+                distant_course = Volunteerapplication.objects.distant('course_id')
+                distant_course_num = {}
+                for one in distant_course:
+                    distant_course_num[one] = Volunteerapplication.objects.count(one)
+                return render(request, "teacher/teacher_assistant_volunteer_apply.html",
+                              {"cur_config": cur_config, "distant_course_num": distant_course_num})
 
 
 def teacher_academic_activity_aduit(request):
@@ -243,6 +286,7 @@ def student_identify_project(request):
         return render(request, 'student/student_search_project.html', {'isexist': isexist})
 
 
+
 def download_evidence(request):
     filename = request.GET.get('filename')
     file = open(filename, 'rb')
@@ -314,6 +358,8 @@ def post_academic_activity_form(request):
     return render(request, 'student/student_index.html', {'main_content': '提交成功'})
 
 
+
+
 def export_form(request):
     # Create the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse()
@@ -335,32 +381,53 @@ def export_form(request):
 def ache_test1(request):
     return render(request, 'student/ache_test1.html', {})
 
-
 def post_reward_form(request):
-    # myFile = request.FILES.get("re_evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
-    # if not myFile:
-    #     return HttpResponse("no files for upload!")
-    # destination = open(os.path.join('files', 's002' + '_' + myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
-    # for chunk in myFile.chunks():  # 分块写入文件
-    #     destination.write(chunk)
-    # destination.close()
-    re_activity = Reward(
-        ache_id=request.GET.get('reward_id'),
-        re_name=request.GET.get('reward_name'),
-        re_level=request.GET.get('reward_level'),
-        re_grade=request.GET.get('reward_grade'),
-        re_num=request.GET.get('reward_num'),
-        re_time=request.GET.get('reward_time'),
-        re_evidence='has',
-        re_teacher_commit='否',
-        re_admin_commit='否',
+    myFile = request.FILES.get("ache_evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
 
-    )
-    re_activity.save()
-    # print(request.GET.get('re_name'))
-    # file=request.FILES.get('re_evidence')
-    # print(file)
-    return render(request, 'student/ache_test1.html', {})
+    if not myFile:
+        return HttpResponse("no files for upload!")
+    id = request.session.get('log_id')
+    if not os.path.exists('files/' + id):
+        os.makedirs('files/' + id)
+    destination = open(os.path.join("files", id, myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
+    for chunk in myFile.chunks():  # 分块写入文件
+        destination.write(chunk)
+    destination.close()
+
+    a_dict = request.POST.dict()
+    a_dict.pop('csrfmiddlewaretoken')
+    a_dict.pop('ache_type')
+    a_dict['ache_id']='a'+str(random.randint(1,1000))
+    Acheievementindex(
+        ache_id=a_dict['ache_id'],
+        ache_stu_id=request.session.get('log_id'),
+        ache_type=request.POST.get('ache_type'),
+        ache_audit_situation='审核中',
+        ache_evidence=os.path.join("files", id, myFile.name),
+    ).save()
+    ache_type=request.POST.get('ache_type')
+    if ache_type =='论文':
+        Thesis(**a_dict).save()
+    elif ache_type=='奖励':
+        a_dict['re_num']=int(a_dict['re_num'])
+        Reward(**a_dict).save()
+    elif ache_type=='标准':
+        Standard(**a_dict).save()
+    elif ache_type=='其他':
+        return HttpResponse('error')
+    elif ache_type=='教材':
+        Book(**a_dict).save()
+    elif ache_type=='专利':
+        Patent(**a_dict).save()
+    elif ache_type=='报告':
+        Report(**a_dict).save()
+    elif ache_type=='软硬件开发平台证明':
+        Softwarehardware(**a_dict).save()
+    else:
+        return HttpResponse('error')
+    return HttpResponseRedirect('/student')
+
+
 
 
 # manager

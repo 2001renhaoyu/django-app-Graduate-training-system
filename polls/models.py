@@ -29,6 +29,8 @@ class Acheievementindex(models.Model):
     ache_id = models.CharField(primary_key=True, max_length=50)
     ache_stu_id = models.CharField(max_length=30)
     ache_type = models.CharField(max_length=10)
+    ache_evidence = models.CharField(max_length=100)
+    ache_audit_situation = models.CharField(max_length=10)
 
     class Meta:
         managed = False
@@ -53,10 +55,7 @@ class Book(models.Model):
     bo_pub = models.CharField(max_length=50)
     bo_time = models.DateField()
     bo_rank = models.IntegerField()
-    bo_evidence = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
-    bo_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
-    bo_admin_commit = models.CharField(max_length=5, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -103,11 +102,8 @@ class Patent(models.Model):
     pa_rank = models.IntegerField()
     pa_time = models.DateField()
     pa_state = models.IntegerField()
-    pa_evidence = models.CharField(max_length=50)
     pa_num = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
-    pa_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
-    pa_admin_commit = models.CharField(max_length=5, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -131,10 +127,7 @@ class Report(models.Model):
     rep_port = models.CharField(max_length=50)
     rep_time = models.DateField()
     rep_num = models.IntegerField()
-    rep_evidence = models.CharField(max_length=100)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
-    rep_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
-    rep_admin_commit = models.CharField(max_length=5, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -147,12 +140,7 @@ class Reward(models.Model):
     re_grade = models.CharField(max_length=50)
     re_num = models.IntegerField()
     re_time = models.DateField()
-    re_evidence = models.CharField(max_length=50)
-    re_teacher_commit=models.CharField(max_length=5)
-    re_admin_commit=models.CharField(max_length=5)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
-    re_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
-    re_admin_commit = models.CharField(max_length=5, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -161,9 +149,9 @@ class Reward(models.Model):
 
 class Softwarehardware(models.Model):
     so_name = models.CharField(max_length=50)
+    so_server = models.CharField(max_length=50)
     so_time = models.DateField()
     so_rank = models.IntegerField()
-    so_evidence = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
     class Meta:
@@ -175,10 +163,7 @@ class Standard(models.Model):
     sta_name = models.CharField(max_length=50)
     sta_level = models.CharField(max_length=50)
     sta_time = models.DateField()
-    sta_evidence = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
-    sta_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
-    sta_admin_commit = models.CharField(max_length=5)
 
     class Meta:
         managed = False
@@ -229,8 +214,6 @@ class Thesis(models.Model):
     the_store = models.IntegerField()
     the_pub = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
-    the_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
-    the_admin_commit = models.CharField(max_length=5, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -264,6 +247,7 @@ class Volunteerapplicationconfig(models.Model):
     time_start = models.DateTimeField()
     time_end = models.DateTimeField()
     teacher = models.ForeignKey(Teacher, models.DO_NOTHING, primary_key=True)
+    sort_method = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False
