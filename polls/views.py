@@ -876,4 +876,51 @@ def manager_academic_activity_search(request):
 
 @csrf_exempt
 def manager_student_basic_information(request):
+    if request.method == 'POST':
+        name = request.POST.get('s_b_name')
+        id = request.POST.get('s_b_id')
+        sex = request.POST.get('s_b_sex')
+        subject = request.POST.get('s_b_subject')
+        type = request.POST.get('s_b_type')
+        tutor = request.POST.get('s_b_tutor_id')
+        if Student.objects.all().filter(stu_id=id).exists():
+            return HttpResponse("""
+            <script>
+            alert('不能添加id相同的数据');
+            window.location='/manager/manager_student_basic_information.html';
+            </script>
+            """
+                                )
+        else:
+            list_task = Teacher.objects.all().filter(teacher_id=tutor)
+            if list_task.exists():
+                if list_task[0].teacher_status == 1:
+                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                          teacher_name=list_task[0].teacher_name,
+                                                                          teacher_sex=list_task[0].teacher_sex,
+                                                                          teacher_subject=list_task[0].teacher_subject,
+                                                                          teacher_status=4)
+                elif list_task[0].teacher_status == 3:
+                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                          teacher_name=list_task[0].teacher_name,
+                                                                          teacher_sex=list_task[0].teacher_sex,
+                                                                          teacher_subject=list_task[0].teacher_subject,
+                                                                          teacher_status=6)
+                elif list_task[0].teacher_status == 5:
+                    Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                          teacher_name=list_task[0].teacher_name,
+                                                                          teacher_sex=list_task[0].teacher_sex,
+                                                                          teacher_subject=list_task[0].teacher_subject,
+                                                                          teacher_status=7)
+                Student.objects.create(stu_name=name, stu_id=id, stu_sex=sex,
+                                       stu_subject=subject, stu_type=type,
+                                       stu_tutor=Teacher.objects.all().get(teacher_id=tutor))
+            else:
+                return HttpResponse("""
+                                        <script>
+                                        alert('不能添加未知导师id');
+                                        window.location='/manager/manager_academic_activity_alter';
+                                        </script>
+                                        """
+                                    )
     return render(request, 'manager/manager_student_basic_information.html', {})
