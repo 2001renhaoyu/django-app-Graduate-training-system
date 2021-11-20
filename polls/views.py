@@ -20,6 +20,14 @@ def test(request):
 
 
 def login(request):
+
+    u=Users({
+        'log_id':'132',
+        'log_pwd':'213',
+        'log_type':'12231',
+    })
+    print(u)
+
     if request.session.get('is_login'):
         id = request.session.get('log_id')
         passwd = request.session.get('log_pwd')
@@ -353,6 +361,8 @@ def post_academic_activity_form(request):
     return render(request, 'student/student_index.html', {'main_content': '提交成功'})
 
 
+
+
 def export_form(request):
     # Create the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse()
@@ -374,32 +384,37 @@ def export_form(request):
 def ache_test1(request):
     return render(request, 'student/ache_test1.html', {})
 
-
 def post_reward_form(request):
-    # myFile = request.FILES.get("re_evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
-    # if not myFile:
-    #     return HttpResponse("no files for upload!")
-    # destination = open(os.path.join('files', 's002' + '_' + myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
-    # for chunk in myFile.chunks():  # 分块写入文件
-    #     destination.write(chunk)
-    # destination.close()
-    re_activity = Reward(
-        ache_id=request.GET.get('reward_id'),
-        re_name=request.GET.get('reward_name'),
-        re_level=request.GET.get('reward_level'),
-        re_grade=request.GET.get('reward_grade'),
-        re_num=request.GET.get('reward_num'),
-        re_time=request.GET.get('reward_time'),
-        re_evidence='has',
-        re_teacher_commit='否',
-        re_admin_commit='否',
 
-    )
-    re_activity.save()
-    # print(request.GET.get('re_name'))
-    # file=request.FILES.get('re_evidence')
-    # print(file)
-    return render(request, 'student/ache_test1.html', {})
+    a_dict = request.POST.dict()
+    a_dict.pop('csrfmiddlewaretoken')
+    a_dict.pop('ache_type')
+    Acheievementindex(
+        ache_id=request.POST.get('ache_id'),
+        ache_stu_id=request.session.get('log_id'),
+        ache_type=request.POST.get('ache_type'),
+    ).save()
+    ache_type=request.POST.get('ache_type')
+    if ache_type =='论文':
+        Thesis(a_dict).save()
+    elif ache_type=='奖励':
+        Reward(a_dict).save()
+    elif ache_type=='标准':
+        Standard(a_dict).save()
+    elif ache_type=='其他':
+        return HttpResponse('error')
+    elif ache_type=='教材':
+        Book(a_dict).save()
+    elif ache_type=='专利':
+        Patent(a_dict).save()
+    elif ache_type=='报告':
+        Report(a_dict).save()
+    elif ache_type=='软硬件开发平台证明':
+        Softwarehardware(a_dict).save()
+    else:
+        return HttpResponse('error')
+
+
 
 
 # manager
