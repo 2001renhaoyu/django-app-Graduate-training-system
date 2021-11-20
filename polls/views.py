@@ -978,4 +978,5 @@ def manager_tutor_basic_information(request):
 def manager_tutor_basic_information_search(request):
     search_id = request.POST.get('t_b_search_id')
     lists = Teacher.objects.all().filter(teacher_id=search_id)
-    return render(request, 'manager/manager_tutor_basic_information_search.html', {'lists' : lists})
+    list = Student.objects.all().filter(stu_tutor=search_id)
+    return render(request, 'manager/manager_tutor_basic_information_search.html', {'lists' : lists, 'list' : list})
