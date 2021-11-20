@@ -425,7 +425,7 @@ def post_reward_form(request):
         Patent(**a_dict).save()
     elif ache_type=='报告':
         Report(**a_dict).save()
-    elif ache_type=='软硬件开发平台证明':
+    elif ache_type=='软硬件平台':
         Softwarehardware(**a_dict).save()
     else:
         return HttpResponse('error')
