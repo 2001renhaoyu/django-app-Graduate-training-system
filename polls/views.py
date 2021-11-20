@@ -929,6 +929,8 @@ def manager_student_basic_information(request):
 @csrf_exempt
 def manager_tutor_basic_information(request):
     if request.method == 'POST':
+        search_id = request.POST.get('t_b_search_id')
+        lists = Teacher.objects.all().filter(teacher_id=search_id)
         id = request.POST.get('t_b_id')
         name = request.POST.get('t_b_name')
         sex = request.POST.get('t_b_sex')
@@ -964,4 +966,4 @@ def manager_tutor_basic_information(request):
                                    teacher_funds=funds,
                                    teacher_subject=subject,
                                    teacher_status=2)
-    return render(request, 'manager/manager_tutor_basic_information.html', {})
+    return render(request, 'manager/manager_tutor_basic_information.html', {'lists' : list})
