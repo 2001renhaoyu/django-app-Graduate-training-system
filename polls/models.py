@@ -315,7 +315,6 @@ class ThesisV(models.Model):
     the_state = models.CharField(max_length=50)
     the_time = models.DateField(blank=True, null=True)
     the_type = models.CharField(max_length=50)
-    the_store = models.IntegerField()
     the_pub = models.CharField(max_length=50)
     ache_id = models.CharField(max_length=50)
 
