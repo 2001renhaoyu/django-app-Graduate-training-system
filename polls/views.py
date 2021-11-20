@@ -929,6 +929,12 @@ def manager_student_basic_information(request):
     return render(request, 'manager/manager_student_basic_information.html', {})
 
 @csrf_exempt
+def manager_student_basic_information_search(request):
+    search_id = request.POST.get('s_b_search_id')
+    lists = Student.objects.all().filter(stu_id=search_id)
+    return render(request, 'manager/manager_student_basic_information_search.html', {'lists' : lists})
+
+@csrf_exempt
 def manager_tutor_basic_information(request):
     if request.method == 'POST':
         id = request.POST.get('t_b_id')
