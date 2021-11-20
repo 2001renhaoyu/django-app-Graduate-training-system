@@ -397,9 +397,9 @@ def post_reward_form(request):
     a_dict = request.POST.dict()
     a_dict.pop('csrfmiddlewaretoken')
     a_dict.pop('ache_type')
+    a_dict['ache_id']='a'+str(random.randint(1,1000))
     Acheievementindex(
-        ache_id='a'+str(random.randint(1,1000)),
-        # ache_id=request.POST.get('ache_id'),
+        ache_id=a_dict['ache_id'],
         ache_stu_id=request.session.get('log_id'),
         ache_type=request.POST.get('ache_type'),
         ache_audit_situation='审核中',
@@ -407,24 +407,25 @@ def post_reward_form(request):
     ).save()
     ache_type=request.POST.get('ache_type')
     if ache_type =='论文':
-        Thesis(a_dict).save()
+        Thesis(**a_dict).save()
     elif ache_type=='奖励':
         a_dict['re_num']=int(a_dict['re_num'])
-        Reward(a_dict).save()
+        Reward(**a_dict).save()
     elif ache_type=='标准':
-        Standard(a_dict).save()
+        Standard(**a_dict).save()
     elif ache_type=='其他':
         return HttpResponse('error')
     elif ache_type=='教材':
-        Book(a_dict).save()
+        Book(**a_dict).save()
     elif ache_type=='专利':
-        Patent(a_dict).save()
+        Patent(**a_dict).save()
     elif ache_type=='报告':
-        Report(a_dict).save()
+        Report(**a_dict).save()
     elif ache_type=='软硬件开发平台证明':
-        Softwarehardware(a_dict).save()
+        Softwarehardware(**a_dict).save()
     else:
         return HttpResponse('error')
+    return HttpResponseRedirect('/student')
 
 
 

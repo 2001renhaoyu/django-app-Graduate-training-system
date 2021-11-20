@@ -149,6 +149,7 @@ class Reward(models.Model):
 
 class Softwarehardware(models.Model):
     so_name = models.CharField(max_length=50)
+    so_server = models.CharField(max_length=50)
     so_time = models.DateField()
     so_rank = models.IntegerField()
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
