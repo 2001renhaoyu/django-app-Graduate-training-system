@@ -148,8 +148,6 @@ class Reward(models.Model):
     re_num = models.IntegerField()
     re_time = models.DateField()
     re_evidence = models.CharField(max_length=50)
-    re_teacher_commit=models.CharField(max_length=5)
-    re_admin_commit=models.CharField(max_length=5)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
     re_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
     re_admin_commit = models.CharField(max_length=5, blank=True, null=True)
@@ -264,6 +262,7 @@ class Volunteerapplicationconfig(models.Model):
     time_start = models.DateTimeField()
     time_end = models.DateTimeField()
     teacher = models.ForeignKey(Teacher, models.DO_NOTHING, primary_key=True)
+    sort_method = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False
