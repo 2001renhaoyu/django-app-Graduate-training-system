@@ -55,6 +55,8 @@ class Book(models.Model):
     bo_rank = models.IntegerField()
     bo_evidence = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
+    bo_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
+    bo_admin_commit = models.CharField(max_length=5, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -101,9 +103,11 @@ class Patent(models.Model):
     pa_rank = models.IntegerField()
     pa_time = models.DateField()
     pa_state = models.IntegerField()
-    p_evidence = models.CharField(max_length=50)
-    p_num = models.CharField(max_length=50)
+    pa_evidence = models.CharField(max_length=50)
+    pa_num = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
+    pa_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
+    pa_admin_commit = models.CharField(max_length=5, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -129,6 +133,8 @@ class Report(models.Model):
     rep_num = models.IntegerField()
     rep_evidence = models.CharField(max_length=100)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
+    rep_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
+    rep_admin_commit = models.CharField(max_length=5, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -143,6 +149,8 @@ class Reward(models.Model):
     re_time = models.DateField()
     re_evidence = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
+    re_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
+    re_admin_commit = models.CharField(max_length=5, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -167,6 +175,8 @@ class Standard(models.Model):
     sta_time = models.DateField()
     sta_evidence = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
+    sta_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
+    sta_admin_commit = models.CharField(max_length=5)
 
     class Meta:
         managed = False
@@ -217,6 +227,8 @@ class Thesis(models.Model):
     the_store = models.IntegerField()
     the_pub = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
+    the_teacher_commit = models.CharField(max_length=5, blank=True, null=True)
+    the_admin_commit = models.CharField(max_length=5, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -246,7 +258,7 @@ class Volunteerapplication(models.Model):
 
 class Volunteerapplicationconfig(models.Model):
     state = models.CharField(max_length=10)
-    maxnum_volunteer = models.CharField(db_column='maxNum_volunteer', max_length=10)  # Field name made lowercase.
+    maxnum_volunteer = models.IntegerField(db_column='maxNum_volunteer')  # Field name made lowercase.
     time_start = models.DateTimeField()
     time_end = models.DateTimeField()
     teacher = models.ForeignKey(Teacher, models.DO_NOTHING, primary_key=True)
