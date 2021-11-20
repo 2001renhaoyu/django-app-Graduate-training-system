@@ -62,6 +62,21 @@ class Book(models.Model):
         db_table = 'Book'
 
 
+class BookV(models.Model):
+    bo_name = models.CharField(max_length=50)
+    bo_pub = models.CharField(max_length=50)
+    bo_time = models.DateField()
+    bo_rank = models.IntegerField()
+    ache_id = models.CharField(max_length=50)
+    stu_name = models.CharField(max_length=30)
+    ache_evidence = models.CharField(max_length=100)
+    ache_audit_situation = models.CharField(max_length=10)
+
+    class Meta:
+        managed = False  # Created from a view. Don't remove.
+        db_table = 'Book_v'
+
+
 class Courses(models.Model):
     course_id = models.CharField(primary_key=True, max_length=30)
     course_name = models.CharField(max_length=30)
@@ -101,13 +116,30 @@ class Patent(models.Model):
     pa_type = models.CharField(max_length=50)
     pa_rank = models.IntegerField()
     pa_time = models.DateField()
-    pa_state = models.IntegerField()
+    pa_state = models.CharField(max_length=50)
     pa_num = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
     class Meta:
         managed = False
         db_table = 'Patent'
+
+
+class PatentV(models.Model):
+    pa_name = models.CharField(max_length=50)
+    pa_type = models.CharField(max_length=50)
+    pa_rank = models.IntegerField()
+    pa_time = models.DateField()
+    pa_state = models.CharField(max_length=50)
+    pa_num = models.CharField(max_length=50)
+    ache_id = models.CharField(max_length=50)
+    ache_evidence = models.CharField(max_length=100)
+    stu_name = models.CharField(max_length=30)
+    ache_audit_situation = models.CharField(max_length=10)
+
+    class Meta:
+        managed = False  # Created from a view. Don't remove.
+        db_table = 'Patent_v'
 
 
 class Project(models.Model):
@@ -134,6 +166,22 @@ class Report(models.Model):
         db_table = 'Report'
 
 
+class ReportV(models.Model):
+    rep_name = models.CharField(max_length=50)
+    rep_type = models.CharField(max_length=50)
+    rep_port = models.CharField(max_length=50)
+    rep_time = models.DateField()
+    rep_num = models.IntegerField()
+    ache_id = models.CharField(max_length=50)
+    ache_evidence = models.CharField(max_length=100)
+    stu_name = models.CharField(max_length=30)
+    ache_audit_situation = models.CharField(max_length=10)
+
+    class Meta:
+        managed = False  # Created from a view. Don't remove.
+        db_table = 'Report_v'
+
+
 class Reward(models.Model):
     re_name = models.CharField(max_length=50)
     re_level = models.CharField(max_length=50)
@@ -147,8 +195,25 @@ class Reward(models.Model):
         db_table = 'Reward'
 
 
+class RewardV(models.Model):
+    re_name = models.CharField(max_length=50)
+    re_level = models.CharField(max_length=50)
+    re_grade = models.CharField(max_length=50)
+    re_num = models.IntegerField()
+    re_time = models.DateField()
+    ache_id = models.CharField(max_length=50)
+    ache_evidence = models.CharField(max_length=100)
+    ache_audit_situation = models.CharField(max_length=10)
+    stu_name = models.CharField(max_length=30)
+
+    class Meta:
+        managed = False  # Created from a view. Don't remove.
+        db_table = 'Reward_v'
+
+
 class Softwarehardware(models.Model):
     so_name = models.CharField(max_length=50)
+    so_server = models.CharField(max_length=50)
     so_time = models.DateField()
     so_rank = models.IntegerField()
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
@@ -156,6 +221,21 @@ class Softwarehardware(models.Model):
     class Meta:
         managed = False
         db_table = 'SoftwareHardware'
+
+
+class SoftwarehardwareV(models.Model):
+    so_name = models.CharField(max_length=50)
+    so_server = models.CharField(max_length=50)
+    so_time = models.DateField()
+    so_rank = models.IntegerField()
+    ache_id = models.CharField(max_length=50)
+    ache_evidence = models.CharField(max_length=100)
+    stu_name = models.CharField(max_length=30)
+    ache_audit_situation = models.CharField(max_length=10)
+
+    class Meta:
+        managed = False  # Created from a view. Don't remove.
+        db_table = 'SoftwareHardware_v'
 
 
 class Standard(models.Model):
@@ -167,6 +247,20 @@ class Standard(models.Model):
     class Meta:
         managed = False
         db_table = 'Standard'
+
+
+class StandardV(models.Model):
+    sta_name = models.CharField(max_length=50)
+    sta_level = models.CharField(max_length=50)
+    sta_time = models.DateField()
+    ache_id = models.CharField(max_length=50)
+    ache_evidence = models.CharField(max_length=100)
+    stu_name = models.CharField(max_length=30)
+    ache_audit_situation = models.CharField(max_length=10)
+
+    class Meta:
+        managed = False  # Created from a view. Don't remove.
+        db_table = 'Standard_v'
 
 
 class Student(models.Model):
@@ -207,16 +301,32 @@ class Teacherselect(models.Model):
 class Thesis(models.Model):
     the_name = models.CharField(max_length=100)
     the_book_name = models.CharField(max_length=100)
-    the_state = models.IntegerField()
+    the_state = models.CharField(max_length=50)
     the_time = models.DateField(blank=True, null=True)
     the_type = models.CharField(max_length=50)
-    the_store = models.IntegerField()
     the_pub = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
     class Meta:
         managed = False
         db_table = 'Thesis'
+
+
+class ThesisV(models.Model):
+    stu_name = models.CharField(max_length=30)
+    ache_evidence = models.CharField(max_length=100)
+    the_name = models.CharField(max_length=100)
+    the_book_name = models.CharField(max_length=100)
+    the_state = models.CharField(max_length=50)
+    the_time = models.DateField(blank=True, null=True)
+    the_type = models.CharField(max_length=50)
+    the_pub = models.CharField(max_length=50)
+    ache_id = models.CharField(max_length=50)
+    ache_audit_situation = models.CharField(max_length=10)
+
+    class Meta:
+        managed = False  # Created from a view. Don't remove.
+        db_table = 'Thesis_v'
 
 
 class Users(models.Model):
@@ -247,6 +357,7 @@ class Volunteerapplicationconfig(models.Model):
     time_end = models.DateTimeField()
     teacher = models.ForeignKey(Teacher, models.DO_NOTHING, primary_key=True)
     sort_method = models.CharField(max_length=50, blank=True, null=True)
+    subject = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False

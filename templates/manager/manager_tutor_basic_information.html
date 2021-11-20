@@ -6,14 +6,14 @@
 			<a href="manager_own">主页</a>
 		</li>
         <li class="active">信息录入</li>
-        <li class="active">学生</li>
+        <li class="active">导师</li>
         <li class="active">基本信息录入</li>
 {% endblock %}
 {% block content %}
         <div class="page-content">
             <div class="page-header">
                 <h1>
-                    学生
+                    导师
                     <small>
                         <i class="icon-double-angle-right"></i>
                         基本信息录入
@@ -23,56 +23,48 @@
 
             <div class="row">
                 <div class="col-xs-12">
-
                     <form class="form-horizontal" role="form" method="post">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">姓名 </label>
 
-                            <div class="col-sm-9">
-                                <input type="text" name="s_b_name" id="form-field-1" placeholder="学生姓名" class="col-xs-10 col-sm-5">
-                            </div>
-                        </div>
-                        <!-- 研究生name -->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">学生号 </label>
-
-                            <div class="col-sm-9">
-                                <input type="text" name="s_b_id" id="form-field-1" placeholder="学生id" class="col-xs-10 col-sm-5">
-                            </div>
-                        </div>
-                        <!-- 研究生id -->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">性别 </label>
-
-                            <div class="col-sm-9">
-                                <input type="text" name="s_b_sex" id="form-field-1" placeholder="学生性别" class="col-xs-10 col-sm-5">
-                            </div>
-                        </div>
-                        <!-- 研究生sex -->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">专业 </label>
-
-                            <div class="col-sm-9">
-                                <input type="text" name="s_b_subject" id="form-field-1" placeholder="subject" class="col-xs-10 col-sm-5">
-                            </div>
-                        </div>
-                        <!-- 研究生subject -->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">类型 </label>
-
-                            <div class="col-sm-9">
-                                <input type="text" name="s_b_type" id="form-field-1" placeholder="博士生/研究生" class="col-xs-10 col-sm-5">
-                            </div>
-                        </div>
-                        <!-- 研究生type -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">导师号 </label>
 
                             <div class="col-sm-9">
-                                <input type="text" name="s_b_tutor_id" id="form-field-1" placeholder="导师id" class="col-xs-10 col-sm-5">
+                                <input type="text" name="t_b_id" id="form-field-1" placeholder="导师号" class="col-xs-10 col-sm-5">
                             </div>
                         </div>
-                        <!-- tutor id -->
+                        <!-- 导师name -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">导师姓名 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="t_b_name" id="form-field-1" placeholder="导师姓名" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 导师id -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">性别 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="t_b_sex" id="form-field-1" placeholder="性别" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 导师sex -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">导师项目资金 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="t_b_funds" id="form-field-1" placeholder="funds" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 导师funds -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">导师专业 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="t_b_subject" id="form-field-1" placeholder="subject" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 导师subject -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> </label>
 

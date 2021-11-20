@@ -1248,13 +1248,12 @@
 		</script>
         <!--成果判定-->
 		<script type="text/javascript">
-            			 $(function(){
+            $(function(){
         		$('#btn-next').bind('click', function(event) {
         		/* 在添加标签的同时给添加的标签绑定点击事件 */
 				var sel=$("#成果类型");
 				var checkText=$("#成果类型").find("option:selected").text(); //获取Select选择的Text
 				if(checkText=="奖励"){
-					$("#证明").show();
 					$("#奖励").show();
 					$("#论文").hide();
 					$("#软硬件").hide();
@@ -1262,12 +1261,22 @@
 					$("#教材").hide();
 					$("#专利").hide();
 					$("#报告").hide();
+					//var input=document.getElementById("id-input-file")
+					//if(input == null)
+					//{
+					//	var div=document.getElementById("Reward_div")
+					//	var input=document.createElement('input')
+					////	input.setAttribute("type","file")
+					//	input.setAttribute("name","ache_evidence")
+					//	input.setAttribute("multiple","")
+					//	input.setAttribute("id","id-input-file")
+					//	div.appendChild(input)
+					//}
 				}
 
 
 				if(checkText=="论文"){
 					$("#奖励").hide();
-					$("#证明").show();
 					$("#论文").show();
 					$("#软硬件").hide();
 					$("#标准").hide();
@@ -1278,7 +1287,6 @@
 
 				if(checkText=="标准"){
 					$("#奖励").hide();
-					$("#证明").show();
 					$("#论文").hide();
 					$("#软硬件").hide();
 					$("#标准").show();
@@ -1289,7 +1297,6 @@
 
 				if(checkText=="软硬件平台"){
 					$("#软硬件").show();
-					$("#证明").show();
 					$("#奖励").hide();
 					$("#论文").hide();
 					$("#标准").hide();
@@ -1300,7 +1307,6 @@
 
 				if(checkText=="报告"){
 					$("#报告").show();
-					$("#证明").show();
 					$("#奖励").hide();
 					$("#论文").hide();
 					$("#软硬件").hide();
@@ -1312,7 +1318,6 @@
 
 				if(checkText=="专利"){
 					$("#专利").show();
-					$("#证明").show();
 					$("#奖励").hide();
 					$("#论文").hide();
 					$("#软硬件").hide();
@@ -1323,7 +1328,6 @@
 
 				if(checkText=="教材"){
 					$("#奖励").hide();
-					$("#证明").show();
 					$("#论文").hide();
 					$("#软硬件").hide();
 					$("#标准").hide();
@@ -1331,8 +1335,6 @@
 					$("#专利").hide();
 					$("#报告").hide();
 				}
-
-
 
         		});
         	})
@@ -1347,244 +1349,50 @@
                     var sel=$("#成果类型");
                     var checkText=$("#成果类型").find("option:selected").text(); //获取Select选择的Text
                     if(checkText=="奖励"){
-                        var XHR = new XMLHttpRequest();
-                        var FD  = new FormData();
-                        var indexes = ["id","奖励名称","奖励等级","获奖等级","排名","获奖时间","证明"];
-                        var data = []
-        //
-                        data["id"]=Math.round(Math.random()*100000+899999);
-                        data["奖励名称"]=document.getElementById("奖励名称").value;
-						data["奖励等级"]=$("#奖励表").find("option:selected").text();
-						data["获奖等级"]=$("#表2").find("option:selected").text();
-						data["排名"]=document.getElementById("排名").value;
-						data["获奖时间"]=document.getElementById("获奖时间").value;
-						data["证明"]=document.getElementById("证明").value;
-						alert(data["证明"]);
-                          // 把我们的数据添加到这个FormData对象中
-<!--                         var form=document.getElementById("form_1")-->
-<!--                         form.submit()-->
+                         var form=document.getElementById("Reward")
+                         form.submit()
 
-					   window.location.href='/student/post_reward_form?reward_name='+data["奖励名称"]+'&reward_level='+data["奖励等级"]+'&reward_grade='+data["获奖等级"]+'&reward_num='+data["排名"]+'&reward_time='+data["获奖时间"]+'&reward_evi='+data["证明"];
                     }
                     if(checkText=="论文"){
-                        var XHR = new XMLHttpRequest();
-                        var FD  = new FormData();
-                        var indexes = [];
-                        var data = ["id","论文名称","论文发表刊物名称","论文状态","发表时间","索引类型","论文归属库情况","证明"];
-                        data["id"]=Math.round(Math.random()*100000+899999);
-						data["论文名称"]=document.getElementById("论文名称").value;
-						data["论文发表刊物名称"]=document.getElementById("论文发表刊物名称").value;
-						data["论文状态"]=$("#论文状态").find("option:selected").text();
-						data["发表时间"]=document.getElementById("论文发表时间").value;
-						data["索引类型"]=document.getElementById("索引类型").value;
-						data["论文归属库情况"]=$("#库").find("option:selected").text();
-						data["证明"]=document.getElementById("证明").value;
+                        var form=document.getElementById("Thesis")
+                         form.submit()
+					}
 
-                          // 把我们的数据添加到这个FormData对象中
-					    for(index in indexes) {
-						FD.append(index, data[index]);
-					  }
-
-					  // 定义数据成功发送并返回后执行的操作
-					  	XHR.addEventListener('load', function(event) {
-							alert('Yeah! 已发送数据并加载响应。');
-					  });
-
-					  // 定义发生错误时执行的操作
-					  	XHR.addEventListener('error', function(event) {
-							alert('Oops! 出错了。');
-					  });
-
-					  // 设置请求地址和方法
-					  	XHR.open('POST', 'student/ache_test1.html');
-
-					  // 发送这个formData对象,HTTP请求头会自动设置
-					  	XHR.send(FD);
-                    }
 
                     if(checkText=="标准"){
-                        var XHR = new XMLHttpRequest();
-                        var FD  = new FormData();
-                        var indexes = [];
-                        var data = ["id","标准名称","标准级别","标准发布时间","佐证材料"];
-						data["标准名称"]=document.getElementById("标准名称").value;
-						data["标准级别"]=$("#标准级别").find("option:selected").text();
-						data["标准发布时间"]=document.getElementById("标准发布时间").value;
-						data["佐证材料"]=document.getElementById("证明").value;
-						data["id"]=Math.round(Math.random()*100000+899999);
-
-                          // 把我们的数据添加到这个FormData对象中
-					    for(index in indexes) {
-						FD.append(index, data[index]);
+                        var form=document.getElementById("Standard")
+                         form.submit()
 					  }
 
-					  // 定义数据成功发送并返回后执行的操作
-					  	XHR.addEventListener('load', function(event) {
-							alert('Yeah! 已发送数据并加载响应。');
-					  });
-
-					  // 定义发生错误时执行的操作
-					  	XHR.addEventListener('error', function(event) {
-							alert('Oops! 出错了。');
-					  });
-
-					  // 设置请求地址和方法
-					  	XHR.open('POST', 'student/ache_test1.html');
-
-					  // 发送这个formData对象,HTTP请求头会自动设置
-					  	XHR.send(FD);
-                    }
 
                     if(checkText=="软硬件平台"){
-                        var XHR = new XMLHttpRequest();
-                        var FD  = new FormData();
-                        var indexes = [];
-                        var data = ["id","名称","平台服务单位","平台上线时间","贡献度","佐证材料"];
-						data["名称"]=document.getElementById("名称").value;
-						data["平台服务单位"]=document.getElementById("平台服务单位").value;
-						data["平台上线时间"]=document.getElementById("平台上线时间").value;
-						data["贡献度"]=document.getElementById("贡献度").value;
-						data["佐证材料"]=document.getElementById("证明").value;
-						data["id"]=Math.round(Math.random()*100000+899999);
-						alert(data["名称"]);
-                          // 把我们的数据添加到这个FormData对象中
-					    for(index in indexes) {
-						FD.append(index, data[index]);
+                        var form=document.getElementById("SoftwareHardware")
+                         form.submit()
 					  }
 
-					  // 定义数据成功发送并返回后执行的操作
-					  	XHR.addEventListener('load', function(event) {
-							alert('Yeah! 已发送数据并加载响应。');
-					  });
 
-					  // 定义发生错误时执行的操作
-					  	XHR.addEventListener('error', function(event) {
-							alert('Oops! 出错了。');
-					  });
-
-					  // 设置请求地址和方法
-					  	XHR.open('POST', 'student/ache_test1.html');
-
-					  // 发送这个formData对象,HTTP请求头会自动设置
-					  	XHR.send(FD);
-                    }
 
                     if(checkText=="报告"){
-                        var XHR = new XMLHttpRequest();
-                        var FD  = new FormData();
-                        var indexes = [];
-                        var data = ["id","报告名称","报告服务单位","贡献度排名","报告时间","报告类型","证明"];
-                        data["报告名称"]=document.getElementById("报告名称").value;
-						data["报告服务单位"]=document.getElementById("报告服务单位").value;
-						data["贡献度排名"]=document.getElementById("贡献度排名").value;
-						data["报告时间"]=document.getElementById("报告时间").value;
-						data["报告类型"]=$("#报告类型").find("option:selected").text();
-						data["证明"]=document.getElementById("证明").value;
-						data["id"]=Math.round(Math.random()*100000+899999);
-                          // 把我们的数据添加到这个FormData对象中
-					    for(index in indexes) {
-						FD.append(index, data[index]);
+                        var form=document.getElementById("Report")
+                         form.submit()
 					  }
 
-					  // 定义数据成功发送并返回后执行的操作
-					  	XHR.addEventListener('load', function(event) {
-							alert('Yeah! 已发送数据并加载响应。');
-					  });
 
-					  // 定义发生错误时执行的操作
-					  	XHR.addEventListener('error', function(event) {
-							alert('Oops! 出错了。');
-					  });
-
-					  // 设置请求地址和方法
-					  	XHR.open('POST', 'student/ache_test1.html');
-
-					  // 发送这个formData对象,HTTP请求头会自动设置
-					  	XHR.send(FD);
-                    }
 
                     if(checkText=="专利"){
-                        var XHR = new XMLHttpRequest();
-                        var FD  = new FormData();
-                        var indexes = [];
-                        var data = ["id","专利名称","专利号","专利状态","贡献度排名2","专利类型","专利发布时间","证明"];
-                        data["专利名称"]=document.getElementById("专利名称").value;
-                        data["专利号"]=document.getElementById("专利号").value;
-                        data["专利状态"]=document.getElementById("专利状态").value;
-                        data["贡献度排名2"]=document.getElementById("贡献度排名2").value;
-                        data["专利类型"]=$("#专利类型").find("option:selected").text();
-                        data["专利发布时间"]=document.getElementById("专利发布时间").value;
-                        data["证明"]=document.getElementById("证明").value;
-                        data["id"]=Math.round(Math.random()*100000+899999);
-
-
-                          // 把我们的数据添加到这个FormData对象中
-					    for(index in indexes) {
-						FD.append(index, data[index]);
+							var form=document.getElementById("Patent")
+                         form.submit()
 					  }
 
-					  // 定义数据成功发送并返回后执行的操作
-					  	XHR.addEventListener('load', function(event) {
-							alert('Yeah! 已发送数据并加载响应。');
-					  });
 
-					  // 定义发生错误时执行的操作
-					  	XHR.addEventListener('error', function(event) {
-							alert('Oops! 出错了。');
-					  });
-
-					  // 设置请求地址和方法
-					  	XHR.open('POST', 'student/ache_test1.html');
-
-					  // 发送这个formData对象,HTTP请求头会自动设置
-					  	XHR.send(FD);
-                    }
 
                     if(checkText=="教材"){
-                        var XHR = new XMLHttpRequest();
-                        var FD  = new FormData();
-                        var indexes = [];
-                        var data = ["id","教材名称","教材出版社","贡献度2","教材出版时间","证明"];
-                        data["教材名称"]=document.getElementById("教材名称").value;
-                        data["教材出版社"]=document.getElementById("教材出版社").value;
-                        data["贡献度2"]=document.getElementById("贡献度2").value;
-                        data["教材出版时间"]=document.getElementById("教材出版时间").value;
-                        data["证明"]=document.getElementById("证明").value;
-                        data["id"]=Math.round(Math.random()*100000+899999);
-
-
-                          // 把我们的数据添加到这个FormData对象中
-					    for(index in indexes) {
-						FD.append(index, data[index]);
+                        var form=document.getElementById("Book")
+                         form.submit()
 					  }
 
-					  // 定义数据成功发送并返回后执行的操作
-					  	XHR.addEventListener('load', function(event) {
-							alert('Yeah! 已发送数据并加载响应。');
-					  });
-
-					  // 定义发生错误时执行的操作
-					  	XHR.addEventListener('error', function(event) {
-							alert('Oops! 出错了。');
-					  });
-
-					  // 设置请求地址和方法
-					  	XHR.open('POST', 'student/ache_test1.html');
-
-					  // 发送这个formData对象,HTTP请求头会自动设置
-					  	XHR.send(FD);
-                    }
 
 
-					bootbox.dialog({
-						message: "Thank you! Your information was successfully saved!",
-						buttons: {
-							"success" : {
-								"label" : "OK",
-								"className" : "btn-sm btn-primary"
-							}
-						}
-					});
 				}).on('stepclick', function(e){
 					//return false;//prevent clicking on steps
 				});
