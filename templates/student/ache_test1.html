@@ -248,8 +248,10 @@
                                         <div class="step-pane" id="step2">
                                             <div class="row-fluid">
                                                 <div class="widget-main">
-
+                                                 <form enctype="multipart/form-data" action="post_reward_form" class="form-horizontal" method="POST" role="form" id="Reward">
+                                                    {% csrf_token %}
                                                     <div id="奖励" style="display:none">
+                                                        <input name="ache_type" value="奖励" type="text" style="display:none">
                                                         <div>
                                                             <label for="奖励名称">奖励名称</label>
 
@@ -258,7 +260,7 @@
                                                         <div>
                                                             <label for="奖励表">奖励等级</label>
 
-                                                            <select class="form-control" id="奖励表" name="re_list">
+                                                            <select class="form-control" id="奖励表" name="re_level">
                                                                 <option value="国家级">国家级</option>
                                                                 <option value="省部级">省部级</option>
                                                                 <option value="市级">市级</option>
@@ -270,7 +272,7 @@
                                                         <div>
                                                             <label for="表2">获奖等级</label>
 
-                                                            <select class="form-control" id="表2" name="re_list2">
+                                                            <select class="form-control" id="表2" name="re_grade">
                                                                 <option value="特等奖">特等奖</option>
                                                                 <option value="一等奖">一等奖</option>
                                                                 <option value="二等奖">二等奖</option>
@@ -283,7 +285,7 @@
                                                             <label class="col-sm-3 control-label no-padding-right" for="排名"> 请输入您的排名(整数数字) </label>
 
                                                             <div class="col-sm-9">
-                                                                <input id="排名" name="re_rank" placeholder="rank" class="col-xs-10 col-sm-5">
+                                                                <input id="排名" name="re_num" placeholder="rank" class="col-xs-10 col-sm-5">
 
                                                             </div>
                                                         </div>
@@ -299,54 +301,49 @@
                                                         <div class="chosen-container chosen-container-multi" style="width: 350px;" title="" ><div class="chosen-drop"><ul class="chosen-results"></ul></div></div>
                                                         </div>
                                                         <hr>
-                                                         <div class="widget-box">
-                                                            <div class="widget-header">
 
+                                                        <label for="获奖时间">奖励时间</label>
+                                                        <div class="row">
+                                                            <div class="col-xs-8 col-sm-11">
 
-                                                                <span class="widget-toolbar">
-                                                                    <a href="#" data-action="settings">
-                                                                        <i class="icon-cog"></i>
-                                                                    </a>
-
-                                                                    <a href="#" data-action="reload">
-                                                                        <i class="icon-refresh"></i>
-                                                                    </a>
-
-                                                                    <a href="#" data-action="collapse">
-                                                                        <i class="icon-chevron-up"></i>
-                                                                    </a>
-
-                                                                </span>
-                                                            </div>
-
-                                                            <div class="widget-body">
-                                                                <div class="widget-main">
-                                                                    <label for="获奖时间">奖励时间</label>
-
-                                                                    <div class="row">
-                                                                        <div class="col-xs-8 col-sm-11">
-
-                                                                            <div class="input-group">
-                                                                                <input class="form-control date-picker" id="获奖时间"
-                                                                                       name="begin_time"
-                                                                                       type="text" data-date-format="yyyy-mm-dd">
-                                                                                <span class="input-group-addon">
-                                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-
-
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker" id="获奖时间"
+                                                                           name="re_time"
+                                                                           type="text" data-date-format="yyyy-mm-dd">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <hr>
+                                                        <div class="widget-box">
+                                                            <div class="widget-header">
+                                                                <h4>Custom File Input</h4>
+
+                                                                <span class="widget-toolbar">
+                                                                <a href="#" data-action="collapse">
+                                                                    <i class="icon-chevron-up"></i>
+                                                                </a>
+
+                                                                </span>
+                                                            </div>
+                                                        <div class="widget-body">
+                                                            <div class="widget-main">
+                                                                    <div class="ace-file-input ace-file-multiple">
+                                                                        <input name="re_evidence" id="id-input-file-3" multiple="" type="file">
+                                                                        <a class="remove" href="#">
+                                                                            <i class="icon-remove"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                    <a class="remove" href="#"><i class="icon-remove"></i></a></div>
+                                                            </div>
+                                                        </div>
+
 
                                                     </div>
-
-
+                                                </form>
                                                     <div id="论文" style="display:none">
                                                         <div>
                                                             <label for="论文名称">论文名称</label>
@@ -437,6 +434,7 @@
                                                         </div>
 
                                                     </div>
+
                                                     <div id="报告" style="display:none">
                                                         <div>
                                                             <label for="报告名称">报告名称</label>
@@ -482,6 +480,7 @@
                                                         </div>
 
                                                     </div>
+
                                                     <div id="专利" style="display:none">
                                                         <div>
                                                             <label for="专利名称">专利名称</label>
@@ -530,6 +529,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div id="软硬件" style="display:none">
                                                         <div>
                                                             <label for="名称">名称</label>
@@ -563,6 +563,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div id="教材" style="display:none">
                                                         <div>
                                                             <label for="教材名称">教材名称</label>
@@ -597,38 +598,8 @@
                                                     </div>
 
                                                 </div>
-                                                    <div id="证明" class="widget-box" style="display:none">
-                                                            <div class="widget-header">
-                                                                <h4>Custom File Input</h4>
-
-                                                                <span class="widget-toolbar">
-                                                                <a href="#" data-action="collapse">
-                                                                    <i class="icon-chevron-up"></i>
-                                                                </a>
-
-                                                                </span>
-                                                        </div>
-                                                        <div class="widget-body">
-                                                            <div class="widget-main">
 
 
-                                                                    <div class="ace-file-input ace-file-multiple">
-                                                                        <input name="re_evidence" id="id-input-file-3" multiple="" type="file">
-                                                                        <a class="remove" href="#">
-                                                                            <i class="icon-remove"></i>
-                                                                        </a>
-                                                                    </div>
-
-
-
-
-                                                                    <a class="remove" href="#"><i class="icon-remove"></i></a></div>
-
-
-                                                        </div>
-
-
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
