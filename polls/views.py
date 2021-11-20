@@ -262,8 +262,9 @@ def post_identify_project_form(request):
     for chunk in myFile.chunks():  # 分块写入文件
         destination.write(chunk)
     destination.close()
+    stu_id=request.session.get('log_id')
     ip = Identifyproject(
-        ip_stu_id='s002',
+        ip_stu_id=stu_id,
         ip_pro_id=request.POST.get('pro_id'),
         ip_job_content=request.POST.get('job_content'),
         ip_begintime=request.POST.get('begin_time'),
