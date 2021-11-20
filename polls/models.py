@@ -101,7 +101,7 @@ class Patent(models.Model):
     pa_type = models.CharField(max_length=50)
     pa_rank = models.IntegerField()
     pa_time = models.DateField()
-    pa_state = models.IntegerField()
+    pa_state = models.CharField(max_length=50)
     pa_num = models.CharField(max_length=50)
     ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
 
@@ -208,7 +208,7 @@ class Teacherselect(models.Model):
 class Thesis(models.Model):
     the_name = models.CharField(max_length=100)
     the_book_name = models.CharField(max_length=100)
-    the_state = models.IntegerField()
+    the_state = models.CharField(max_length=50)
     the_time = models.DateField(blank=True, null=True)
     the_type = models.CharField(max_length=50)
     the_store = models.IntegerField()
@@ -248,6 +248,7 @@ class Volunteerapplicationconfig(models.Model):
     time_end = models.DateTimeField()
     teacher = models.ForeignKey(Teacher, models.DO_NOTHING, primary_key=True)
     sort_method = models.CharField(max_length=50, blank=True, null=True)
+    subject = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False
