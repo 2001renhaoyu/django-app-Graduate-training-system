@@ -1,6 +1,7 @@
 from django.forms import model_to_dict
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render
+from django.utils.encoding import escape_uri_path
 from django.views.decorators.csrf import csrf_exempt
 from reportlab.pdfgen import canvas
 
@@ -249,7 +250,7 @@ def download_evidence(request):
     response = FileResponse(file)
     _, n = os.path.split(filename)
     response['Content-Type'] = 'application/octet-stream'
-    response['Content-Disposition'] = 'attachment;filename="{}"'.format(n)
+    response['Content-Disposition'] = 'attachment;filename="{}"'.format(escape_uri_path(n))
     return response
 
 
