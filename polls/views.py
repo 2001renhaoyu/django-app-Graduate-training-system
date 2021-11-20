@@ -528,22 +528,19 @@ def manager_courses_add(request):
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=4)
                 elif list_task[0].teacher_status == 3:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=5)
                 elif list_task[0].teacher_status == 6:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=7)
                 Courses.objects.create(course_id=id, course_name=name, course_hours=hours, course_scores=scores,
                                        course_number=numbers, course_academy=academy, course_subject=subject,
@@ -601,22 +598,19 @@ def manager_courses_alter(request):
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=4)
                 elif list_task[0].teacher_status == 3:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=5)
                 elif list_task[0].teacher_status == 6:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=7)
             else:
                 return HttpResponse("""
@@ -780,22 +774,104 @@ def no_pass_project(request):
 
 @csrf_exempt
 def manager_academic_activity_add(request):
+    if request.method == 'POST':
+        id = request.POST.get('a_id')
+        student_id = request.POST.get('a_student_id')
+        name = request.POST.get('a_name')
+        local = request.POST.get('a_local')
+        date = request.POST.get('a_date')
+        zh = request.POST.get('a_zh')
+        en = request.POST.get('a_en')
+        material = request.POST.get('a_material')
+        situation = request.POST.get('a_situation')
+        extra = request.POST.get('a_extra')
+        if Academicactivity.objects.all().filter(aca_activity_id=id).exists():
+            return HttpResponse("""
+            <script>
+            alert('不能添加id相同的数据');
+            window.location='/manager/manager_academic_activity_add';
+            </script>
+            """
+                                )
+        else:
+            list_task = Student.objects.all().filter(stu_id=student_id)
+            if list_task.exists():
+                Academicactivity.objects.create(aca_activity_id=id,aca_activity_name=name,
+                                                aca_student=Student.objects.all().get(stu_id=student_id),
+                                                aca_activity_location=local,aca_activity_date=date,
+                                                aca_report_name_zh=zh,aca_report_name_en=en,
+                                                aca_evidentiary_material=material,aca_audit_situation=situation,
+                                                aca_extra=extra
+                                                )
+            else:
+                return HttpResponse("""
+                            <script>
+                            alert('不能添加未知学生id');
+                            window.location='/manager/manager_academic_activity_add';
+                            </script>
+                            """
+                                    )
     return render(request, 'manager/manager_academic_activity_add.html', {})
 
 
 @csrf_exempt
 def manager_academic_activity_delete(request):
+    if request.method == 'POST':
+        id = request.POST.get('a_id')
+        Academicactivity.objects.all().filter(aca_activity_id=id).delete()
     return render(request, 'manager/manager_academic_activity_delete.html', {})
 
 
 @csrf_exempt
 def manager_academic_activity_alter(request):
+    if request.method == 'POST':
+        id = request.POST.get('a_id')
+        new_id = request.POST.get('a_new_id')
+        student_id = request.POST.get('a_student_id')
+        name = request.POST.get('a_name')
+        local = request.POST.get('a_local')
+        date = request.POST.get('a_date')
+        zh = request.POST.get('a_zh')
+        en = request.POST.get('a_en')
+        material = request.POST.get('a_material')
+        situation = request.POST.get('a_situation')
+        extra = request.POST.get('a_extra')
+        if Academicactivity.objects.all().filter(aca_activity_id=new_id).exists():
+            return HttpResponse("""
+            <script>
+            alert('不能添加id相同的数据');
+            window.location='/manager/manager_academic_activity_alter';
+            </script>
+            """
+                                )
+        else:
+            list_task = Student.objects.all().filter(stu_id=student_id)
+            if list_task.exists():
+                Academicactivity.objects.filter(aca_activity_id=id).update(aca_activity_id=new_id,aca_activity_name=name,
+                                                aca_student=Student.objects.all().get(stu_id=student_id),
+                                                aca_activity_location=local,aca_activity_date=date,
+                                                aca_report_name_zh=zh,aca_report_name_en=en,
+                                                aca_evidentiary_material=material,aca_audit_situation=situation,
+                                                aca_extra=extra
+                                                )
+            else:
+                return HttpResponse("""
+                            <script>
+                            alert('不能添加未知学生id');
+                            window.location='/manager/manager_academic_activity_alter';
+                            </script>
+                            """
+                                    )
     return render(request, 'manager/manager_academic_activity_alter.html', {})
 
 
 @csrf_exempt
 def manager_academic_activity_search(request):
-    return render(request, 'manager/manager_academic_activity_search.html', {})
+    lists = []
+    if request.method == 'POST':
+        id = request.POST.get('a_id')
+        lists = Academicactivity.objects.all().filter(aca_activity_id=id)
+    return render(request, 'manager/manager_academic_activity_search.html', {'lists' : lists})
 
 
 @csrf_exempt
