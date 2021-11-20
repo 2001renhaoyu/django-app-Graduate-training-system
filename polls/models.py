@@ -70,6 +70,7 @@ class BookV(models.Model):
     ache_id = models.CharField(max_length=50)
     stu_name = models.CharField(max_length=30)
     ache_evidence = models.CharField(max_length=100)
+    ache_audit_situation = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -134,6 +135,7 @@ class PatentV(models.Model):
     ache_id = models.CharField(max_length=50)
     ache_evidence = models.CharField(max_length=100)
     stu_name = models.CharField(max_length=30)
+    ache_audit_situation = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -173,6 +175,7 @@ class ReportV(models.Model):
     ache_id = models.CharField(max_length=50)
     ache_evidence = models.CharField(max_length=100)
     stu_name = models.CharField(max_length=30)
+    ache_audit_situation = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -228,6 +231,7 @@ class SoftwarehardwareV(models.Model):
     ache_id = models.CharField(max_length=50)
     ache_evidence = models.CharField(max_length=100)
     stu_name = models.CharField(max_length=30)
+    ache_audit_situation = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -252,6 +256,7 @@ class StandardV(models.Model):
     ache_id = models.CharField(max_length=50)
     ache_evidence = models.CharField(max_length=100)
     stu_name = models.CharField(max_length=30)
+    ache_audit_situation = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -317,6 +322,7 @@ class ThesisV(models.Model):
     the_type = models.CharField(max_length=50)
     the_pub = models.CharField(max_length=50)
     ache_id = models.CharField(max_length=50)
+    ache_audit_situation = models.CharField(max_length=10)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
