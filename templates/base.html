@@ -1322,7 +1322,7 @@
                         var FD  = new FormData();
                         var indexes = ["id","奖励名称","奖励等级","获奖等级","排名","获奖时间","证明"];
                         var data = []
-        //                var reward_id=document.getElementById("奖励名称").value
+        //
                         data["id"]=Math.round(Math.random()*100000+899999);
                         data["奖励名称"]=document.getElementById("奖励名称").value;
 						data["奖励等级"]=$("#奖励表").find("option:selected").text();
@@ -1330,10 +1330,12 @@
 						data["排名"]=document.getElementById("排名").value;
 						data["获奖时间"]=document.getElementById("获奖时间").value;
 						data["证明"]=document.getElementById("证明").value;
-						alert(data["id"]);
+						alert(data["证明"]);
                           // 把我们的数据添加到这个FormData对象中
+<!--                         var form=document.getElementById("form_1")-->
+<!--                         form.submit()-->
 
-					    window.location.href='/student/post_reward_form?reward_id='+data["奖励名称"]+'&reward_level='+data["奖励等级"]
+					   window.location.href='/student/post_reward_form?reward_name='+data["奖励名称"]+'&reward_level='+data["奖励等级"]+'&reward_grade='+data["获奖等级"]+'&reward_num='+data["排名"]+'&reward_time='+data["获奖时间"]+'&reward_evi='+data["证明"];
                     }
                     if(checkText=="论文"){
                         var XHR = new XMLHttpRequest();
