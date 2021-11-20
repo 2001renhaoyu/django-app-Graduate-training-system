@@ -293,7 +293,21 @@ class Teacherselect(models.Model):
         db_table = 'TeacherSelect'
 
 
-class TehsisV(models.Model):
+class Thesis(models.Model):
+    the_name = models.CharField(max_length=100)
+    the_book_name = models.CharField(max_length=100)
+    the_state = models.CharField(max_length=50)
+    the_time = models.DateField(blank=True, null=True)
+    the_type = models.CharField(max_length=50)
+    the_pub = models.CharField(max_length=50)
+    ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Thesis'
+
+
+class ThesisV(models.Model):
     stu_name = models.CharField(max_length=30)
     ache_evidence = models.CharField(max_length=100)
     the_name = models.CharField(max_length=100)
@@ -307,21 +321,7 @@ class TehsisV(models.Model):
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
-        db_table = 'Tehsis_v'
-
-
-class Thesis(models.Model):
-    the_name = models.CharField(max_length=100)
-    the_book_name = models.CharField(max_length=100)
-    the_state = models.CharField(max_length=50)
-    the_time = models.DateField(blank=True, null=True)
-    the_type = models.CharField(max_length=50)
-    the_pub = models.CharField(max_length=50)
-    ache = models.ForeignKey(Acheievementindex, models.DO_NOTHING, primary_key=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Thesis'
+        db_table = 'Thesis_v'
 
 
 class Users(models.Model):
