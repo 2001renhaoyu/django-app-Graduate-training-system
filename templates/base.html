@@ -1219,13 +1219,12 @@
 		</script>
         <!--成果判定-->
 		<script type="text/javascript">
-            			 $(function(){
+            $(function(){
         		$('#btn-next').bind('click', function(event) {
         		/* 在添加标签的同时给添加的标签绑定点击事件 */
 				var sel=$("#成果类型");
 				var checkText=$("#成果类型").find("option:selected").text(); //获取Select选择的Text
 				if(checkText=="奖励"){
-					$("#证明").show();
 					$("#奖励").show();
 					$("#论文").hide();
 					$("#软硬件").hide();
@@ -1238,7 +1237,6 @@
 
 				if(checkText=="论文"){
 					$("#奖励").hide();
-					$("#证明").show();
 					$("#论文").show();
 					$("#软硬件").hide();
 					$("#标准").hide();
@@ -1249,7 +1247,6 @@
 
 				if(checkText=="标准"){
 					$("#奖励").hide();
-					$("#证明").show();
 					$("#论文").hide();
 					$("#软硬件").hide();
 					$("#标准").show();
@@ -1260,7 +1257,6 @@
 
 				if(checkText=="软硬件平台"){
 					$("#软硬件").show();
-					$("#证明").show();
 					$("#奖励").hide();
 					$("#论文").hide();
 					$("#标准").hide();
@@ -1271,7 +1267,6 @@
 
 				if(checkText=="报告"){
 					$("#报告").show();
-					$("#证明").show();
 					$("#奖励").hide();
 					$("#论文").hide();
 					$("#软硬件").hide();
@@ -1283,7 +1278,6 @@
 
 				if(checkText=="专利"){
 					$("#专利").show();
-					$("#证明").show();
 					$("#奖励").hide();
 					$("#论文").hide();
 					$("#软硬件").hide();
@@ -1294,7 +1288,6 @@
 
 				if(checkText=="教材"){
 					$("#奖励").hide();
-					$("#证明").show();
 					$("#论文").hide();
 					$("#软硬件").hide();
 					$("#标准").hide();
@@ -1302,8 +1295,6 @@
 					$("#专利").hide();
 					$("#报告").hide();
 				}
-
-
 
         		});
         	})
