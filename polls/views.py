@@ -1,3 +1,6 @@
+import datetime
+import random
+
 from django.forms import model_to_dict
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render
@@ -122,7 +125,39 @@ def teacher_test(request):
 
 
 def teacher_assistant_volunteer_apply(request):
-    return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
+    cur_teacher_id = request.session.get('log_id')
+    cur_teacher_status = Teacher.objects.get(teacher_id=cur_teacher_id).teacher_status
+    if cur_teacher_status == 4 or cur_teacher_status == 1 or cur_teacher_status == 2:
+        return HttpResponse("你没有学科负责人的权限")
+    else:
+        try:
+            cur_config = Volunteerapplicationconfig.objects.get(teacher_id=cur_teacher_id)
+        except Volunteerapplicationconfig.DoesNotExist:
+            cur_config = Volunteerapplicationconfig()
+            cur_config.teacher_id = cur_teacher_id
+            cur_config.maxnum_volunteer = 2
+            cur_config.time_start = "2000-01-01"
+            cur_config.time_end = "2000-01-01"
+            cur_config.state = 0
+            cur_config.save()
+        finally:
+            if cur_config.state == "0":  # 志愿填报未开启
+                return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
+            elif cur_config.state == "1":  # 正在进行一轮志愿填报
+                distant_course = Volunteerapplication.objects.distant('course_id')
+                distant_course_num = {}
+                for one in distant_course:
+                    distant_course_num[one] = Volunteerapplication.objects.count(one)
+                return render(request, "teacher/teacher_assistant_volunteer_apply.html",
+                              {"cur_config": cur_config, "distant_course_num": distant_course_num})
+                pass
+            elif cur_config.state == "2":  # 多轮志愿填报中途
+                distant_course = Volunteerapplication.objects.distant('course_id')
+                distant_course_num = {}
+                for one in distant_course:
+                    distant_course_num[one] = Volunteerapplication.objects.count(one)
+                return render(request, "teacher/teacher_assistant_volunteer_apply.html",
+                              {"cur_config": cur_config, "distant_course_num": distant_course_num})
 
 
 def teacher_academic_activity_aduit(request):
@@ -256,6 +291,7 @@ def student_identify_project(request):
         return render(request, 'student/student_search_project.html', {'isexist': isexist})
 
 
+
 def download_evidence(request):
     filename = request.GET.get('filename')
     file = open(filename, 'rb')
@@ -350,33 +386,50 @@ def ache_test1(request):
 
 
 def post_reward_form(request):
+    myFile = request.FILES.get("ache_evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
+
+    if not myFile:
+        return HttpResponse("no files for upload!")
+    id = request.session.get('log_id')
+    if not os.path.exists('files/' + id):
+        os.makedirs('files/' + id)
+    destination = open(os.path.join("files", id, myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
+    for chunk in myFile.chunks():  # 分块写入文件
+        destination.write(chunk)
+    destination.close()
+
     a_dict = request.POST.dict()
     a_dict.pop('csrfmiddlewaretoken')
     a_dict.pop('ache_type')
+    a_dict['ache_id']='a'+str(random.randint(1,1000))
     Acheievementindex(
-        ache_id=request.POST.get('ache_id'),
+        ache_id=a_dict['ache_id'],
         ache_stu_id=request.session.get('log_id'),
         ache_type=request.POST.get('ache_type'),
+        ache_audit_situation='审核中',
+        ache_evidence=os.path.join("files", id, myFile.name),
     ).save()
-    ache_type = request.POST.get('ache_type')
-    if ache_type == '论文':
-        Thesis(a_dict).save()
-    elif ache_type == '奖励':
-        Reward(a_dict).save()
-    elif ache_type == '标准':
-        Standard(a_dict).save()
-    elif ache_type == '其他':
+    ache_type=request.POST.get('ache_type')
+    if ache_type =='论文':
+        Thesis(**a_dict).save()
+    elif ache_type=='奖励':
+        a_dict['re_num']=int(a_dict['re_num'])
+        Reward(**a_dict).save()
+    elif ache_type=='标准':
+        Standard(**a_dict).save()
+    elif ache_type=='其他':
         return HttpResponse('error')
-    elif ache_type == '教材':
-        Book(a_dict).save()
-    elif ache_type == '专利':
-        Patent(a_dict).save()
-    elif ache_type == '报告':
-        Report(a_dict).save()
-    elif ache_type == '软硬件开发平台证明':
-        Softwarehardware(a_dict).save()
+    elif ache_type=='教材':
+        Book(**a_dict).save()
+    elif ache_type=='专利':
+        Patent(**a_dict).save()
+    elif ache_type=='报告':
+        Report(**a_dict).save()
+    elif ache_type=='软硬件开发平台证明':
+        Softwarehardware(**a_dict).save()
     else:
         return HttpResponse('error')
+    return HttpResponseRedirect('/student')
 
 
 # manager
@@ -477,22 +530,19 @@ def manager_courses_add(request):
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=4)
                 elif list_task[0].teacher_status == 3:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=5)
                 elif list_task[0].teacher_status == 6:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=7)
                 Courses.objects.create(course_id=id, course_name=name, course_hours=hours, course_scores=scores,
                                        course_number=numbers, course_academy=academy, course_subject=subject,
@@ -550,22 +600,19 @@ def manager_courses_alter(request):
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=4)
                 elif list_task[0].teacher_status == 3:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=5)
                 elif list_task[0].teacher_status == 6:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[
-                                                                                   0].teacher_subject,
+                                                                               teacher_subject=list_task[0].teacher_subject,
                                                                                teacher_status=7)
             else:
                 return HttpResponse("""
@@ -628,11 +675,16 @@ def manager_projects_add(request):
                                                                           teacher_sex=list_task[0].teacher_sex,
                                                                           teacher_subject=list_task[0].teacher_subject,
                                                                           teacher_status=7)
-                Project.objects.create(pro_id=id, pro_name=name, pro_type=type,
-                                       pro_tutor=Teacher.objects.all().get(teacher_id=tutor))
             else:
-                Project.objects.create(pro_id=id, pro_name=name, pro_type=type,
-                                       pro_tutor=Teacher.objects.all().get(teacher_id=tutor))
+                return HttpResponse("""
+                                    <script>
+                                    alert('不存在该序号教师');
+                                    window.location='/manager/manager_projects_add';
+                                    </script>
+                                    """
+                                    )
+            Project.objects.create(pro_id=id, pro_name=name, pro_type=type,
+                                   pro_tutor=Teacher.objects.all().get(teacher_id=tutor))
     return render(request, 'manager/manager_projects_add.html', {})
 
 
@@ -729,24 +781,189 @@ def no_pass_project(request):
 
 @csrf_exempt
 def manager_academic_activity_add(request):
+    if request.method == 'POST':
+        id = request.POST.get('a_id')
+        student_id = request.POST.get('a_student_id')
+        name = request.POST.get('a_name')
+        local = request.POST.get('a_local')
+        date = request.POST.get('a_date')
+        zh = request.POST.get('a_zh')
+        en = request.POST.get('a_en')
+        material = request.POST.get('a_material')
+        situation = request.POST.get('a_situation')
+        extra = request.POST.get('a_extra')
+        if Academicactivity.objects.all().filter(aca_activity_id=id).exists():
+            return HttpResponse("""
+            <script>
+            alert('不能添加id相同的数据');
+            window.location='/manager/manager_academic_activity_add';
+            </script>
+            """
+                                )
+        else:
+            list_task = Student.objects.all().filter(stu_id=student_id)
+            if list_task.exists():
+                Academicactivity.objects.create(aca_activity_id=id,aca_activity_name=name,
+                                                aca_student=Student.objects.all().get(stu_id=student_id),
+                                                aca_activity_location=local,aca_activity_date=date,
+                                                aca_report_name_zh=zh,aca_report_name_en=en,
+                                                aca_evidentiary_material=material,aca_audit_situation=situation,
+                                                aca_extra=extra
+                                                )
+            else:
+                return HttpResponse("""
+                            <script>
+                            alert('不能添加未知学生id');
+                            window.location='/manager/manager_academic_activity_add';
+                            </script>
+                            """
+                                    )
     return render(request, 'manager/manager_academic_activity_add.html', {})
 
 
 @csrf_exempt
 def manager_academic_activity_delete(request):
+    if request.method == 'POST':
+        id = request.POST.get('a_id')
+        Academicactivity.objects.all().filter(aca_activity_id=id).delete()
     return render(request, 'manager/manager_academic_activity_delete.html', {})
 
 
 @csrf_exempt
 def manager_academic_activity_alter(request):
+    if request.method == 'POST':
+        id = request.POST.get('a_id')
+        new_id = request.POST.get('a_new_id')
+        student_id = request.POST.get('a_student_id')
+        name = request.POST.get('a_name')
+        local = request.POST.get('a_local')
+        date = request.POST.get('a_date')
+        zh = request.POST.get('a_zh')
+        en = request.POST.get('a_en')
+        material = request.POST.get('a_material')
+        situation = request.POST.get('a_situation')
+        extra = request.POST.get('a_extra')
+        if Academicactivity.objects.all().filter(aca_activity_id=new_id).exists():
+            return HttpResponse("""
+            <script>
+            alert('不能添加id相同的数据');
+            window.location='/manager/manager_academic_activity_alter';
+            </script>
+            """
+                                )
+        else:
+            list_task = Student.objects.all().filter(stu_id=student_id)
+            if list_task.exists():
+                Academicactivity.objects.filter(aca_activity_id=id).update(aca_activity_id=new_id,aca_activity_name=name,
+                                                aca_student=Student.objects.all().get(stu_id=student_id),
+                                                aca_activity_location=local,aca_activity_date=date,
+                                                aca_report_name_zh=zh,aca_report_name_en=en,
+                                                aca_evidentiary_material=material,aca_audit_situation=situation,
+                                                aca_extra=extra
+                                                )
+            else:
+                return HttpResponse("""
+                            <script>
+                            alert('不能添加未知学生id');
+                            window.location='/manager/manager_academic_activity_alter';
+                            </script>
+                            """
+                                    )
     return render(request, 'manager/manager_academic_activity_alter.html', {})
 
 
 @csrf_exempt
 def manager_academic_activity_search(request):
-    return render(request, 'manager/manager_academic_activity_search.html', {})
+    lists = []
+    if request.method == 'POST':
+        id = request.POST.get('a_id')
+        lists = Academicactivity.objects.all().filter(aca_activity_id=id)
+    return render(request, 'manager/manager_academic_activity_search.html', {'lists' : lists})
 
 
 @csrf_exempt
 def manager_student_basic_information(request):
+    if request.method == 'POST':
+        name = request.POST.get('s_b_name')
+        id = request.POST.get('s_b_id')
+        sex = request.POST.get('s_b_sex')
+        subject = request.POST.get('s_b_subject')
+        type = request.POST.get('s_b_type')
+        tutor = request.POST.get('s_b_tutor_id')
+        list_task = Teacher.objects.all().filter(teacher_id=tutor)
+        if list_task.exists():
+            if list_task[0].teacher_status == 1:
+                Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                      teacher_name=list_task[0].teacher_name,
+                                                                      teacher_sex=list_task[0].teacher_sex,
+                                                                      teacher_subject=list_task[0].teacher_subject,
+                                                                      teacher_status=4)
+            elif list_task[0].teacher_status == 3:
+                Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                      teacher_name=list_task[0].teacher_name,
+                                                                      teacher_sex=list_task[0].teacher_sex,
+                                                                      teacher_subject=list_task[0].teacher_subject,
+                                                                      teacher_status=6)
+            elif list_task[0].teacher_status == 5:
+                Teacher.objects.all().filter(teacher_id=tutor).update(teacher_id=list_task[0].teacher_id,
+                                                                      teacher_name=list_task[0].teacher_name,
+                                                                      teacher_sex=list_task[0].teacher_sex,
+                                                                      teacher_subject=list_task[0].teacher_subject,
+                                                                      teacher_status=7)
+        else:
+            return HttpResponse("""
+                                <script>
+                                alert('不能添加未知导师id');
+                                window.location='/manager/manager_academic_activity_alter';
+                                </script>
+                                """
+                                )
+        if Student.objects.all().filter(stu_id=id).exists():
+            Student.objects.all.filter(stu_id=id).update(stu_name=name, stu_id=id, stu_sex=sex,
+                                       stu_subject=subject, stu_type=type,
+                                       stu_tutor=Teacher.objects.all().get(teacher_id=tutor))
+        else:
+            Student.objects.create(stu_name=name, stu_id=id, stu_sex=sex,
+                                   stu_subject=subject, stu_type=type,
+                                   stu_tutor=Teacher.objects.all().get(teacher_id=tutor))
     return render(request, 'manager/manager_student_basic_information.html', {})
+
+@csrf_exempt
+def manager_tutor_basic_information(request):
+    if request.method == 'POST':
+        id = request.POST.get('t_b_id')
+        name = request.POST.get('t_b_name')
+        sex = request.POST.get('t_b_sex')
+        funds = request.POST.get('t_b_funds')
+        subject = request.POST.get('t_b_subject')
+        list_task = Teacher.objects.all().filter(teacher_id=id)
+        if list_task.exists():
+            if list_task[0].teacher_status == 1:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=4)
+            elif list_task[0].teacher_status == 3:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=6)
+            elif list_task[0].teacher_status == 5:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=7)
+        else:
+            Teacher.objects.create(teacher_id=id,
+                                   teacher_name=name,
+                                   teacher_sex=sex,
+                                   teacher_funds=funds,
+                                   teacher_subject=subject,
+                                   teacher_status=2)
+    return render(request, 'manager/manager_tutor_basic_information.html', {})
