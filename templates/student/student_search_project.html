@@ -1,0 +1,63 @@
+{% extends "student/student_index.html" %}
+{% block title %}项目认定{% endblock %}
+{% block content %}
+<div class="page-content">
+        <div class="page-header">
+            <h1>
+                项目认定
+                <small>
+                    <i class="icon-double-angle-right"></i>
+                    搜索项目编号进行填表
+                </small>
+            </h1>
+        </div><!-- /.page-header -->
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+
+
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control search-query" placeholder="输入项目编号" id="pro_id_input"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-purple btn-sm" onclick="get_project()">
+                                    Search
+                                    <i class="icon-search icon-on-right bigger-110"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% if isexist == False%}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul class="list-unstyled spaced">
+                            <li>
+                                <i class="icon-remove bigger-110 red"></i>
+                                不存在该项目
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if issame == True %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul class="list-unstyled spaced">
+                            <li>
+                                <i class="icon-remove bigger-110 red"></i>
+                                该项目已经认定，不可重复认定
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+
+        </div>
+    </div>
+</div>
+
+</div><!-- /.row -->
+{% endblock %}
