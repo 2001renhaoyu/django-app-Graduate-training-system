@@ -26,7 +26,7 @@ urlpatterns = [
     path('student/student_assistant_volunteer_apply', views.student_assistant_volunteer_apply),
     path('student/student_assistant_volunteer_work', views.student_assistant_volunteer_work),
     path('student/student_assistant_volunteer_export', views.student_assistant_volunteer_export),
-
+    path('student/student_homepage', views.student_homepage),
     path('student/show_academic_activity', views.show_student_activity),
     path('student/student_activity_form', views.student_activity_form),
     path('student/student_myProject', views.student_myProject),
