@@ -1183,10 +1183,10 @@
         <!-- jQ基础表格 -->
 		<script type="text/javascript">
 			jQuery(function($) {
-				var oTable1 = $('#sample-table-2').dataTable( {
+				var oTable1 = $('#sample-table-stuVol').dataTable( {
 				"aoColumns": [
 			      { "bSortable": false },
-			      null, null,null, null, null,
+			      null, null,null, null,
 				  { "bSortable": false }
 				] } );
 
@@ -1216,6 +1216,35 @@
 					return 'left';
 				}
 			})
+            var num = 0;
+            var maxnum_volunteer = $('#maxnum_volunteer').html();
+
+            function checkboxOnclick(checkbox) {
+                if (checkbox.checked == true) {
+                    ++num;
+                    if(num == maxnum_volunteer) {
+                        alert("志愿上限已满, 其他选项将会变为不可选.");
+                        $(":checkbox").each(function () {
+                            if (!$(this)[0].checked) {
+                                $(this).attr("disabled", "disabled");
+                            }
+                        });
+                    }
+                    for (var i=1;i<=maxnum_volunteer;i++) {
+                        $('#form-field-select-vol'+i.toString()).append(new Option(checkbox.value, checkbox.value))
+                    }
+                }
+                else {
+                    --num;
+                    if(num <= 2) {
+                        $(":checkbox").each(function(){
+                            if(!$(this)[0].checked) {
+                                $(this).removeAttr("disabled");
+                            }
+                        });
+                    }
+                }
+            }
 		</script>
         <!--成果判定-->
 		<script type="text/javascript">
@@ -1561,7 +1590,7 @@
 				});
             });
 		</script>
-<!--		项目获取-->
+        <!--项目获取-->
 		<script>
 			function get_project(){
 				var pro_id=document.getElementById("pro_id_input").value

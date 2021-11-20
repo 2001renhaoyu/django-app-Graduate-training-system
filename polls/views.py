@@ -127,8 +127,9 @@ def teacher_test(request):
 
 def teacher_assistant_volunteer_apply(request):
     cur_teacher_id = request.session.get('log_id')
-    cur_teacher_status = Teacher.objects.get(teacher_id=cur_teacher_id).teacher_status
-    if cur_teacher_status == 4 or cur_teacher_status == 1 or cur_teacher_status == 2:
+    cur_teacher = Teacher.objects.get(teacher_id=cur_teacher_id)
+    cur_teacher_status = cur_teacher.teacher_status
+    if cur_teacher_status == "4" or cur_teacher_status == "1" or cur_teacher_status == "2":
         return HttpResponse("你没有学科负责人的权限")
     else:
         try:
@@ -136,29 +137,66 @@ def teacher_assistant_volunteer_apply(request):
         except Volunteerapplicationconfig.DoesNotExist:
             cur_config = Volunteerapplicationconfig()
             cur_config.teacher_id = cur_teacher_id
+            cur_config.subject = cur_teacher.teacher_subject
             cur_config.maxnum_volunteer = 2
             cur_config.time_start = "2000-01-01"
             cur_config.time_end = "2000-01-01"
-            cur_config.state = 0
+            cur_config.state = "0"
             cur_config.save()
         finally:
-            if cur_config.state == "0":  # 志愿填报未开启
-                return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
-            elif cur_config.state == "1":  # 正在进行一轮志愿填报
-                distant_course = Volunteerapplication.objects.distant('course_id')
-                distant_course_num = {}
-                for one in distant_course:
-                    distant_course_num[one] = Volunteerapplication.objects.count(one)
-                return render(request, "teacher/teacher_assistant_volunteer_apply.html",
-                              {"cur_config": cur_config, "distant_course_num": distant_course_num})
-                pass
-            elif cur_config.state == "2":  # 多轮志愿填报中途
-                distant_course = Volunteerapplication.objects.distant('course_id')
-                distant_course_num = {}
-                for one in distant_course:
-                    distant_course_num[one] = Volunteerapplication.objects.count(one)
-                return render(request, "teacher/teacher_assistant_volunteer_apply.html",
-                              {"cur_config": cur_config, "distant_course_num": distant_course_num})
+            return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
+            # if cur_config.state == "0":  # 志愿填报未开启
+            #     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
+            # elif cur_config.state == "1":  # 正在进行一轮志愿填报
+            #     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
+            # elif cur_config.state == "2":  # 多轮志愿填报中途
+            #     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
+
+
+@csrf_exempt
+def post_teacher_assistant_volunteer_apply(request):
+    cur_teacher_id = request.session.get('log_id')
+    cur_config = Volunteerapplicationconfig.objects.get(teacher_id=cur_teacher_id)
+    if cur_config.state == "0" or cur_config.state == "1":
+        date = request.POST.get('date-range-picker')
+        t1 = date.split(' ')
+        t2 = t1[0].split('/')
+        t3 = t1[2].split('/')
+        date_start = request.POST.get('date_start')
+        date_end = request.POST.get('date_end')
+        time_start = t2[2] + "-" + t2[0] + "-" + t2[1] + " " + date_start
+        time_end = t3[2] + "-" + t3[0] + "-" + t3[1] + " " + date_end
+        cur_config.time_start = time_start
+        cur_config.time_end = time_end
+
+    if cur_config.state == "0":
+        maxNum_volunteer = request.POST.get('maxNum_volunteer')
+        sort_method = request.POST.get('form-field-radio')
+        cur_config.state = "1"
+        cur_config.maxnum_volunteer = maxNum_volunteer
+        cur_config.sort_method = sort_method
+
+    if cur_config.state == "1":
+        cur_config.state = "2"
+
+    if cur_config.state == "2":
+        # 即将进行新的一轮申请，此时需要
+        # 根据老师选择表，学生志愿表确定一部分助教（插入assistantJob）
+        cur_config.state = "0"
+
+    cur_config.save()
+    return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
+
+
+@csrf_exempt
+def end_teacher_assistant_volunteer_apply(request):
+    cur_teacher_id = request.session.get('log_id')
+    cur_config = Volunteerapplicationconfig.objects.get(teacher_id=cur_teacher_id)
+    cur_config.state = "0"
+    # 结束申请，此时需要
+    # 根据老师选择表，学生志愿表确助教（插入assistantJob），统筹确定暂时不实现
+    cur_config.save()
+    return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
 
 
 def teacher_academic_activity_aduit(request):
@@ -248,7 +286,29 @@ def student_index(request):
 
 
 def student_assistant_volunteer_apply(request):
-    return render(request, 'student/student_assistant_volunteer_apply.html', {'assistantVolunteer': 1})
+    cur_student_id = request.session.get('log_id')
+    cur_student = Student.objects.get(stu_id=cur_student_id)
+    cur_subject = cur_student.stu_subject
+    cur_config = Volunteerapplicationconfig.objects.get(subject=cur_subject)
+    courses = None
+    if cur_config.state == "1":
+        if cur_config.sort_method == "默认排序":
+            courses = Courses.objects.filter(course_subject=cur_subject)
+            pass
+        elif cur_config.sort_method == "按照选课人数":
+            courses = Courses.objects.filter(course_subject=cur_subject).order_by('-course_number')
+            pass
+        elif cur_config.sort_method == "按照学时":
+            courses = Courses.objects.filter(course_subject=cur_subject).order_by('-course_hours')
+            pass
+        elif cur_config.sort_method == "按照选课人数、学时":
+            courses = Courses.objects.filter(course_subject=cur_subject).order_by('-course_number', '-course_hours')
+            pass
+        return render(request, 'student/student_assistant_volunteer_apply.html'
+                      , {'cur_config': cur_config, "courses": courses, "range": range(1, cur_config.maxnum_volunteer+1)})
+
+    else:
+        return render(request, 'student/student_assistant_volunteer_apply.html', {'cur_config': cur_config})
 
 
 def student_assistant_volunteer_work(request):
