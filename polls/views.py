@@ -17,11 +17,10 @@ import os
 
 
 def login(request):
-
-    u=Users({
-        'log_id':'132',
-        'log_pwd':'213',
-        'log_type':'12231',
+    u = Users({
+        'log_id': '132',
+        'log_pwd': '213',
+        'log_type': '12231',
     })
     print(u)
 
@@ -265,6 +264,12 @@ def student_myProject(request):
     return render(request, 'student/student_myProject.html', {'ip_list': ip_list})
 
 
+def student_homepage(request):
+    stu_id = request.session.get('log_id')
+    stu = Student.objects.get(stu_id=stu_id)  # 根据学号展示
+    return render(request, 'student/student_homepage.html', {'stu': stu})
+
+
 def student_search_project(request):
     return render(request, 'student/student_search_project.html', {})
 
@@ -305,7 +310,7 @@ def post_identify_project_form(request):
     for chunk in myFile.chunks():  # 分块写入文件
         destination.write(chunk)
     destination.close()
-    stu_id=request.session.get('log_id')
+    stu_id = request.session.get('log_id')
     ip = Identifyproject(
         ip_stu_id=stu_id,
         ip_pro_id=request.POST.get('pro_id'),
@@ -358,8 +363,6 @@ def post_academic_activity_form(request):
     return render(request, 'student/student_index.html', {'main_content': '提交成功'})
 
 
-
-
 def export_form(request):
     # Create the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse()
@@ -380,6 +383,7 @@ def export_form(request):
 
 def ache_test1(request):
     return render(request, 'student/ache_test1.html', {})
+
 
 def post_reward_form(request):
     myFile = request.FILES.get("ache_evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
@@ -421,13 +425,11 @@ def post_reward_form(request):
         Patent(**a_dict).save()
     elif ache_type=='报告':
         Report(**a_dict).save()
-    elif ache_type=='软硬件开发平台证明':
+    elif ache_type=='软硬件平台':
         Softwarehardware(**a_dict).save()
     else:
         return HttpResponse('error')
     return HttpResponseRedirect('/student')
-
-
 
 
 # manager
