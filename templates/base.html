@@ -1258,7 +1258,7 @@
 					$("#报告").hide();
 				}
 
-				if(checkText=="软硬件"){
+				if(checkText=="软硬件平台"){
 					$("#软硬件").show();
 					$("#证明").show();
 					$("#奖励").hide();
@@ -1320,41 +1320,29 @@
                     if(checkText=="奖励"){
                         var XHR = new XMLHttpRequest();
                         var FD  = new FormData();
-                        var indexes = ["奖励名称","奖励等级","获奖等级","排名","获奖时间","证明"];
+                        var indexes = ["id","奖励名称","奖励等级","获奖等级","排名","获奖时间","证明"];
                         var data = []
+        //
+                        data["id"]=Math.round(Math.random()*100000+899999);
                         data["奖励名称"]=document.getElementById("奖励名称").value;
 						data["奖励等级"]=$("#奖励表").find("option:selected").text();
 						data["获奖等级"]=$("#表2").find("option:selected").text();
 						data["排名"]=document.getElementById("排名").value;
 						data["获奖时间"]=document.getElementById("获奖时间").value;
 						data["证明"]=document.getElementById("证明").value;
-
+						alert(data["证明"]);
                           // 把我们的数据添加到这个FormData对象中
-					    for(index in indexes) {
-						FD.append(index, data[index]);
-					  }
+<!--                         var form=document.getElementById("form_1")-->
+<!--                         form.submit()-->
 
-					  // 定义数据成功发送并返回后执行的操作
-					  	XHR.addEventListener('load', function(event) {
-							alert('Yeah! 已发送数据并加载响应。');
-					  });
-
-					  // 定义发生错误时执行的操作
-					  	XHR.addEventListener('error', function(event) {
-							alert('Oops! 出错了。');
-					  });
-
-					  // 设置请求地址和方法
-					  	XHR.open('POST', 'student/ache_test1.html');
-
-					  // 发送这个formData对象,HTTP请求头会自动设置
-					  	XHR.send(FD);
+					   window.location.href='/student/post_reward_form?reward_name='+data["奖励名称"]+'&reward_level='+data["奖励等级"]+'&reward_grade='+data["获奖等级"]+'&reward_num='+data["排名"]+'&reward_time='+data["获奖时间"]+'&reward_evi='+data["证明"];
                     }
                     if(checkText=="论文"){
                         var XHR = new XMLHttpRequest();
                         var FD  = new FormData();
                         var indexes = [];
-                        var data = ["论文名称","论文发表刊物名称","论文状态","发表时间","索引类型","论文归属库情况","证明"];
+                        var data = ["id","论文名称","论文发表刊物名称","论文状态","发表时间","索引类型","论文归属库情况","证明"];
+                        data["id"]=Math.round(Math.random()*100000+899999);
 						data["论文名称"]=document.getElementById("论文名称").value;
 						data["论文发表刊物名称"]=document.getElementById("论文发表刊物名称").value;
 						data["论文状态"]=$("#论文状态").find("option:selected").text();
@@ -1389,11 +1377,12 @@
                         var XHR = new XMLHttpRequest();
                         var FD  = new FormData();
                         var indexes = [];
-                        var data = ["标准名称","标准级别","标准发布时间","佐证材料"];
+                        var data = ["id","标准名称","标准级别","标准发布时间","佐证材料"];
 						data["标准名称"]=document.getElementById("标准名称").value;
 						data["标准级别"]=$("#标准级别").find("option:selected").text();
 						data["标准发布时间"]=document.getElementById("标准发布时间").value;
 						data["佐证材料"]=document.getElementById("证明").value;
+						data["id"]=Math.round(Math.random()*100000+899999);
 
                           // 把我们的数据添加到这个FormData对象中
 					    for(index in indexes) {
@@ -1417,16 +1406,17 @@
 					  	XHR.send(FD);
                     }
 
-                    if(checkText=="软硬件"){
+                    if(checkText=="软硬件平台"){
                         var XHR = new XMLHttpRequest();
                         var FD  = new FormData();
                         var indexes = [];
-                        var data = ["名称","平台服务单位","平台上线时间","贡献度","佐证材料"];
+                        var data = ["id","名称","平台服务单位","平台上线时间","贡献度","佐证材料"];
 						data["名称"]=document.getElementById("名称").value;
 						data["平台服务单位"]=document.getElementById("平台服务单位").value;
 						data["平台上线时间"]=document.getElementById("平台上线时间").value;
 						data["贡献度"]=document.getElementById("贡献度").value;
 						data["佐证材料"]=document.getElementById("证明").value;
+						data["id"]=Math.round(Math.random()*100000+899999);
 						alert(data["名称"]);
                           // 把我们的数据添加到这个FormData对象中
 					    for(index in indexes) {
@@ -1454,14 +1444,14 @@
                         var XHR = new XMLHttpRequest();
                         var FD  = new FormData();
                         var indexes = [];
-                        var data = ["报告名称","报告服务单位","贡献度排名","报告时间","报告类型","证明"];
+                        var data = ["id","报告名称","报告服务单位","贡献度排名","报告时间","报告类型","证明"];
                         data["报告名称"]=document.getElementById("报告名称").value;
 						data["报告服务单位"]=document.getElementById("报告服务单位").value;
 						data["贡献度排名"]=document.getElementById("贡献度排名").value;
 						data["报告时间"]=document.getElementById("报告时间").value;
 						data["报告类型"]=$("#报告类型").find("option:selected").text();
 						data["证明"]=document.getElementById("证明").value;
-
+						data["id"]=Math.round(Math.random()*100000+899999);
                           // 把我们的数据添加到这个FormData对象中
 					    for(index in indexes) {
 						FD.append(index, data[index]);
@@ -1488,14 +1478,15 @@
                         var XHR = new XMLHttpRequest();
                         var FD  = new FormData();
                         var indexes = [];
-                        var data = ["专利名称","专利号","专利状态","贡献度排名2","专利类型","专利发布时间","证明"];
+                        var data = ["id","专利名称","专利号","专利状态","贡献度排名2","专利类型","专利发布时间","证明"];
                         data["专利名称"]=document.getElementById("专利名称").value;
                         data["专利号"]=document.getElementById("专利号").value;
-                        data["专利形态"]=document.getElementById("专利形态").value;
+                        data["专利状态"]=document.getElementById("专利状态").value;
                         data["贡献度排名2"]=document.getElementById("贡献度排名2").value;
                         data["专利类型"]=$("#专利类型").find("option:selected").text();
                         data["专利发布时间"]=document.getElementById("专利发布时间").value;
                         data["证明"]=document.getElementById("证明").value;
+                        data["id"]=Math.round(Math.random()*100000+899999);
 
 
                           // 把我们的数据添加到这个FormData对象中
@@ -1524,12 +1515,13 @@
                         var XHR = new XMLHttpRequest();
                         var FD  = new FormData();
                         var indexes = [];
-                        var data = ["教材名称","教材出版社","贡献度2","教材出版时间","证明"];
+                        var data = ["id","教材名称","教材出版社","贡献度2","教材出版时间","证明"];
                         data["教材名称"]=document.getElementById("教材名称").value;
                         data["教材出版社"]=document.getElementById("教材出版社").value;
                         data["贡献度2"]=document.getElementById("贡献度2").value;
                         data["教材出版时间"]=document.getElementById("教材出版时间").value;
                         data["证明"]=document.getElementById("证明").value;
+                        data["id"]=Math.round(Math.random()*100000+899999);
 
 
                           // 把我们的数据添加到这个FormData对象中
