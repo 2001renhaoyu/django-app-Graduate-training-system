@@ -1,3 +1,4 @@
+import datetime
 import random
 
 from django.forms import model_to_dict
@@ -125,7 +126,39 @@ def teacher_test(request):
 
 
 def teacher_assistant_volunteer_apply(request):
-    return render(request, "teacher/teacher_assistant_volunteer_apply.html", {})
+    cur_teacher_id = request.session.get('log_id')
+    cur_teacher_status = Teacher.objects.get(teacher_id=cur_teacher_id).teacher_status
+    if cur_teacher_status == 4 or cur_teacher_status == 1 or cur_teacher_status == 2:
+        return HttpResponse("你没有学科负责人的权限")
+    else:
+        try:
+            cur_config = Volunteerapplicationconfig.objects.get(teacher_id=cur_teacher_id)
+        except Volunteerapplicationconfig.DoesNotExist:
+            cur_config = Volunteerapplicationconfig()
+            cur_config.teacher_id = cur_teacher_id
+            cur_config.maxnum_volunteer = 2
+            cur_config.time_start = "2000-01-01"
+            cur_config.time_end = "2000-01-01"
+            cur_config.state = 0
+            cur_config.save()
+        finally:
+            if cur_config.state == "0":  # 志愿填报未开启
+                return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
+            elif cur_config.state == "1":  # 正在进行一轮志愿填报
+                distant_course = Volunteerapplication.objects.distant('course_id')
+                distant_course_num = {}
+                for one in distant_course:
+                    distant_course_num[one] = Volunteerapplication.objects.count(one)
+                return render(request, "teacher/teacher_assistant_volunteer_apply.html",
+                              {"cur_config": cur_config, "distant_course_num": distant_course_num})
+                pass
+            elif cur_config.state == "2":  # 多轮志愿填报中途
+                distant_course = Volunteerapplication.objects.distant('course_id')
+                distant_course_num = {}
+                for one in distant_course:
+                    distant_course_num[one] = Volunteerapplication.objects.count(one)
+                return render(request, "teacher/teacher_assistant_volunteer_apply.html",
+                              {"cur_config": cur_config, "distant_course_num": distant_course_num})
 
 
 def teacher_academic_activity_aduit(request):
@@ -251,6 +284,7 @@ def student_identify_project(request):
     except:
         isexist = False
         return render(request, 'student/student_search_project.html', {'isexist': isexist})
+
 
 
 def download_evidence(request):

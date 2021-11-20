@@ -9,7 +9,7 @@ urlpatterns = [
 
     # teacher
     path('teacher', views.teacher_index),  # 不能使用的模板页
-    path('teacher_assistant_volunteer_apply', views.teacher_assistant_volunteer_apply),
+    path('teacher/teacher_assistant_volunteer_apply', views.teacher_assistant_volunteer_apply),
     path('teacher/teacher_academic_activity_aduit', views.teacher_academic_activity_aduit),
     path('teacher/teacher_academic_activity_aduit/pass_acticity',views.pass_activity),
     path('teacher/teacher_academic_activity_aduit/no_pass_acticity',views.no_pass_activity),
