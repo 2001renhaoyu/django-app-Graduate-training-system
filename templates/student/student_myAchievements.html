@@ -1,0 +1,65 @@
+{% extends "student/student_index.html" %}
+{% block title %}我的成果{% endblock %}
+{% block content %}
+    <div class="page-content">
+        <div class="page-header">
+            <h1>
+                成果
+                <small>
+                    <i class="icon-double-angle-right"></i>
+                    我的成果
+                </small>
+            </h1>
+        </div>
+        {% if ache_lists %}
+            {% for ache_list in ache_lists %}
+                {% if ache_list %}
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="table-responsive">
+                                <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        {% for key,value in ache_list.0.items %}
+                                            <th>{{ key }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                    {% for ache_list_row in ache_list %}
+                                        <tr>
+                                            {% for key,value in ache_list_row.items %}
+                                                <td>
+                                                    {% if key == "材料" %}
+                                                        <a href="/download_evidence?filename={{ value }}">
+                                                            下载
+                                                        </a>
+                                                    {% elif key == "审核情况" %}
+                                                        <span
+                                                                {% if value == "通过" %}
+                                                                    class="label label-sm label-success"
+                                                                {% elif value == "未通过" %}
+                                                                    class="label label-sm label-inverse arrowed-in"
+                                                                {% else %}
+                                                                    class="label label-sm label-warning"
+                                                                {% endif %}
+                                                        >{{ value }}</span>
+                                                    {% else %}
+                                                        {{ value }}
+                                                    {% endif %}
+                                                </td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /span -->
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
