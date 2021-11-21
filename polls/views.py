@@ -503,6 +503,32 @@ def post_reward_form(request):
     return HttpResponseRedirect('/student')
 
 def teacher_achievement_aduit(request):
+    id=request.session.get('log_id')
+    thesis_list=ThesisV.objects.filter(导师id=id)
+    reward_list=RewardV.objects.filter(导师id=id)
+    standard_list=StandardV.objects.filter(导师id=id)
+    book_list=BookV.objects.filter(导师id=id)
+    patent_list=PatentV.objects.filter(导师id=id)
+    report_list=ReportV.objects.filter(导师id=id)
+    softwarehardware_list=SoftwarehardwareV.objects.filter(导师id=id)
+    ache_lists = [
+        thesis_list,
+        reward_list,
+        standard_list,
+        book_list,
+        patent_list,
+        report_list,
+        softwarehardware_list,
+    ]
+    ache_lists = [[model_to_dict(j) for j in i] for i in ache_lists]
+    for i in ache_lists:
+        for j in i:
+            j.pop('导师id')
+        if i==[]:
+            i=None
+    return render(request, 'teacher/teacher_achievement_audit.html', {'ache_lists': ache_lists})
+
+def manager_achievement_aduit(request):
     thesis_list=ThesisV.objects.all()
     reward_list=RewardV.objects.all()
     standard_list=StandardV.objects.all()
@@ -520,7 +546,12 @@ def teacher_achievement_aduit(request):
         softwarehardware_list,
     ]
     ache_lists = [[model_to_dict(j) for j in i] for i in ache_lists]
-    return render(request, 'teacher/teacher_achievement_audit.html', {'ache_lists': ache_lists})
+    for i in ache_lists:
+        for j in i:
+            j.pop('导师id')
+        if i==[]:
+            i=None
+    return render(request, 'manager/manager_achievement_audit.html', {'ache_lists': ache_lists})
 
 def pass_achievement(request):
     ache_id = request.GET.get('ache_id')
@@ -539,6 +570,24 @@ def no_pass_achievement(request):
     a_ache.ache_audit_situation = '未通过'
     a_ache.save()
     return HttpResponseRedirect('/teacher/teacher_achievement_aduit')
+
+def manager_pass_achievement(request):
+    ache_id = request.GET.get('ache_id')
+    a_ache = Acheievementindex.objects.get(ache_id=ache_id)
+    if a_ache.ache_audit_situation in ['审核中', '未通过', '管理员审核通过']:
+        a_ache.ache_audit_situation = '管理员审核通过'
+        a_ache.save()
+    else:
+        a_ache.ache_audit_situation = '通过'
+        a_ache.save()
+    return HttpResponseRedirect('/manager/manager_achievement_aduit')
+
+def manager_no_pass_achievement(request):
+    ache_id = request.GET.get('ache_id')
+    a_ache = Acheievementindex.objects.get(ache_id=ache_id)
+    a_ache.ache_audit_situation = '未通过'
+    a_ache.save()
+    return HttpResponseRedirect('/manager/manager_achievement_aduit')
 
 
 

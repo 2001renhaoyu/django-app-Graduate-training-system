@@ -70,6 +70,7 @@ class BookV(models.Model):
     贡献度 = models.IntegerField()
     学生名 = models.CharField(max_length=30)
     材料 = models.CharField(max_length=100)
+    导师id = models.CharField(max_length=30)
     审核情况 = models.CharField(max_length=10)
 
     class Meta:
@@ -135,6 +136,7 @@ class PatentV(models.Model):
     贡献度 = models.CharField(max_length=50)
     材料 = models.CharField(max_length=100)
     学生名 = models.CharField(max_length=30)
+    导师id = models.CharField(max_length=30)
     审核情况 = models.CharField(max_length=10)
 
     class Meta:
@@ -175,6 +177,7 @@ class ReportV(models.Model):
     贡献度排名 = models.IntegerField()
     材料 = models.CharField(max_length=100)
     学生名 = models.CharField(max_length=30)
+    导师id = models.CharField(max_length=30)
     审核情况 = models.CharField(max_length=10)
 
     class Meta:
@@ -204,6 +207,7 @@ class RewardV(models.Model):
     获奖时间 = models.DateField()
     材料 = models.CharField(max_length=100)
     学生名 = models.CharField(max_length=30)
+    导师id = models.CharField(max_length=30)
     审核情况 = models.CharField(max_length=10)
 
     class Meta:
@@ -232,6 +236,7 @@ class SoftwarehardwareV(models.Model):
     材料 = models.CharField(max_length=100)
     学生名 = models.CharField(max_length=30)
     审核情况 = models.CharField(max_length=10)
+    导师id = models.CharField(max_length=30)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -257,6 +262,7 @@ class StandardV(models.Model):
     材料 = models.CharField(max_length=100)
     学生名 = models.CharField(max_length=30)
     审核情况 = models.CharField(max_length=10)
+    导师id = models.CharField(max_length=30)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
@@ -323,6 +329,7 @@ class ThesisV(models.Model):
     类型 = models.CharField(max_length=50)
     归属库 = models.CharField(max_length=50)
     审核情况 = models.CharField(max_length=10)
+    导师id = models.CharField(max_length=30)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.

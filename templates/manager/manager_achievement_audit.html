@@ -1,6 +1,14 @@
-{% extends "teacher/teacher_index.html" %}
-
-{% block title %}审核学生学术交流活动{% endblock %}
+{% extends "manager/manager_index.html" %}
+{#地址导航#}
+{% block breadcrumb %}
+        <li>
+		    <i class="icon-home home-icon"></i>
+			<a href="manager_own">主页</a>
+		</li>
+        <li class="active">系统管理</li>
+        <li class="active">学术交流管理</li>
+        <li class="active">增加学术交流</li>
+{% endblock %}
 {% block content %}
     <div class="page-content">
         <div class="page-header">
@@ -8,7 +16,7 @@
                 审核学生项目情况
                 <small>
                     <i class="icon-double-angle-right"></i>
-                    需要您与管理员都进行审核方可通过
+                    需要您与导师都进行审核方可通过
                 </small>
             </h1>
         </div>
@@ -55,12 +63,12 @@
                                             {% endfor %}
                                             <td>
                                                 <button class="btn btn-xs btn-success"
-                                                        onclick="window.location.href='/teacher/teacher_achievement_aduit/pass_achievement?ache_id={{ ache_list_row.id }}'"
+                                                        onclick="window.location.href='/manager/manager_achievement_aduit/manager_pass_achievement?ache_id={{ ache_list_row.id }}'"
                                                 >
                                                     <i class="icon-ok bigger-120"></i>
                                                 </button>
                                                 <button class="btn btn-xs btn-danger"
-                                                        onclick="window.location.href='/teacher/teacher_achievement_aduit/no_pass_achievement?ache_id={{ ache_list_row.id }}'"
+                                                        onclick="window.location.href='/manager/manager_achievement_aduit/manager_no_pass_achievement?ache_id={{ ache_list_row.id }}'"
                                                 >
                                                     <i class="icon-trash bigger-120"></i>
                                                 </button>
