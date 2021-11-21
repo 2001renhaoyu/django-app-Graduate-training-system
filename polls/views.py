@@ -314,7 +314,8 @@ def student_assistant_volunteer_apply(request):
             courses = Courses.objects.filter(course_subject=cur_subject).order_by('-course_number', '-course_hours')
             pass
         return render(request, 'student/student_assistant_volunteer_apply.html'
-                      , {'cur_config': cur_config, "courses": courses, "range": range(1, cur_config.maxnum_volunteer+1)})
+                      , {'cur_config': cur_config, "courses": courses,
+                         "range": range(1, cur_config.maxnum_volunteer + 1)})
 
     else:
         return render(request, 'student/student_assistant_volunteer_apply.html', {'cur_config': cur_config})
@@ -332,6 +333,36 @@ def student_myProject(request):
     stu_id = request.session.get('log_id')
     ip_list = Identifyproject.objects.filter(ip_stu_id=stu_id)  # 根据学号展示
     return render(request, 'student/student_myProject.html', {'ip_list': ip_list})
+
+
+def student_myAchievements(request):
+    stu_id = request.session.get('log_id')
+    stu = Student.objects.get(stu_id=stu_id)
+    print(stu.stu_name)
+    thesis_list = ThesisV.objects.filter(学生名=stu.stu_name)
+    reward_list = RewardV.objects.filter(学生名=stu.stu_name)
+    standard_list = StandardV.objects.filter(学生名=stu.stu_name)
+    book_list = BookV.objects.filter(学生名=stu.stu_name)
+    patent_list = PatentV.objects.filter(学生名=stu.stu_name)
+    report_list = ReportV.objects.filter(学生名=stu.stu_name)
+    softwarehardware_list = SoftwarehardwareV.objects.filter(学生名=stu.stu_name)
+    ache_lists = [
+        thesis_list,
+        reward_list,
+        standard_list,
+        book_list,
+        patent_list,
+        report_list,
+        softwarehardware_list,
+    ]
+    ache_lists = [[model_to_dict(j) for j in i] for i in ache_lists]
+    for i in ache_lists:
+        for j in i:
+            j.pop('导师id')
+            j.pop('学生名')
+        if i == []:
+            i = None
+    return render(request, 'student/student_myAchievements.html', {'ache_lists': ache_lists})
 
 
 def student_homepage(request):
@@ -360,7 +391,7 @@ def student_identify_project(request):
         isexist = False
         return render(request, 'student/student_search_project.html', {'isexist': isexist})
 
-    ache_lists=[
+    ache_lists = [
         thesis_list,
         reward_list,
         standard_list,
@@ -368,9 +399,9 @@ def student_identify_project(request):
         patent_list,
         report_list,
         softwarehardware_list,
-                ]
-    ache_lists=[[model_to_dict(j) for j in i] for i in ache_lists]
-    return render(request,'teacher/teacher_achievement_audit.html', {'ache_lists':ache_lists})
+    ]
+    ache_lists = [[model_to_dict(j) for j in i] for i in ache_lists]
+    return render(request, 'teacher/teacher_achievement_audit.html', {'ache_lists': ache_lists})
 
 
 def download_evidence(request):
@@ -385,9 +416,13 @@ def download_evidence(request):
 
 def post_identify_project_form(request):
     myFile = request.FILES.get("evidence", None)  # 获取上传的文件，如果没有文件，则默认为None
+
     if not myFile:
         return HttpResponse("no files for upload!")
-    destination = open(os.path.join('files', 's002' + '_' + myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
+    id = request.session.get('log_id')
+    if not os.path.exists('files/' + id):
+        os.makedirs('files/' + id)
+    destination = open(os.path.join("files", id, myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
     for chunk in myFile.chunks():  # 分块写入文件
         destination.write(chunk)
     destination.close()
@@ -482,7 +517,7 @@ def post_reward_form(request):
     a_dict = request.POST.dict()
     a_dict.pop('csrfmiddlewaretoken')
     a_dict.pop('ache_type')
-    a_dict['ache_id']='a'+str(random.randint(1,1000))
+    a_dict['ache_id'] = 'a' + str(random.randint(1, 1000))
     Acheievementindex(
         ache_id=a_dict['ache_id'],
         ache_stu_id=request.session.get('log_id'),
@@ -490,37 +525,38 @@ def post_reward_form(request):
         ache_audit_situation='审核中',
         ache_evidence=os.path.join("files", id, myFile.name),
     ).save()
-    ache_type=request.POST.get('ache_type')
-    if ache_type =='论文':
+    ache_type = request.POST.get('ache_type')
+    if ache_type == '论文':
         Thesis(**a_dict).save()
-    elif ache_type=='奖励':
-        a_dict['re_num']=int(a_dict['re_num'])
+    elif ache_type == '奖励':
+        a_dict['re_num'] = int(a_dict['re_num'])
         Reward(**a_dict).save()
-    elif ache_type=='标准':
+    elif ache_type == '标准':
         Standard(**a_dict).save()
-    elif ache_type=='其他':
+    elif ache_type == '其他':
         return HttpResponse('error')
-    elif ache_type=='教材':
+    elif ache_type == '教材':
         Book(**a_dict).save()
-    elif ache_type=='专利':
+    elif ache_type == '专利':
         Patent(**a_dict).save()
-    elif ache_type=='报告':
+    elif ache_type == '报告':
         Report(**a_dict).save()
-    elif ache_type=='软硬件平台':
+    elif ache_type == '软硬件平台':
         Softwarehardware(**a_dict).save()
     else:
         return HttpResponse('error')
     return HttpResponseRedirect('/student')
 
+
 def teacher_achievement_aduit(request):
-    id=request.session.get('log_id')
-    thesis_list=ThesisV.objects.filter(导师id=id)
-    reward_list=RewardV.objects.filter(导师id=id)
-    standard_list=StandardV.objects.filter(导师id=id)
-    book_list=BookV.objects.filter(导师id=id)
-    patent_list=PatentV.objects.filter(导师id=id)
-    report_list=ReportV.objects.filter(导师id=id)
-    softwarehardware_list=SoftwarehardwareV.objects.filter(导师id=id)
+    id = request.session.get('log_id')
+    thesis_list = ThesisV.objects.filter(导师id=id)
+    reward_list = RewardV.objects.filter(导师id=id)
+    standard_list = StandardV.objects.filter(导师id=id)
+    book_list = BookV.objects.filter(导师id=id)
+    patent_list = PatentV.objects.filter(导师id=id)
+    report_list = ReportV.objects.filter(导师id=id)
+    softwarehardware_list = SoftwarehardwareV.objects.filter(导师id=id)
     ache_lists = [
         thesis_list,
         reward_list,
@@ -534,18 +570,19 @@ def teacher_achievement_aduit(request):
     for i in ache_lists:
         for j in i:
             j.pop('导师id')
-        if i==[]:
-            i=None
+        if i == []:
+            i = None
     return render(request, 'teacher/teacher_achievement_audit.html', {'ache_lists': ache_lists})
 
+
 def manager_achievement_aduit(request):
-    thesis_list=ThesisV.objects.all()
-    reward_list=RewardV.objects.all()
-    standard_list=StandardV.objects.all()
-    book_list=BookV.objects.all()
-    patent_list=PatentV.objects.all()
-    report_list=ReportV.objects.all()
-    softwarehardware_list=SoftwarehardwareV.objects.all()
+    thesis_list = ThesisV.objects.all()
+    reward_list = RewardV.objects.all()
+    standard_list = StandardV.objects.all()
+    book_list = BookV.objects.all()
+    patent_list = PatentV.objects.all()
+    report_list = ReportV.objects.all()
+    softwarehardware_list = SoftwarehardwareV.objects.all()
     ache_lists = [
         thesis_list,
         reward_list,
@@ -559,9 +596,10 @@ def manager_achievement_aduit(request):
     for i in ache_lists:
         for j in i:
             j.pop('导师id')
-        if i==[]:
-            i=None
+        if i == []:
+            i = None
     return render(request, 'manager/manager_achievement_audit.html', {'ache_lists': ache_lists})
+
 
 def pass_achievement(request):
     ache_id = request.GET.get('ache_id')
@@ -574,12 +612,14 @@ def pass_achievement(request):
         a_ache.save()
     return HttpResponseRedirect('/teacher/teacher_achievement_aduit')
 
+
 def no_pass_achievement(request):
     ache_id = request.GET.get('ache_id')
     a_ache = Acheievementindex.objects.get(ache_id=ache_id)
     a_ache.ache_audit_situation = '未通过'
     a_ache.save()
     return HttpResponseRedirect('/teacher/teacher_achievement_aduit')
+
 
 def manager_pass_achievement(request):
     ache_id = request.GET.get('ache_id')
@@ -592,13 +632,13 @@ def manager_pass_achievement(request):
         a_ache.save()
     return HttpResponseRedirect('/manager/manager_achievement_aduit')
 
+
 def manager_no_pass_achievement(request):
     ache_id = request.GET.get('ache_id')
     a_ache = Acheievementindex.objects.get(ache_id=ache_id)
     a_ache.ache_audit_situation = '未通过'
     a_ache.save()
     return HttpResponseRedirect('/manager/manager_achievement_aduit')
-
 
 
 # manager
@@ -699,19 +739,22 @@ def manager_courses_add(request):
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_subject=list_task[
+                                                                                   0].teacher_subject,
                                                                                teacher_status=4)
                 elif list_task[0].teacher_status == 3:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_subject=list_task[
+                                                                                   0].teacher_subject,
                                                                                teacher_status=5)
                 elif list_task[0].teacher_status == 6:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_subject=list_task[
+                                                                                   0].teacher_subject,
                                                                                teacher_status=7)
                 Courses.objects.create(course_id=id, course_name=name, course_hours=hours, course_scores=scores,
                                        course_number=numbers, course_academy=academy, course_subject=subject,
@@ -769,19 +812,22 @@ def manager_courses_alter(request):
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_subject=list_task[
+                                                                                   0].teacher_subject,
                                                                                teacher_status=4)
                 elif list_task[0].teacher_status == 3:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_subject=list_task[
+                                                                                   0].teacher_subject,
                                                                                teacher_status=5)
                 elif list_task[0].teacher_status == 6:
                     Teacher.objects.all().filter(teacher_id=teacher_id).update(teacher_id=list_task[0].teacher_id,
                                                                                teacher_name=list_task[0].teacher_name,
                                                                                teacher_sex=list_task[0].teacher_sex,
-                                                                               teacher_subject=list_task[0].teacher_subject,
+                                                                               teacher_subject=list_task[
+                                                                                   0].teacher_subject,
                                                                                teacher_status=7)
             else:
                 return HttpResponse("""
@@ -972,11 +1018,11 @@ def manager_academic_activity_add(request):
         else:
             list_task = Student.objects.all().filter(stu_id=student_id)
             if list_task.exists():
-                Academicactivity.objects.create(aca_activity_id=id,aca_activity_name=name,
+                Academicactivity.objects.create(aca_activity_id=id, aca_activity_name=name,
                                                 aca_student=Student.objects.all().get(stu_id=student_id),
-                                                aca_activity_location=local,aca_activity_date=date,
-                                                aca_report_name_zh=zh,aca_report_name_en=en,
-                                                aca_evidentiary_material=material,aca_audit_situation=situation,
+                                                aca_activity_location=local, aca_activity_date=date,
+                                                aca_report_name_zh=zh, aca_report_name_en=en,
+                                                aca_evidentiary_material=material, aca_audit_situation=situation,
                                                 aca_extra=extra
                                                 )
             else:
@@ -1023,13 +1069,17 @@ def manager_academic_activity_alter(request):
         else:
             list_task = Student.objects.all().filter(stu_id=student_id)
             if list_task.exists():
-                Academicactivity.objects.filter(aca_activity_id=id).update(aca_activity_id=new_id,aca_activity_name=name,
-                                                aca_student=Student.objects.all().get(stu_id=student_id),
-                                                aca_activity_location=local,aca_activity_date=date,
-                                                aca_report_name_zh=zh,aca_report_name_en=en,
-                                                aca_evidentiary_material=material,aca_audit_situation=situation,
-                                                aca_extra=extra
-                                                )
+                Academicactivity.objects.filter(aca_activity_id=id).update(aca_activity_id=new_id,
+                                                                           aca_activity_name=name,
+                                                                           aca_student=Student.objects.all().get(
+                                                                               stu_id=student_id),
+                                                                           aca_activity_location=local,
+                                                                           aca_activity_date=date,
+                                                                           aca_report_name_zh=zh, aca_report_name_en=en,
+                                                                           aca_evidentiary_material=material,
+                                                                           aca_audit_situation=situation,
+                                                                           aca_extra=extra
+                                                                           )
             else:
                 return HttpResponse("""
                             <script>
@@ -1047,7 +1097,7 @@ def manager_academic_activity_search(request):
     if request.method == 'POST':
         id = request.POST.get('a_id')
         lists = Academicactivity.objects.all().filter(aca_activity_id=id)
-    return render(request, 'manager/manager_academic_activity_search.html', {'lists' : lists})
+    return render(request, 'manager/manager_academic_activity_search.html', {'lists': lists})
 
 
 @csrf_exempt
@@ -1089,19 +1139,21 @@ def manager_student_basic_information(request):
                                 )
         if Student.objects.all().filter(stu_id=id).exists():
             Student.objects.all.filter(stu_id=id).update(stu_name=name, stu_id=id, stu_sex=sex,
-                                       stu_subject=subject, stu_type=type,
-                                       stu_tutor=Teacher.objects.all().get(teacher_id=tutor))
+                                                         stu_subject=subject, stu_type=type,
+                                                         stu_tutor=Teacher.objects.all().get(teacher_id=tutor))
         else:
             Student.objects.create(stu_name=name, stu_id=id, stu_sex=sex,
                                    stu_subject=subject, stu_type=type,
                                    stu_tutor=Teacher.objects.all().get(teacher_id=tutor))
     return render(request, 'manager/manager_student_basic_information.html', {})
 
+
 @csrf_exempt
 def manager_student_basic_information_search(request):
     search_id = request.POST.get('s_b_search_id')
     lists = Student.objects.all().filter(stu_id=search_id)
-    return render(request, 'manager/manager_student_basic_information_search.html', {'lists' : lists})
+    return render(request, 'manager/manager_student_basic_information_search.html', {'lists': lists})
+
 
 @csrf_exempt
 def manager_tutor_basic_information(request):
@@ -1143,15 +1195,9 @@ def manager_tutor_basic_information(request):
                                    teacher_status=2)
     return render(request, 'manager/manager_tutor_basic_information.html', {})
 
+
 @csrf_exempt
 def manager_tutor_basic_information_search(request):
     search_id = request.POST.get('t_b_search_id')
     lists = Teacher.objects.all().filter(teacher_id=search_id)
-    list = Student.objects.all().filter(stu_tutor=search_id)
-    return render(request, 'manager/manager_tutor_basic_information_search.html', {'lists' : lists, 'list' : list})
-
-@csrf_exempt
-def manager_tutor_projects_information_search(request):
-    search_id = request.POST.get('t_p_search_id')
-    lists = Project.objects.all().filter(pro_tutor=search_id)
-    return render(request, 'manager/manager_tutor_projects_information_search.html', {'lists' : lists})
+    return render(request, 'manager/manager_tutor_basic_information_search.html', {'lists': lists})
