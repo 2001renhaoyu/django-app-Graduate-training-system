@@ -9,6 +9,7 @@ urlpatterns = [
 
     # teacher
     path('teacher', views.teacher_index),  # 不能使用的模板页
+    path('teacher/teacher_homepage',views.teacher_homepage),
     path('teacher/teacher_assistant_volunteer_apply', views.teacher_assistant_volunteer_apply),
     path('teacher/teacher_academic_activity_aduit', views.teacher_academic_activity_aduit),
     path('teacher/teacher_academic_activity_aduit/pass_acticity',views.pass_activity),
@@ -43,6 +44,7 @@ urlpatterns = [
     path('download_evidence',views.download_evidence),
     path('student/ache_test1', views.ache_test1),
     path('student/post_reward_form', views.post_reward_form),
+    path('student/student_myAchievements',views.student_myAchievements),
 
     # manager
     path('manager', views.manager_index),  # 不能使用的模板页
@@ -70,7 +72,7 @@ urlpatterns = [
     path('manager/manager_student_basic_information_search', views.manager_student_basic_information_search),
     path('manager/manager_tutor_basic_information', views.manager_tutor_basic_information),
     path('manager/manager_tutor_basic_information_search', views.manager_tutor_basic_information_search),
-    path('manager/manager_tutor_projects_information_search', views.manager_tutor_projects_information_search),
+    # path('manager/manager_tutor_projects_information_search', views.manager_tutor_projects_information_search),
     path('manager/manager_achievement_aduit',views.manager_achievement_aduit),
     path('manager/manager_achievement_aduit/manager_pass_achievement',views.manager_pass_achievement),
     path('manager/manager_achievement_aduit/manager_no_pass_achievement',views.manager_no_pass_achievement),

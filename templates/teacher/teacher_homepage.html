@@ -1,0 +1,101 @@
+{% extends "teacher/teacher_index.html" %}
+{% block content %}
+	<div class="col-xs-12 col-sm-9">
+
+			<h4 class="blue">
+				<span class="middle">{{teacher.teacher_name}}</span>
+
+				<span class="label label-purple arrowed-in-right">
+					<i class="icon-circle smaller-80 align-middle"></i>
+					online
+				</span>
+			</h4>
+
+			<div class="profile-user-info">
+				<div class="profile-info-row">
+					<div class="profile-info-name"> 姓名 </div>
+
+					<div class="profile-info-value">
+						<span>{{teacher.teacher_name}}</span>
+					</div>
+				</div>
+
+				<div class="profile-info-row">
+					<div class="profile-info-name"> 教工号 </div>
+
+					<div class="profile-info-value">
+						<span>{{teacher.teacher_id}}</span>
+
+					</div>
+				</div>
+
+				<div class="profile-info-row">
+					<div class="profile-info-name"> 性别 </div>
+
+					<div class="profile-info-value">
+						<span>{{teacher.teacher_sex}}</span>
+					</div>
+				</div>
+
+				<div class="profile-info-row">
+					<div class="profile-info-name"> 身份 </div>
+
+					<div class="profile-info-value">
+						<span>
+							{% if teacher.teacher_status == 1 %}
+							授课老师
+							{% elif teacher.teacher_status == 2 %}
+							导师
+							{% elif teacher.teacher_status == 3 %}
+							学科负责人
+							{% elif teacher.teacher_status == 4 %}
+							授课老师 导师
+							{% elif teacher.teacher_status == 5 %}
+							授课老师 学科负责人
+							{% elif teacher.teacher_status == 6 %}
+							导师 学科负责人
+							{% elif teacher.teacher_status == 7 %}
+							导师 学科负责人 授课老师
+							{% endif %}
+						</span>
+					</div>
+				</div>
+
+				<div class="profile-info-row">
+					<div class="profile-info-name"> 学科 </div>
+
+					<div class="profile-info-value">
+						<span>{{teacher.teacher_subject}}</span>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="hr hr-8 dotted"></div>
+
+			<div class="profile-user-info">
+
+
+				<div class="profile-info-row">
+					<div class="profile-info-name">
+						<i class="middle icon-facebook-sign bigger-150 blue"></i>
+					</div>
+
+					<div class="profile-info-value">
+						<a href="#">Find me on Facebook</a>
+					</div>
+				</div>
+
+				<div class="profile-info-row">
+					<div class="profile-info-name">
+						<i class="middle icon-twitter-sign bigger-150 light-blue"></i>
+					</div>
+
+					<div class="profile-info-value">
+						<a href="#">Follow me on Twitter</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+{% endblock %}
