@@ -187,7 +187,17 @@ def post_teacher_assistant_volunteer_apply(request):
         # 即将进行新的一轮申请，此时需要
         # 根据老师选择表，学生志愿表确定一部分助教（插入assistantJob）
         cur_config.state = "0"
-
+        ts_set=Teacherselect.objects.all()
+        va_set=Volunteerapplication.objects.all()
+        selected_list=[]
+        for va in va_set.all():
+            if ts_set.filter(stu_id=va.stu_id,course_id=va.course_id).count()>0 and \
+                    (va.stu_id+'-=-'+va.course_id) in selected_list:
+                Assistantjob.objects.create(
+                    ass_stu_id=va.stu_id,
+                    ass_course_id=va.course_id
+                )
+                selected_list.append((va.stu_id+'-=-'+va.course_id))
     cur_config.save()
     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
 
