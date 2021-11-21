@@ -78,5 +78,5 @@ urlpatterns = [
     path('manager/manager_achievement_aduit/manager_no_pass_achievement',views.manager_no_pass_achievement),
     path('manager/manager_course_teacher_basic_information', views.manager_course_teacher_basic_information),
     path('manager/manager_course_teacher_basic_information_search', views.manager_course_teacher_basic_information_search),
-
+    path('manager/manager_head_teacher_basic_information', views.manager_head_teacher_basic_information),
 ]
