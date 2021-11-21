@@ -71,6 +71,11 @@ def check_login(request):
 def teacher_index(request):
     return render(request, "teacher/teacher_index.html")
 
+def teacher_homepage(request):
+    id = request.session.get('log_id')
+    teacher = Teacher.objects.get(teacher_id=id)  # 根据学号展示
+    return render(request, "teacher/teacher_homepage.html",{'teacher':teacher})
+
 
 def teacher_myProject(request):
     pro_tutor_id = request.session.get('log_id')
