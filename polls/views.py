@@ -69,7 +69,9 @@ def check_login(request):
 
 
 def teacher_index(request):
-    return render(request, "teacher/teacher_index.html")
+    id=request.session.get('log_id')
+    teacher=Teacher.objects.get(teacher_id=id)
+    return render(request, "teacher/teacher_index.html",{'teacher':teacher})
 
 def teacher_homepage(request):
     id = request.session.get('log_id')

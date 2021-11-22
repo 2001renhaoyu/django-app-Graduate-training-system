@@ -7,7 +7,7 @@
             <span class="menu-text"> 个人主页 </span>
         </a>
     </li>
-
+    {% if teacher.teacher_status == 2 or teacher.teacher_status == 4 or teacher.teacher_status == 6 or teacher.teacher_status == 7 %}
     <li >
         <a href="#" class="dropdown-toggle">
             <i class="icon-dashboard"></i>
@@ -50,6 +50,7 @@
             </li>
         </ul>
     </li>
+    {% endif %}
 
     <li >
         <a href="#" class="dropdown-toggle">
