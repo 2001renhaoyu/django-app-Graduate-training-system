@@ -38,7 +38,7 @@ class Acheievementindex(models.Model):
 
 
 class Assistantjob(models.Model):
-    ass_stu = models.ForeignKey('Student', models.DO_NOTHING)
+    ass_stu = models.ForeignKey('Student', models.DO_NOTHING, primary_key=True)
     ass_course = models.ForeignKey('Courses', models.DO_NOTHING)
     ass_teacher_evaluate = models.CharField(max_length=100, blank=True, null=True)
     ass_stu_evaluate = models.CharField(max_length=100, blank=True, null=True)
@@ -47,6 +47,7 @@ class Assistantjob(models.Model):
     class Meta:
         managed = False
         db_table = 'AssistantJob'
+        unique_together = (('ass_stu', 'ass_course'),)
 
 
 class Book(models.Model):
@@ -62,7 +63,7 @@ class Book(models.Model):
 
 
 class BookV(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
+    id = models.CharField(max_length=50,primary_key=True)
     书名 = models.CharField(max_length=50)
     出版社 = models.CharField(max_length=50)
     出版时间 = models.DateField()
@@ -126,7 +127,7 @@ class Patent(models.Model):
 
 
 class PatentV(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
+    id = models.CharField(max_length=50,primary_key=True)
     专利名称 = models.CharField(max_length=50)
     专利类型 = models.CharField(max_length=50)
     专利号 = models.IntegerField()
@@ -168,7 +169,7 @@ class Report(models.Model):
 
 
 class ReportV(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
+    id = models.CharField(max_length=50,primary_key=True)
     报告名 = models.CharField(max_length=50)
     报告类型 = models.CharField(max_length=50)
     服务单位 = models.CharField(max_length=50)
@@ -198,7 +199,7 @@ class Reward(models.Model):
 
 
 class RewardV(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
+    id = models.CharField(max_length=50,primary_key=True)
     奖励名称 = models.CharField(max_length=50)
     奖励等级 = models.CharField(max_length=50)
     获奖等级 = models.CharField(max_length=50)
@@ -227,7 +228,7 @@ class Softwarehardware(models.Model):
 
 
 class SoftwarehardwareV(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
+    id = models.CharField(max_length=50,primary_key=True)
     名称 = models.CharField(max_length=50)
     服务单位 = models.CharField(max_length=50)
     上线时间 = models.DateField()
@@ -254,7 +255,7 @@ class Standard(models.Model):
 
 
 class StandardV(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
+    id = models.CharField(max_length=50,primary_key=True)
     标准名称 = models.CharField(max_length=50)
     标准级别 = models.CharField(max_length=50)
     标准时间 = models.DateField()
@@ -295,7 +296,7 @@ class Teacher(models.Model):
 
 
 class Teacherselect(models.Model):
-    course = models.ForeignKey(Courses, models.DO_NOTHING)
+    course = models.ForeignKey(Courses, models.DO_NOTHING, primary_key=True)
     stu = models.ForeignKey(Student, models.DO_NOTHING)
 
     class Meta:
@@ -318,7 +319,7 @@ class Thesis(models.Model):
 
 
 class ThesisV(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
+    id = models.CharField(max_length=50,primary_key=True)
     学生名 = models.CharField(max_length=30)
     材料 = models.CharField(max_length=100)
     论文名 = models.CharField(max_length=100)
@@ -346,13 +347,14 @@ class Users(models.Model):
 
 
 class Volunteerapplication(models.Model):
-    stu = models.ForeignKey(Student, models.DO_NOTHING)
+    stu = models.ForeignKey(Student, models.DO_NOTHING, primary_key=True)
     course = models.ForeignKey(Courses, models.DO_NOTHING)
     priority = models.CharField(max_length=10)
 
     class Meta:
         managed = False
         db_table = 'VolunteerApplication'
+        unique_together = (('stu', 'course'),)
 
 
 class Volunteerapplicationconfig(models.Model):
