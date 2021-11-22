@@ -227,7 +227,7 @@ def post_teacher_assistant_volunteer_apply(request):
         selected_list=[]
         for va in va_set.all():
             if ts_set.filter(stu_id=va.stu_id,course_id=va.course_id).count()>0 and \
-                    (va.stu_id+'-=-'+va.course_id) in selected_list:
+                    (va.stu_id+'-=-'+va.course_id) not in selected_list:
                 Assistantjob.objects.create(
                     ass_stu_id=va.stu_id,
                     ass_course_id=va.course_id
@@ -249,7 +249,7 @@ def end_teacher_assistant_volunteer_apply(request):
     selected_list = []
     for va in va_set.all():
         if ts_set.filter(stu_id=va.stu_id, course_id=va.course_id).count() > 0 and \
-                (va.stu_id + '-=-' + va.course_id) in selected_list:
+                (va.stu_id + '-=-' + va.course_id) not in selected_list:
             Assistantjob.objects.create(
                 ass_stu_id=va.stu_id,
                 ass_course_id=va.course_id
