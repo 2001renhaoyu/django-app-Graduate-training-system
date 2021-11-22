@@ -1,1 +1,53 @@
 {% extends "manager/manager_index.html" %}
+{% block content %}
+
+	<div class="col-xs-12 col-sm-9">
+
+			<h4 class="blue">
+				<span class="middle">{{manager.log_id}}</span>
+
+				<span class="label label-purple arrowed-in-right">
+					<i class="icon-circle smaller-80 align-middle"></i>
+					online
+				</span>
+			</h4>
+
+			<div class="profile-user-info">
+
+				<div class="profile-info-row">
+					<div class="profile-info-name"> 管理员号 </div>
+
+					<div class="profile-info-value">
+						<span>{{manager.log_id}}</span>
+
+					</div>
+				</div>
+
+			<div class="hr hr-8 dotted"></div>
+
+			<div class="profile-user-info">
+
+
+				<div class="profile-info-row">
+					<div class="profile-info-name">
+						<i class="middle icon-facebook-sign bigger-150 blue"></i>
+					</div>
+
+					<div class="profile-info-value">
+						<a href="#">Find me on Facebook</a>
+					</div>
+				</div>
+
+				<div class="profile-info-row">
+					<div class="profile-info-name">
+						<i class="middle icon-twitter-sign bigger-150 light-blue"></i>
+					</div>
+
+					<div class="profile-info-value">
+						<a href="#">Follow me on Twitter</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+{% endblock %}

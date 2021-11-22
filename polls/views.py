@@ -760,8 +760,9 @@ def manager_index(request):
 
 
 def manager_own(request):
-    return render(request, 'manager/manager_own.html', {})
-
+    manager_id = request.session.get('log_id')
+    manager = Users.objects.all().get(log_id=manager_id)
+    return render(request, 'manager/manager_own.html', {'manager' : manager})
 
 @csrf_exempt
 def manager_users_add(request):
