@@ -798,8 +798,6 @@ def manager_users_add(request):
                                 )
         else:
             Users.objects.create(log_id=id, log_pwd=pwd, log_type=type)
-            if type == '学生':
-                Student.objects.create(stu_id)
     return render(request, 'manager/manager_users_add.html', {})
 
 
