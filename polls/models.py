@@ -104,6 +104,7 @@ class Identifyproject(models.Model):
     ip_funds = models.DecimalField(max_digits=6, decimal_places=1)
     ip_status = models.IntegerField()
     ip_mid_status = models.IntegerField()
+    ip_path = models.CharField(max_length=50)
 
     class Meta:
         managed = False
