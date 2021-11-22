@@ -11,6 +11,13 @@ urlpatterns = [
     path('teacher', views.teacher_index),  # 不能使用的模板页
     path('teacher/teacher_homepage',views.teacher_homepage),
     path('teacher/teacher_assistant_volunteer_apply', views.teacher_assistant_volunteer_apply),
+    path('teacher/teacher_assistant_volunteer_select', views.teacher_assistant_volunteer_select),
+    path('teacher/post_teacher_assistant_volunteer_select', views.post_teacher_assistant_volunteer_select),
+    path('teacher/post_teacher_assistant_volunteer_apply', views.post_teacher_assistant_volunteer_apply),
+    path('teacher/end_teacher_assistant_volunteer_apply', views.end_teacher_assistant_volunteer_apply),
+    path('teacher/teacher_assistant_volunteer_evaluate', views.teacher_assistant_volunteer_evaluate),
+    path('teacher/post_teacher_assistant_volunteer_evaluate', views.post_teacher_assistant_volunteer_evaluate),
+
     path('teacher/teacher_academic_activity_aduit', views.teacher_academic_activity_aduit),
     path('teacher/teacher_academic_activity_aduit/pass_acticity',views.pass_activity),
     path('teacher/teacher_academic_activity_aduit/no_pass_acticity',views.no_pass_activity),
@@ -18,8 +25,6 @@ urlpatterns = [
     path('teacher/head_teacher_academic_activity_aduit/pass_acticity',views.head_pass_activity),
     path('teacher/head_teacher_academic_activity_aduit/no_pass_acticity',views.head_no_pass_activity),
     path('teacher/teacher_myProject', views.teacher_myProject),
-    path('teacher/post_teacher_assistant_volunteer_apply', views.post_teacher_assistant_volunteer_apply),
-    path('teacher/end_teacher_assistant_volunteer_apply', views.end_teacher_assistant_volunteer_apply),
     path('teacher/teacher_myProject',views.teacher_myProject),
     path('teacher/teacher_fill_in_funds',views.teacher_fill_in_funds),
     path('teacher/post_fill_in_funds_form',views.post_fill_in_funds_form),
@@ -30,6 +35,8 @@ urlpatterns = [
     # student
     path('student', views.student_index),  # 不能使用的模板页
     path('student/student_assistant_volunteer_apply', views.student_assistant_volunteer_apply),
+    path('student/post_student_assistant_volunteer_apply', views.post_student_assistant_volunteer_apply),
+
     path('student/student_assistant_volunteer_work', views.student_assistant_volunteer_work),
     path('student/student_assistant_volunteer_export', views.student_assistant_volunteer_export),
     path('student/student_homepage', views.student_homepage),

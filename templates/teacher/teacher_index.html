@@ -7,7 +7,7 @@
             <span class="menu-text"> 个人主页 </span>
         </a>
     </li>
-
+    {% if teacher.teacher_status == 2 or teacher.teacher_status == 4 or teacher.teacher_status == 6 or teacher.teacher_status == 7 %}
     <li >
         <a href="#" class="dropdown-toggle">
             <i class="icon-dashboard"></i>
@@ -50,7 +50,8 @@
             </li>
         </ul>
     </li>
-
+    {% endif %}
+    {% if teacher.teacher_status == 1 or teacher.teacher_status == 4 or teacher.teacher_status == 5 or teacher.teacher_status == 7 %}
     <li >
         <a href="#" class="dropdown-toggle">
             <i class="icon-dashboard"></i>
@@ -79,7 +80,8 @@
             </li>
         </ul>
     </li>
-
+    {% endif %}
+    {% if teacher.teacher_status == 3 or teacher.teacher_status == 5 or teacher.teacher_status == 6 or teacher.teacher_status == 7 %}
     <li >
         <a href="#" class="dropdown-toggle">
             <i class="icon-dashboard"></i>
@@ -126,7 +128,6 @@
                     </li>
                 </ul>
             </li>
-
             <li>
                 <a href="form-wizard.html">
                     <i class="icon-double-angle-right"></i>
@@ -136,7 +137,8 @@
 
         </ul>
     </li>
-        <li >
+    {% endif %}
+    <li >
         <a href="#" class="dropdown-toggle">
             <i class="icon-dashboard"></i>
             <span class="menu-text"> 行政管理 </span>
@@ -148,4 +150,7 @@
 {% endblock %}
 
 {% block content %}
+    {% if inf %}
+        <h3 class="header smaller lighter green">{{ inf }}</h3>
+    {% endif %}
 {% endblock %}

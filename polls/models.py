@@ -97,7 +97,7 @@ class Courses(models.Model):
 
 
 class Identifyproject(models.Model):
-    ip_stu = models.ForeignKey('Student', models.DO_NOTHING, primary_key=True)
+    ip_stu = models.ForeignKey('Student', models.DO_NOTHING)
     ip_pro = models.ForeignKey('Project', models.DO_NOTHING)
     ip_job_content = models.CharField(max_length=100)
     ip_begintime = models.DateField()
@@ -105,11 +105,11 @@ class Identifyproject(models.Model):
     ip_funds = models.DecimalField(max_digits=6, decimal_places=1)
     ip_status = models.IntegerField()
     ip_mid_status = models.IntegerField()
+    ip_path = models.CharField(max_length=50)
 
     class Meta:
         managed = False
         db_table = 'IdentifyProject'
-        unique_together = (('ip_stu', 'ip_pro'),)
 
 
 class Patent(models.Model):
