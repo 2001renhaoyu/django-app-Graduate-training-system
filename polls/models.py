@@ -38,7 +38,7 @@ class Acheievementindex(models.Model):
 
 
 class Assistantjob(models.Model):
-    ass_stu = models.ForeignKey('Student', models.DO_NOTHING, primary_key=True)
+    ass_stu = models.ForeignKey('Student', models.DO_NOTHING)
     ass_course = models.ForeignKey('Courses', models.DO_NOTHING)
     ass_teacher_evaluate = models.CharField(max_length=100, blank=True, null=True)
     ass_stu_evaluate = models.CharField(max_length=100, blank=True, null=True)
@@ -47,7 +47,6 @@ class Assistantjob(models.Model):
     class Meta:
         managed = False
         db_table = 'AssistantJob'
-        unique_together = (('ass_stu', 'ass_course'),)
 
 
 class Book(models.Model):
@@ -60,22 +59,6 @@ class Book(models.Model):
     class Meta:
         managed = False
         db_table = 'Book'
-
-
-class BookV(models.Model):
-    id = models.CharField(max_length=50,primary_key=True)
-    书名 = models.CharField(max_length=50)
-    出版社 = models.CharField(max_length=50)
-    出版时间 = models.DateField()
-    贡献度 = models.IntegerField()
-    学生名 = models.CharField(max_length=30)
-    材料 = models.CharField(max_length=100)
-    导师id = models.CharField(max_length=30)
-    审核情况 = models.CharField(max_length=10)
-
-    class Meta:
-        managed = False  # Created from a view. Don't remove.
-        db_table = 'Book_v'
 
 
 class Courses(models.Model):
@@ -126,24 +109,6 @@ class Patent(models.Model):
         db_table = 'Patent'
 
 
-class PatentV(models.Model):
-    id = models.CharField(max_length=50,primary_key=True)
-    专利名称 = models.CharField(max_length=50)
-    专利类型 = models.CharField(max_length=50)
-    专利号 = models.IntegerField()
-    专利发布时间 = models.DateField()
-    专利状态 = models.CharField(max_length=50)
-    贡献度 = models.CharField(max_length=50)
-    材料 = models.CharField(max_length=100)
-    学生名 = models.CharField(max_length=30)
-    导师id = models.CharField(max_length=30)
-    审核情况 = models.CharField(max_length=10)
-
-    class Meta:
-        managed = False  # Created from a view. Don't remove.
-        db_table = 'Patent_v'
-
-
 class Project(models.Model):
     pro_id = models.CharField(primary_key=True, max_length=30)
     pro_type = models.CharField(max_length=30)
@@ -168,23 +133,6 @@ class Report(models.Model):
         db_table = 'Report'
 
 
-class ReportV(models.Model):
-    id = models.CharField(max_length=50,primary_key=True)
-    报告名 = models.CharField(max_length=50)
-    报告类型 = models.CharField(max_length=50)
-    服务单位 = models.CharField(max_length=50)
-    报告时间 = models.DateField()
-    贡献度排名 = models.IntegerField()
-    材料 = models.CharField(max_length=100)
-    学生名 = models.CharField(max_length=30)
-    导师id = models.CharField(max_length=30)
-    审核情况 = models.CharField(max_length=10)
-
-    class Meta:
-        managed = False  # Created from a view. Don't remove.
-        db_table = 'Report_v'
-
-
 class Reward(models.Model):
     re_name = models.CharField(max_length=50)
     re_level = models.CharField(max_length=50)
@@ -196,23 +144,6 @@ class Reward(models.Model):
     class Meta:
         managed = False
         db_table = 'Reward'
-
-
-class RewardV(models.Model):
-    id = models.CharField(max_length=50,primary_key=True)
-    奖励名称 = models.CharField(max_length=50)
-    奖励等级 = models.CharField(max_length=50)
-    获奖等级 = models.CharField(max_length=50)
-    排名 = models.IntegerField()
-    获奖时间 = models.DateField()
-    材料 = models.CharField(max_length=100)
-    学生名 = models.CharField(max_length=30)
-    导师id = models.CharField(max_length=30)
-    审核情况 = models.CharField(max_length=10)
-
-    class Meta:
-        managed = False  # Created from a view. Don't remove.
-        db_table = 'Reward_v'
 
 
 class Softwarehardware(models.Model):
@@ -227,22 +158,6 @@ class Softwarehardware(models.Model):
         db_table = 'SoftwareHardware'
 
 
-class SoftwarehardwareV(models.Model):
-    id = models.CharField(max_length=50,primary_key=True)
-    名称 = models.CharField(max_length=50)
-    服务单位 = models.CharField(max_length=50)
-    上线时间 = models.DateField()
-    贡献度 = models.IntegerField()
-    材料 = models.CharField(max_length=100)
-    学生名 = models.CharField(max_length=30)
-    审核情况 = models.CharField(max_length=10)
-    导师id = models.CharField(max_length=30)
-
-    class Meta:
-        managed = False  # Created from a view. Don't remove.
-        db_table = 'SoftwareHardware_v'
-
-
 class Standard(models.Model):
     sta_name = models.CharField(max_length=50)
     sta_level = models.CharField(max_length=50)
@@ -252,21 +167,6 @@ class Standard(models.Model):
     class Meta:
         managed = False
         db_table = 'Standard'
-
-
-class StandardV(models.Model):
-    id = models.CharField(max_length=50,primary_key=True)
-    标准名称 = models.CharField(max_length=50)
-    标准级别 = models.CharField(max_length=50)
-    标准时间 = models.DateField()
-    材料 = models.CharField(max_length=100)
-    学生名 = models.CharField(max_length=30)
-    审核情况 = models.CharField(max_length=10)
-    导师id = models.CharField(max_length=30)
-
-    class Meta:
-        managed = False  # Created from a view. Don't remove.
-        db_table = 'Standard_v'
 
 
 class Student(models.Model):
@@ -296,8 +196,9 @@ class Teacher(models.Model):
 
 
 class Teacherselect(models.Model):
-    course = models.ForeignKey(Courses, models.DO_NOTHING, primary_key=True)
+    course = models.ForeignKey(Courses, models.DO_NOTHING)
     stu = models.ForeignKey(Student, models.DO_NOTHING)
+    id = models.AutoField()
 
     class Meta:
         managed = False
@@ -318,24 +219,6 @@ class Thesis(models.Model):
         db_table = 'Thesis'
 
 
-class ThesisV(models.Model):
-    id = models.CharField(max_length=50,primary_key=True)
-    学生名 = models.CharField(max_length=30)
-    材料 = models.CharField(max_length=100)
-    论文名 = models.CharField(max_length=100)
-    刊物名称 = models.CharField(max_length=100)
-    论文状态 = models.CharField(max_length=50)
-    发表时间 = models.DateField(blank=True, null=True)
-    类型 = models.CharField(max_length=50)
-    归属库 = models.CharField(max_length=50)
-    审核情况 = models.CharField(max_length=10)
-    导师id = models.CharField(max_length=30)
-
-    class Meta:
-        managed = False  # Created from a view. Don't remove.
-        db_table = 'Thesis_v'
-
-
 class Users(models.Model):
     log_id = models.CharField(primary_key=True, max_length=30)
     log_pwd = models.CharField(max_length=30)
@@ -347,14 +230,14 @@ class Users(models.Model):
 
 
 class Volunteerapplication(models.Model):
-    stu = models.ForeignKey(Student, models.DO_NOTHING, primary_key=True)
+    stu = models.ForeignKey(Student, models.DO_NOTHING)
     course = models.ForeignKey(Courses, models.DO_NOTHING)
     priority = models.CharField(max_length=10)
+    id = models.AutoField()
 
     class Meta:
         managed = False
         db_table = 'VolunteerApplication'
-        unique_together = (('stu', 'course'),)
 
 
 class Volunteerapplicationconfig(models.Model):
