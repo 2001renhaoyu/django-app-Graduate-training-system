@@ -1,11 +1,13 @@
 import datetime
 import random
 
+import requests
 from django.forms import model_to_dict
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render
 from django.utils.encoding import escape_uri_path
 from django.views.decorators.csrf import csrf_exempt
+from openpyxl import Workbook
 from reportlab.pdfgen import canvas
 
 from polls.models import *
@@ -576,20 +578,24 @@ def post_academic_activity_form(request):
 
 
 def export_form(request):
-    # Create the HttpResponse object with the appropriate PDF headers.
-    response = HttpResponse()
-    response['Content-Disposition'] = 'attachment; filename=hello.pdf'
-
-    # Create the PDF object, using the response object as its "file."
-    p = canvas.Canvas(response)
-
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # See the ReportLab documentation for the full list of functionality.
-    p.drawString(100, 100, "Hello world.")
-
-    # Close the PDF object cleanly, and we're done.
-    p.showPage()
-    p.save()
+    wb = Workbook()
+    ws = wb.active
+    stu_id=request.session.get('log_id')
+    aca=Academicactivity.objects.filter(aca_student_id=stu_id)
+    ws.append(['序号','活动id','活动地点','活动日期','报告中文名','报告英文名','备注'])
+    for index,row in enumerate(aca):
+        ws.append([index]+[row.aca_activity_id,
+                           row.aca_activity_location,
+                           row.aca_activity_date,
+                           row.aca_report_name_zh,
+                           row.aca_report_name_en,
+                           row.aca_extra])
+    from io import BytesIO
+    output = BytesIO()
+    wb.save(output)  # 这句是将worksheet保存到二进制字节中去
+    output.seek(0)  # output读取所以数据
+    response = FileResponse(output)
+    response['name'] = 'table.xlsx'
     return response
 
 
