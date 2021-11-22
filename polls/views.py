@@ -440,7 +440,8 @@ def post_identify_project_form(request):
         ip_job_content=request.POST.get('job_content'),
         ip_begintime=request.POST.get('begin_time'),
         ip_endtime=request.POST.get('end_time'),
-        ip_funds=request.POST.get('pro_funds'),
+        ip_path=os.path.join("files", id, myFile.name),
+        ip_funds=0,
         ip_status=0
     )
     ip.save()
