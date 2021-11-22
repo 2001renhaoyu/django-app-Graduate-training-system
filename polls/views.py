@@ -181,19 +181,30 @@ def teacher_assistant_volunteer_select(request):
 
 def teacher_assistant_volunteer_evaluate(request):
     cur_teacher_id = request.session.get('log_id')
-    cur_teacher = Teacher.objects.get(teacher_id=cur_teacher_id)
     cur_courses = Courses.objects.filter(course_teacher=cur_teacher_id)
-    cur_inf = []
+    cur_infs = []
     for course in cur_courses:
-        cur_job = Assistantjob.objects.filter(ass_course_id=course.course_id)
-        if cur_assistantjob is not None:
-            pass
+        cur_jobs = Assistantjob.objects.filter(ass_course_id=course.course_id)
+        for cur_job in cur_jobs:
+            cur_infs.append([cur_job.ass_stu_id, cur_job.ass_stu.stu_name,
+                            cur_job.ass_course.course_id, cur_job.ass_course.course_name])
 
+    return render(request, 'teacher/teacher_assistant_volunteer_evaluate.html', {"cur_infs": cur_infs})
 
 
 @csrf_exempt
 def post_teacher_assistant_volunteer_evaluate(request):
-    pass
+    cur_teacher_id = request.session.get('log_id')
+    cur_courses = Courses.objects.filter(course_teacher=cur_teacher_id)
+    for course in cur_courses:
+        cur_jobs = Assistantjob.objects.filter(ass_course_id=course.course_id)
+        for cur_job in cur_jobs:
+            cur_job.ass_teacher_evaluate = request.POST.get("textarea-"+cur_job.ass_stu_id + "-" + cur_job.ass_course_id)
+            cur_job.ass_result = request.POST.get("form-field-radio-"+cur_job.ass_stu_id + "-" + cur_job.ass_course_id)
+            cur_job.save()
+
+    return render(request, 'teacher/teacher_index.html', {'inf': "评价完毕"})
+
 
 @csrf_exempt
 def post_teacher_assistant_volunteer_select(request):
@@ -429,7 +440,7 @@ def post_student_assistant_volunteer_apply(request):
 
         return render(request, 'student/student_index.html', {'inf': "申报完毕"})
     else:
-        return HttpResponse("志愿有课程重复，请返回")
+        return render(request, 'student/student_index.html', {'inf': "志愿课程有重复，请重试"})
 
 
 

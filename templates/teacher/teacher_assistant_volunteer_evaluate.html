@@ -1,0 +1,93 @@
+{% extends "teacher/teacher_index.html" %}
+{% block title %}老师评价助教{% endblock %}
+{#地址导航#}
+{% block breadcrumb %}
+        <li>
+		    <i class="icon-home home-icon"></i>
+			<a href="#">主页</a>
+		</li>
+        <li class="active">授课工作</li>
+        <li class="active">助教评价</li>
+{% endblock %}
+{% block content %}
+    <form method="post" action="post_teacher_assistant_volunteer_evaluate">
+
+    {% if cur_infs %}
+    {% for cur_inf in cur_infs %}
+        <div class="row">
+            <h3 class="header smaller lighter blue">学生信息</h3>
+            <div class="profile-user-info profile-user-info-striped">
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 学生id </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="time_start">{{ cur_inf.0}}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 学生姓名 </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="time_end">{{ cur_inf.1}}</span>
+                </div>
+            </div>
+
+                    <div class="profile-info-row">
+                <div class="profile-info-name"> 课程id </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="time_start">{{ cur_inf.2}}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 课程名称 </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="time_end">{{ cur_inf.3}}</span>
+                </div>
+            </div>
+            <hr>
+        </div>
+            <div>
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-{{ cur_inf.0 }}{{ cur_inf.2}}">评价</label>
+                <div class="col-sm-12">
+                    <textarea id="form-field-{{ cur_inf.0 }}{{ cur_inf.2}}"name="textarea-{{ cur_inf.0 }}-{{ cur_inf.2}}" class="autosize-transition form-control" style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 52px; margin-left: 0px; margin-right: 11.725px; width: 376px;"></textarea>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">是否合格</label>
+                <div class="col-sm-12">
+
+                    <div class="radio">
+                        <label>
+                            <input name="form-field-radio-{{ cur_inf.0 }}-{{ cur_inf.2}}}" type="radio" class="ace" value="合格">
+                            <span class="lbl"> 合格</span>
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input name="form-field-radio-{{ cur_inf.0 }}-{{ cur_inf.2}}" type="radio" class="ace" value="不合格">
+                            <span class="lbl"> 不合格</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <hr>
+
+    <div class="row">
+        <button class="btn btn-lg btn-success" type="submit">
+            <i class="icon-ok"></i>
+            提交
+        </button>
+    </div>
+    </form>
+    {% else %}
+        <h3 class="header smaller lighter blue">评教工作已完成</h3>
+    {% endif %}
+{% endblock %}
