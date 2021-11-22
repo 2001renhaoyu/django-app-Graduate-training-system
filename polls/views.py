@@ -179,6 +179,21 @@ def teacher_assistant_volunteer_select(request):
                       , {"cur_config": cur_config, "cur_volsInf": cur_volsInf})
     pass
 
+def teacher_assistant_volunteer_evaluate(request):
+    cur_teacher_id = request.session.get('log_id')
+    cur_teacher = Teacher.objects.get(teacher_id=cur_teacher_id)
+    cur_courses = Courses.objects.filter(course_teacher=cur_teacher_id)
+    cur_inf = []
+    for course in cur_courses:
+        cur_job = Assistantjob.objects.filter(ass_course_id=course.course_id)
+        if cur_assistantjob is not None:
+            pass
+
+
+
+@csrf_exempt
+def post_teacher_assistant_volunteer_evaluate(request):
+    pass
 
 @csrf_exempt
 def post_teacher_assistant_volunteer_select(request):
@@ -415,7 +430,6 @@ def post_student_assistant_volunteer_apply(request):
         return render(request, 'student/student_index.html', {'inf': "申报完毕"})
     else:
         return HttpResponse("志愿有课程重复，请返回")
-
 
 
 
