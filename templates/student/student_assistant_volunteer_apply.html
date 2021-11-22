@@ -41,22 +41,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for dit_course in dit_courses %}
-                                    {% if dit_course.1 %}
-                                        <tr>
-                                            <td class="center  sorting_1">
-                                            <label>
-                                                <input type="checkbox" class="ace" onclick="checkboxOnclick(this)" value="{{dit_course.0.course_id}}">
-                                                <span class="lbl"></span>
-                                            </label>
-                                        </td>
-                                            <td>{{dit_course.0.course_id}}</td>
-                                            <td>{{dit_course.0.course_name}}</td>
-                                            <td>{{dit_course.0.course_hours}}</td>
-                                            <td>{{dit_course.0.course_number}}</td>
-                                            <td>{{dit_course.0.course_teacher.teacher_name}}</td>
-                                        </tr>
-                                    {% endif %}
+                                {% for course in courses %}
+                                    <tr>
+                                        <td class="center  sorting_1">
+                                        <label>
+                                            <input type="checkbox" class="ace" onclick="checkboxOnclick(this)" value="{{course.course_id}}">
+                                            <span class="lbl"></span>
+                                        </label>
+                                    </td>
+                                        <td>{{course.course_id}}</td>
+                                        <td>{{course.course_name}}</td>
+                                        <td>{{course.course_hours}}</td>
+                                        <td>{{course.course_number}}</td>
+                                        <td>{{course.course_teacher.teacher_name}}</td>
+                                    </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -67,23 +65,22 @@
         </div>
     </div>
     <hr>
-    <form method="post" action="post_student_assistant_volunteer_apply">
-        {% for i in range %}
+    {% for i in range %}
         <div>
-            <label for="form-field-select-vol{{ i }}">第{{ i }}志愿</label>
+            <label for="form-field-select-2">第{{ i }}志愿</label>
 
-            <select id="form-field-select-vol{{ i }}" name="select-vol{{ i }}" class="form-control" multiple="multiple">
+            <select class="form-control" id="form-field-select-vol{{ i }}" multiple="multiple">
             </select>
         </div>
-        {% endfor %}
-        <hr>
-        <div class="row">
-            <button class="btn btn-lg btn-success" type="submit">
-                <i class="icon-ok"></i>
-                下一步
-            </button>
-        </div>
-    </form>
+    {% endfor %}
+
+    <hr>
+    <div class="row">
+        <button class="btn btn-lg btn-success">
+            <i class="icon-ok"></i>
+            下一步
+        </button>
+    </div>
 
 {% else %}
     <h3 class="header smaller lighter blue">当前志愿申报未开启</h3>
