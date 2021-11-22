@@ -55,13 +55,17 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> </label>
 
                             <div class="col-sm-9">
-                                <input type="submit">
+                                <input type="submit" onclick="btn()">
                                 <input type="reset">
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
 {% endblock %}
+                        <script>
+                            function btn(){
+                                location.href = 'manager_student_basic_information.html'
+                            }
+                        </script>

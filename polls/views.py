@@ -755,10 +755,10 @@ def manager_users_add(request):
         id = request.POST.get('u_id')
         pwd = request.POST.get('u_pwd')
         type = request.POST.get('type')
-        if Users.objects.all().filter(log_id=id).exists():
+        if Users.objects.all().filter(log_id=id).exists() or id == '':
             return HttpResponse("""
             <script>
-            alert('不能添加id相同的数据');
+            alert('不能添加id相同的数据或为空');
             window.location='/manager/manager_users_add';
             </script>
             """
@@ -784,10 +784,10 @@ def manager_users_alter(request):
         new_id = request.POST.get('u_new_id')
         new_pwd = request.POST.get('u_new_pwd')
         new_type = request.POST.get('type')
-        if id == new_id and id != None:
+        if id == new_id and id != '':
             return HttpResponse("""
             <script>
-            alert('旧用户名不能与新用户名一致');
+            alert('旧用户名不能与新用户名一致或为空');
             window.location='/manager/manager_users_alter';
             </script>
             """
@@ -823,10 +823,10 @@ def manager_courses_add(request):
         schedule = request.POST.get('c_schedule')
         assessment = request.POST.get('c_assessment_method')
         nature = request.POST.get('c_nature')
-        if Courses.objects.all().filter(course_id=id).exists():
+        if Courses.objects.all().filter(course_id=id).exists() or id == '':
             return HttpResponse("""
             <script>
-            alert('不能添加id相同的数据');
+            alert('不能添加id相同的数据或为空');
             window.location='/manager/manager_courses_add';
             </script>
             """
@@ -896,10 +896,10 @@ def manager_courses_alter(request):
         schedule = request.POST.get('c_schedule')
         assessment = request.POST.get('c_assessment_method')
         nature = request.POST.get('c_nature')
-        if id == new_id and id != None:
+        if id == new_id and id != '':
             return HttpResponse("""
             <script>
-            alert('旧课程号不能与新课程号一致');
+            alert('旧课程号不能与新课程号一致或为空');
             window.location='/manager/manager_courses_alter';
             </script>
             """
@@ -960,10 +960,10 @@ def manager_projects_add(request):
         name = request.POST.get('p_name')
         type = request.POST.get('p_type')
         tutor = request.POST.get('p_tutor')
-        if Project.objects.all().filter(pro_id=id).exists():
+        if Project.objects.all().filter(pro_id=id).exists() or id == '':
             return HttpResponse("""
             <script>
-            alert('不能添加id相同的数据');
+            alert('不能添加id相同的数据或为空');
             window.location='/manager/manager_projects_add';
             </script>
             """
@@ -1018,10 +1018,10 @@ def manager_projects_alter(request):
         name = request.POST.get('p_name')
         type = request.POST.get('p_type')
         tutor = request.POST.get('p_tutor')
-        if id == new_id and id != None:
+        if id == new_id and id != '':
             return HttpResponse("""
             <script>
-            alert('旧项目号不能与新项目号一致');
+            alert('旧项目号不能与新项目号一致或为空');
             window.location='/manager/manager_projects_alter';
             </script>
             """
@@ -1106,10 +1106,10 @@ def manager_academic_activity_add(request):
         material = request.POST.get('a_material')
         situation = request.POST.get('a_situation')
         extra = request.POST.get('a_extra')
-        if Academicactivity.objects.all().filter(aca_activity_id=id).exists():
+        if Academicactivity.objects.all().filter(aca_activity_id=id).exists() and id == '':
             return HttpResponse("""
             <script>
-            alert('不能添加id相同的数据');
+            alert('不能添加id相同的数据或为空');
             window.location='/manager/manager_academic_activity_add';
             </script>
             """
@@ -1157,10 +1157,10 @@ def manager_academic_activity_alter(request):
         material = request.POST.get('a_material')
         situation = request.POST.get('a_situation')
         extra = request.POST.get('a_extra')
-        if Academicactivity.objects.all().filter(aca_activity_id=new_id).exists():
+        if Academicactivity.objects.all().filter(aca_activity_id=new_id).exists() or id == '':
             return HttpResponse("""
             <script>
-            alert('不能添加id相同的数据');
+            alert('不能添加id相同的数据或为空');
             window.location='/manager/manager_academic_activity_alter';
             </script>
             """
