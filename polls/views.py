@@ -72,6 +72,12 @@ def teacher_index(request):
     return render(request, "teacher/teacher_index.html")
 
 
+def teacher_homepage(request):
+    id = request.session.get('log_id')
+    teacher = Teacher.objects.get(teacher_id=id)  # 根据学号展示
+    return render(request, "teacher/teacher_homepage.html",{'teacher':teacher})
+
+
 def teacher_myProject(request):
     pro_tutor_id = request.session.get('log_id')
     pro_list = Project.objects.filter(pro_tutor_id=pro_tutor_id)
@@ -129,7 +135,7 @@ def teacher_assistant_volunteer_apply(request):
     cur_teacher = Teacher.objects.get(teacher_id=cur_teacher_id)
     cur_teacher_status = cur_teacher.teacher_status
     if cur_teacher_status == "4" or cur_teacher_status == "1" or cur_teacher_status == "2":
-        return HttpResponse("你没有学科负责人的权限")
+        return render(request, 'student/student_index.html', {'inf': "你没有学科负责人的权限"})
     else:
         try:
             cur_config = Volunteerapplicationconfig.objects.get(teacher_id=cur_teacher_id)
@@ -144,12 +150,46 @@ def teacher_assistant_volunteer_apply(request):
             cur_config.save()
         finally:
             return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
-            # if cur_config.state == "0":  # 志愿填报未开启
-            #     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
-            # elif cur_config.state == "1":  # 正在进行一轮志愿填报
-            #     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
-            # elif cur_config.state == "2":  # 多轮志愿填报中途
-            #     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
+
+
+def teacher_assistant_volunteer_select(request):
+    cur_teacher_id = request.session.get('log_id')
+    cur_teacher = Teacher.objects.get(teacher_id=cur_teacher_id)
+    cur_teacher_status = cur_teacher.teacher_status
+    if cur_teacher_status == "2" or cur_teacher_status == "3" or cur_teacher_status == "6":
+        return render(request, 'teacher/teacher_index.html', {'inf': "你没有教授课程"})
+    else:
+        cur_config = Volunteerapplicationconfig.objects.get(subject=cur_teacher.teacher_subject)
+        cur_courses = Courses.objects.filter(course_teacher=cur_teacher_id)
+        cur_volsInf = []
+        for course in cur_courses:
+            if Assistantjob.objects.filter(ass_course_id=course.course_id):
+                pass
+            elif Teacherselect.objects.filter(course_id=course.course_id):
+                pass
+            else:
+                cur_vols = Volunteerapplication.objects.filter(course_id=course.course_id)
+                for cur_vol in cur_vols:
+                    cur_volsInf.append([cur_vol.stu_id, cur_vol.stu.stu_name, cur_vol.course_id,
+                                        cur_vol.course.course_name, cur_vol.priority])
+
+        return render(request, 'teacher/teacher_assistant_volunteer_select.html'
+                      , {"cur_config": cur_config, "cur_volsInf": cur_volsInf})
+    pass
+
+
+@csrf_exempt
+def post_teacher_assistant_volunteer_select(request):
+    cur_teacher_id = request.session.get('log_id')
+    cur_courses = Courses.objects.filter(course_teacher=cur_teacher_id)
+    for cur_course in cur_courses:
+        stu_id = request.POST.get(cur_course.course_id)
+        teacherselect = Teacherselect()
+        teacherselect.stu_id = stu_id
+        teacherselect.course_id = cur_course.course_id
+        teacherselect.save()
+        pass
+    return render(request, 'teacher/teacher_index.html', {'inf': "选取完毕"})
 
 
 @csrf_exempt
@@ -175,15 +215,15 @@ def post_teacher_assistant_volunteer_apply(request):
         cur_config.maxnum_volunteer = maxNum_volunteer
         cur_config.sort_method = sort_method
 
-    if cur_config.state == "1":
+    elif cur_config.state == "1":
         cur_config.state = "2"
 
-    if cur_config.state == "2":
+    elif cur_config.state == "2":
         # 即将进行新的一轮申请，此时需要
         # 根据老师选择表，学生志愿表确定一部分助教（插入assistantJob）
         cur_config.state = "0"
         ts_set=Teacherselect.objects.all()
-        va_set=Volunteerapplication.objects.all()
+        va_set=Volunteerapplication.objects.all().order_by("priority")
         selected_list=[]
         for va in va_set.all():
             if ts_set.filter(stu_id=va.stu_id,course_id=va.course_id).count()>0 and \
@@ -204,6 +244,17 @@ def end_teacher_assistant_volunteer_apply(request):
     cur_config.state = "0"
     # 结束申请，此时需要
     # 根据老师选择表，学生志愿表确助教（插入assistantJob），统筹确定暂时不实现
+    ts_set = Teacherselect.objects.all()
+    va_set = Volunteerapplication.objects.all().order_by("priority")
+    selected_list = []
+    for va in va_set.all():
+        if ts_set.filter(stu_id=va.stu_id, course_id=va.course_id).count() > 0 and \
+                (va.stu_id + '-=-' + va.course_id) in selected_list:
+            Assistantjob.objects.create(
+                ass_stu_id=va.stu_id,
+                ass_course_id=va.course_id
+            )
+            selected_list.append((va.stu_id + '-=-' + va.course_id))
     cur_config.save()
     return render(request, "teacher/teacher_assistant_volunteer_apply.html", {"cur_config": cur_config})
 
@@ -297,12 +348,26 @@ def student_index(request):
 def student_assistant_volunteer_apply(request):
     cur_student_id = request.session.get('log_id')
     cur_student = Student.objects.get(stu_id=cur_student_id)
+    if Assistantjob.objects.filter(ass_stu_id= cur_student_id).count()>0:
+        return render(request, 'student/student_index.html', {'inf': "你已经被录用"})
+
+    if Volunteerapplication.objects.filter(stu_id= cur_student_id).count()>0:
+        return render(request, 'student/student_index.html', {'inf': "申报完毕"})
+
     cur_subject = cur_student.stu_subject
     cur_config = Volunteerapplicationconfig.objects.get(subject=cur_subject)
-    courses = None
+
+    courses = Courses.objects.filter(course_subject=cur_subject)
+    have_ass = []
+    for a_course in courses:
+        if Assistantjob.objects.filter(ass_course_id=a_course.course_id).count() > 0:
+            have_ass.append(False)
+        else:
+            have_ass.append(True)
+    pass
+
     if cur_config.state == "1":
         if cur_config.sort_method == "默认排序":
-            courses = Courses.objects.filter(course_subject=cur_subject)
             pass
         elif cur_config.sort_method == "按照选课人数":
             courses = Courses.objects.filter(course_subject=cur_subject).order_by('-course_number')
@@ -313,12 +378,43 @@ def student_assistant_volunteer_apply(request):
         elif cur_config.sort_method == "按照选课人数、学时":
             courses = Courses.objects.filter(course_subject=cur_subject).order_by('-course_number', '-course_hours')
             pass
-        return render(request, 'student/student_assistant_volunteer_apply.html'
-                      , {'cur_config': cur_config, "courses": courses,
-                         "range": range(1, cur_config.maxnum_volunteer + 1)})
+        dit_courses = []
+        for index, i in enumerate(have_ass):
+            dit_courses.append([courses[index], i])
+
+        return render(request, 'student/student_assistant_volunteer_apply.html',
+                      {'cur_config': cur_config, "dit_courses": dit_courses, "range": range(1, cur_config.maxnum_volunteer+1)})
 
     else:
         return render(request, 'student/student_assistant_volunteer_apply.html', {'cur_config': cur_config})
+
+
+@csrf_exempt
+def post_student_assistant_volunteer_apply(request):
+    cur_student_id = request.session.get('log_id')
+    cur_student = Student.objects.get(stu_id=cur_student_id)
+    cur_subject = cur_student.stu_subject
+    cur_config = Volunteerapplicationconfig.objects.get(subject=cur_subject)
+
+    vols = []
+    for i in range(1, cur_config.maxnum_volunteer + 1):
+        vols.append(request.POST.get("select-vol" + str(i)))
+    set_vols = set(vols)
+
+    if len(vols) == len(set_vols):
+        for i in range(0, cur_config.maxnum_volunteer):
+            priority = str(i+1)
+            vol = Volunteerapplication()
+            vol.priority = priority
+            vol.stu_id = cur_student_id
+            vol.course_id = vols[i]
+            vol.save()
+
+        return render(request, 'student/student_index.html', {'inf': "申报完毕"})
+    else:
+        return HttpResponse("志愿有课程重复，请返回")
+
+
 
 
 def student_assistant_volunteer_work(request):
@@ -1201,3 +1297,99 @@ def manager_tutor_basic_information_search(request):
     search_id = request.POST.get('t_b_search_id')
     lists = Teacher.objects.all().filter(teacher_id=search_id)
     return render(request, 'manager/manager_tutor_basic_information_search.html', {'lists': lists})
+
+@csrf_exempt
+def manager_tutor_projects_information_search(request):
+    search_id = request.POST.get('t_p_search_id')
+    lists = Project.objects.all().filter(pro_tutor=search_id)
+    return render(request, 'manager/manager_tutor_projects_information_search.html', {'lists' : lists})
+
+@csrf_exempt
+def manager_course_teacher_basic_information(request):
+    if request.method == 'POST':
+        id = request.POST.get('t_b_id')
+        name = request.POST.get('t_b_name')
+        sex = request.POST.get('t_b_sex')
+        funds = request.POST.get('t_b_funds')
+        subject = request.POST.get('t_b_subject')
+        list_task = Teacher.objects.all().filter(teacher_id=id)
+        if list_task.exists():
+            if list_task[0].teacher_status == 2:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=4)
+            elif list_task[0].teacher_status == 3:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=5)
+            elif list_task[0].teacher_status == 6:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=7)
+        else:
+            Teacher.objects.create(teacher_id=id,
+                                   teacher_name=name,
+                                   teacher_sex=sex,
+                                   teacher_funds=funds,
+                                   teacher_subject=subject,
+                                   teacher_status=1)
+    return render(request, 'manager/manager_course_teacher_basic_information.html', {})
+
+@csrf_exempt
+def manager_course_teacher_basic_information_search(request):
+    lists = []
+    list = []
+    if request.method == 'POST':
+        search_id = request.POST.get('t_b_search_id')
+        lists = Teacher.objects.all().filter(teacher_id=search_id)
+        list = Courses.objects.all().filter(course_teacher=search_id)
+    return render(request, 'manager/manager_course_teacher_basic_information_search.html', {'lists' : lists, 'list' : list})
+
+@csrf_exempt
+def manager_head_teacher_basic_information(request):
+    if request.method == 'POST':
+        id = request.POST.get('t_b_id')
+        name = request.POST.get('t_b_name')
+        sex = request.POST.get('t_b_sex')
+        funds = request.POST.get('t_b_funds')
+        subject = request.POST.get('t_b_subject')
+        list_task = Teacher.objects.all().filter(teacher_id=id)
+        if list_task.exists():
+            if list_task[0].teacher_status == 1:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=5)
+            elif list_task[0].teacher_status == 2:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=6)
+            elif list_task[0].teacher_status == 4:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=7)
+        else:
+            Teacher.objects.create(teacher_id=id,
+                                   teacher_name=name,
+                                   teacher_sex=sex,
+                                   teacher_funds=funds,
+                                   teacher_subject=subject,
+                                   teacher_status=3)
+    return render(request, 'manager/manager_head_teacher_basic_information.html', {})

@@ -1,0 +1,81 @@
+{% extends "manager/manager_index.html" %}
+{#地址导航#}
+{% block breadcrumb %}
+        <li>
+		    <i class="icon-home home-icon"></i>
+			<a href="manager_own">主页</a>
+		</li>
+        <li class="active">信息录入</li>
+        <li class="active">授课老师</li>
+        <li class="active">基本信息录入</li>
+{% endblock %}
+{% block content %}
+        <div class="page-content">
+            <div class="page-header">
+                <h1>
+                    导师
+                    <small>
+                        <i class="icon-double-angle-right"></i>
+                        基本信息录入
+                    </small>
+                </h1>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <form class="form-horizontal" role="form" method="post">
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">授课教师号 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="t_b_id" id="form-field-1" placeholder="授课教师号" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 导师name -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">授课教师姓名 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="t_b_name" id="form-field-1" placeholder="授课教师号姓名" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 导师id -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">性别 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="t_b_sex" id="form-field-1" placeholder="性别" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 导师sex -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">个人项目资金 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="t_b_funds" id="form-field-1" placeholder="funds" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 导师funds -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">教师专业 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="t_b_subject" id="form-field-1" placeholder="subject" class="col-xs-10 col-sm-5">
+                            </div>
+                        </div>
+                        <!-- 导师subject -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> </label>
+
+                            <div class="col-sm-9">
+                                <input type="submit">
+                                <input type="reset">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endblock %}
