@@ -1208,3 +1208,99 @@ def manager_tutor_basic_information_search(request):
     search_id = request.POST.get('t_b_search_id')
     lists = Teacher.objects.all().filter(teacher_id=search_id)
     return render(request, 'manager/manager_tutor_basic_information_search.html', {'lists': lists})
+
+@csrf_exempt
+def manager_tutor_projects_information_search(request):
+    search_id = request.POST.get('t_p_search_id')
+    lists = Project.objects.all().filter(pro_tutor=search_id)
+    return render(request, 'manager/manager_tutor_projects_information_search.html', {'lists' : lists})
+
+@csrf_exempt
+def manager_course_teacher_basic_information(request):
+    if request.method == 'POST':
+        id = request.POST.get('t_b_id')
+        name = request.POST.get('t_b_name')
+        sex = request.POST.get('t_b_sex')
+        funds = request.POST.get('t_b_funds')
+        subject = request.POST.get('t_b_subject')
+        list_task = Teacher.objects.all().filter(teacher_id=id)
+        if list_task.exists():
+            if list_task[0].teacher_status == 2:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=4)
+            elif list_task[0].teacher_status == 3:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=5)
+            elif list_task[0].teacher_status == 6:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=7)
+        else:
+            Teacher.objects.create(teacher_id=id,
+                                   teacher_name=name,
+                                   teacher_sex=sex,
+                                   teacher_funds=funds,
+                                   teacher_subject=subject,
+                                   teacher_status=1)
+    return render(request, 'manager/manager_course_teacher_basic_information.html', {})
+
+@csrf_exempt
+def manager_course_teacher_basic_information_search(request):
+    lists = []
+    list = []
+    if request.method == 'POST':
+        search_id = request.POST.get('t_b_search_id')
+        lists = Teacher.objects.all().filter(teacher_id=search_id)
+        list = Courses.objects.all().filter(course_teacher=search_id)
+    return render(request, 'manager/manager_course_teacher_basic_information_search.html', {'lists' : lists, 'list' : list})
+
+@csrf_exempt
+def manager_head_teacher_basic_information(request):
+    if request.method == 'POST':
+        id = request.POST.get('t_b_id')
+        name = request.POST.get('t_b_name')
+        sex = request.POST.get('t_b_sex')
+        funds = request.POST.get('t_b_funds')
+        subject = request.POST.get('t_b_subject')
+        list_task = Teacher.objects.all().filter(teacher_id=id)
+        if list_task.exists():
+            if list_task[0].teacher_status == 1:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=5)
+            elif list_task[0].teacher_status == 2:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=6)
+            elif list_task[0].teacher_status == 4:
+                Teacher.objects.all().filter(teacher_id=id).update(teacher_id=id,
+                                                                   teacher_name=name,
+                                                                   teacher_sex=sex,
+                                                                   teacher_funds=funds,
+                                                                   teacher_subject=subject,
+                                                                   teacher_status=7)
+        else:
+            Teacher.objects.create(teacher_id=id,
+                                   teacher_name=name,
+                                   teacher_sex=sex,
+                                   teacher_funds=funds,
+                                   teacher_subject=subject,
+                                   teacher_status=3)
+    return render(request, 'manager/manager_head_teacher_basic_information.html', {})
